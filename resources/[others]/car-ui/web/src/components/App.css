@@ -1,0 +1,105 @@
+@import url(https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Oswald&family=Poppins&family=Yuji+Hentaigana+Akari&display=swap);
+
+body {
+  scrollbar-color: transparent transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  margin: 0;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.VehicleMenu-wrapper {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  margin-top: 10vh;
+}
+
+.VehicleMenu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  height: 24vh;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 150vh;
+}
+
+.VehicleMenu-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: none;
+  border: 2px solid black;
+  -webkit-filter: grayscale();
+  filter: grayscale();
+  height: 100%;
+  outline: none;
+  transition: .2s;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 6px 6px 8px rgba(0, 0, 0, 1);
+}
+
+.VehicleMenu-card {
+  width: 30vh;
+  height: 18vh;
+  transition: transform 0.2s ease-in-out;
+  background-color: #908aff59;
+}
+
+.VehicleMenu-card-img {
+  height: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%
+}
+
+.VehicleMenu-card-label {
+  color: #908aff;
+  font-family: 'Oswald';
+  font-size: 4.5vmin;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1vh;
+  text-align: center;
+  background-color: #908aff59;
+}
+
+.VehicleMenu-card:hover {
+  cursor: pointer;
+  -webkit-filter: none;
+  filter: none;
+  text-shadow: hsla(0, 0%, 100%, .9) 0 0 10px;
+  -webkit-transform: scale(100.75%);
+  transform: scale(100.75%)
+}
+
+.VehicleMenu-card::before {
+  background: rgba(0, 0, 0, 0.5);
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
