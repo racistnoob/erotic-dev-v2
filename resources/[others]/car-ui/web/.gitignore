@@ -7,16 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-src
 node_modules
-# build
-*.local
-*.json
-
-/index.html
-
-*.ts
-*.cjs
 
 # Editor directories and files
 .vscode/*
