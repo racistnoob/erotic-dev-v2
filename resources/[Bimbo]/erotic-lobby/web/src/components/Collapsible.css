@@ -1,0 +1,71 @@
+.collapsible {
+    align-items: center;
+    background: radial-gradient(50% 50% at 50% 50%, #32323261 0, #3434345c 100%);
+    border: 1px solid #b3b3b333;
+    border-radius: 2px;
+    box-shadow: 0 0 10px #0000004d;
+    display: flex;
+    height: 15%;
+    justify-content: space-between;
+    position: relative;
+    width: 30%;
+    margin-top: 1vh;
+    transition: border .3s, box-shadow .3s;
+}
+
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+
+.collapsible.active {
+    border: 1px solid #908aff;
+    transition: border .3s, box-shadow .3s;
+    box-shadow: 0 0 10px #908aff78;
+}
+
+.collapsible.active:hover {
+    border: 1px solid #908aff;
+    transition: border .3s, box-shadow .3s;
+    box-shadow: 0 0 10px #908aff78;
+}
+
+.collapsible:hover {
+    border: 1px solid #908affab;
+    transition: border .3s, box-shadow .3s;
+    box-shadow: 0 0 10px #908aff84;
+}
+
+.collapsible h1 {
+    color: #fff;
+    font-size: 1.8vh;
+    margin: 0 0 0 1.5vh;
+    text-shadow: 0 0 10px #0000004d;
+    font-weight: 800;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+
+/* Style the collapsible content. Note: hidden by default */
+
+.content {
+    background-color: transparent;
+    max-height: 0em;
+    overflow: hidden;
+    padding: 0px 27% 0px 0px;
+    transition: all 0.25s cubic-bezier(0, 1, 0, 1);
+}
+
+.collapsible:after {
+    width: 1vh;
+    content: "\0271A";
+    float: right;
+    font-size: 13px;
+    color: white;
+    text-shadow: 0 0 10px #000000cf;
+}
+
+.collapsible.active:after {
+    content: "\2212";
+    /* Unicode character for "minus" sign (-) */
+}
