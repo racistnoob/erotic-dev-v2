@@ -56,7 +56,7 @@
           <Group>GROUP_SMG</Group>
           <AmmoInfo ref="AMMO_SMG" />
           <AimingInfo ref="PISTOL_2H_BASE_STRAFE" />
-          <ClipSize value="12" />
+          <ClipSize value="18" />
           <AccuracySpread value="2.500000" />
           <AccurateModeAccuracyModifier value="0.500000" />
           <RunAndGunAccuracyModifier value="2.000000" />
@@ -295,11 +295,11 @@
               <Components>
                 <Item>
                   <Name>COMPONENT_MACHINEPISTOL_CLIP_01</Name>
-                  <Default value="true" />
+                  <Default value="false" />
                 </Item>
                 <Item>
                   <Name>COMPONENT_MACHINEPISTOL_CLIP_02</Name>
-                  <Default value="false" />
+                  <Default value="true" />
                 </Item>
                 <Item>
                   <Name>COMPONENT_MACHINEPISTOL_CLIP_03</Name>

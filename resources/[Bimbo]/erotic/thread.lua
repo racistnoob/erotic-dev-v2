@@ -54,9 +54,11 @@ Citizen.CreateThread(function()
       
             -- anti shuffle
             local seat = get_seat_ped_is_in(plyPed, vehicle)
-            set_ped_config_flag(plyPed, 184, true)
-            if get_is_task_active(plyPed, 165) == 1 then
-                set_ped_into_vehicle(plyPed, vehicle, seat) -- getting into car from passenger with no driver
+            if seat ~= -1 then
+                set_ped_config_flag(plyPed, 184, true)
+                if get_is_task_active(plyPed, 165) == 1 then
+                    set_ped_into_vehicle(plyPed, vehicle, seat) -- getting into car from passenger with no driver
+                end
             end
             wait(1000)
         else

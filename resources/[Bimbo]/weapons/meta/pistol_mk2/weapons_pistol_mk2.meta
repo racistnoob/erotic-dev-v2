@@ -51,7 +51,7 @@
             <HitBoat>DONTCARE</HitBoat>
             <HitPlane>DONTCARE</HitPlane>
           </Explosion>
-          <FireType>DELAYED_HIT</FireType>
+          <FireType>INSTANT_HIT</FireType>
           <WheelSlot>WHEEL_PISTOL</WheelSlot>
           <Group>GROUP_PISTOL</Group>
           <AmmoInfo ref="AMMO_PISTOL" />
@@ -62,23 +62,23 @@
           <RunAndGunAccuracyModifier value="2.000000" />
           <RunAndGunAccuracyMinOverride value="-1.000000" />
           <RecoilAccuracyMax value="1.000000" />
-          <RecoilErrorTime value="1.00000" />
-          <RecoilRecoveryRate value="2.000000" />
-          <RecoilAccuracyToAllowHeadShotAI value="1.000000" />
-          <MinHeadShotDistanceAI value="1.000000" />
-          <MaxHeadShotDistanceAI value="50.000000" />
-          <HeadShotDamageModifierAI value="1.000000" />
+          <RecoilErrorTime value="3.300000" />
+          <RecoilRecoveryRate value="1.000000" />
+          <RecoilAccuracyToAllowHeadShotAI value="1000.000000" />
+          <MinHeadShotDistanceAI value="1000.000000" />
+          <MaxHeadShotDistanceAI value="1000.000000" />
+          <HeadShotDamageModifierAI value="1000.000000" />
           <RecoilAccuracyToAllowHeadShotPlayer value="0.175000" />
-          <MinHeadShotDistancePlayer value="1.000000" />
-          <MaxHeadShotDistancePlayer value="50.000000" />
-          <HeadShotDamageModifierPlayer value="1.0000" />
-          <Damage value="27.00000" />
+          <MinHeadShotDistancePlayer value="5.000000" />
+          <MaxHeadShotDistancePlayer value="40.000000" />
+          <HeadShotDamageModifierPlayer value="1.250000" />
+          <Damage value="18.000000" />
           <DamageTime value="0.000000" />
           <DamageTimeInVehicle value="0.000000" />
-          <DamageTimeInVehicleHeadShot value="1.000000" />
-          <HitLimbsDamageModifier value="0.900000" />
-          <NetworkHitLimbsDamageModifier value="1.0000" />
-          <LightlyArmouredDamageModifier value="1.000000" />
+          <DamageTimeInVehicleHeadShot value="0.000000" />
+          <HitLimbsDamageModifier value="0.500000" />
+          <NetworkHitLimbsDamageModifier value="0.800000" />
+          <LightlyArmouredDamageModifier value="0.750000" />
           <VehicleDamageModifier value="1.000000" />
           <Force value="50.000000" />
           <ForceHitPed value="125.000000" />
@@ -117,8 +117,8 @@
             </Item>
           </OverrideForces>
           <ForceMaxStrengthMult value="1.000000" />
-          <ForceFalloffRangeStart value="25.000000" />
-          <ForceFalloffRangeEnd value="250.000000" />
+          <ForceFalloffRangeStart value="0.000000" />
+          <ForceFalloffRangeEnd value="50.000000" />
           <ForceFalloffMin value="1.000000" />
           <ProjectileForce value="0.000000" />
           <FragImpulse value="250.000000" />
@@ -194,18 +194,18 @@
           <InitialRumbleIntensityFps value="0.700000" />
           <RumbleDurationFps value="80" />
           <RumbleIntensityFps value="0.700000" />
-          <NetworkPlayerDamageModifier value="1.00000" />
+          <NetworkPlayerDamageModifier value="1.000000" />
           <NetworkPedDamageModifier value="1.000000" />
-          <NetworkHeadShotPlayerDamageModifier value="1.2500000" />
+          <NetworkHeadShotPlayerDamageModifier value="2.000000" />
           <LockOnRange value="55.000000" />
-          <WeaponRange value="150.000000" />
+          <WeaponRange value="120.000000" />
           <BulletDirectionOffsetInDegrees value="0.000000" />
           <BulletDirectionPitchOffset value="0.000000" />
           <BulletDirectionPitchHomingOffset value="0.000000" />
           <AiSoundRange value="-1.000000" />
           <AiPotentialBlastEventRange value="-1.000000" />
-          <DamageFallOffRangeMin value="50.000000" />
-          <DamageFallOffRangeMax value="150.000000" />
+          <DamageFallOffRangeMin value="40.000000" />
+          <DamageFallOffRangeMax value="120.000000" />
           <DamageFallOffModifier value="0.300000" />
           <VehicleWeaponHash />
           <DefaultCameraHash>DEFAULT_THIRD_PERSON_PED_AIM_CAMERA</DefaultCameraHash>
@@ -305,7 +305,7 @@
                 </Item>
                 <Item>
                   <Name>COMPONENT_PISTOL_MK2_CLIP_02</Name>
-                  <Default value="false" />
+                  <Default value="true" />
                 </Item>
                 <Item>
                   <Name>COMPONENT_PISTOL_MK2_CLIP_FMJ</Name>
@@ -330,7 +330,7 @@
               <Components>
                 <Item>
                   <Name>COMPONENT_AT_PI_RAIL</Name>
-                  <Default value="true" />
+                  <Default value="false" />
                 </Item>
               </Components>
             </Item>
@@ -339,7 +339,7 @@
               <Components>
                 <Item>
                   <Name>COMPONENT_AT_PI_FLSH_02</Name>
-                  <Default value="true" />
+                  <Default value="false" />
                 </Item>
               </Components>
             </Item>
@@ -456,7 +456,7 @@
           </AttachPoints>
           <GunFeedBone />
           <TargetSequenceGroup>Pistol</TargetSequenceGroup>
-          <WeaponFlags>CarriedInHand Gun CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
+          <WeaponFlags>CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
           <TintSpecValues ref="TINT_GUNRUNNING" />
           <FiringPatternAliases ref="FIRING_PATTERN_PISTOL" />
           <ReloadUpperBodyFixupExpressionData ref="default" />

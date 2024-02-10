@@ -13,6 +13,7 @@ lua54 'yes'
 shared_script 'shared.lua'
 
 client_scripts {
+    
 	'client/utils/*',
 	'client/init/proximity.lua',
 	'client/init/init.lua',
@@ -57,7 +58,7 @@ convar_category 'PMA-Voice' {
 	{ "Enable radios", "$voice_enableRadios", "CV_INT", "1" },
 	{ "Enable calls", "$voice_enableCalls", "CV_INT", "1" },
 	{ "Enable submix", "$voice_enableSubmix", "CV_INT", "1" },
-        { "Enable radio animation", "$voice_enableRadioAnim", "CV_INT", "0" },
+        { "Enable radio animation", "$voice_enableRadioAnim", "CV_INT", "1" },
 	{ "Radio key", "$voice_defaultRadio", "CV_STRING", "LMENU" },
 	{ "UI refresh rate", "$voice_uiRefreshRate", "CV_INT", "200" },
 	{ "Allow players to set audio intent", "$voice_allowSetIntent", "CV_INT", "1" },

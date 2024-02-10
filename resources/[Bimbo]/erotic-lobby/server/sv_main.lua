@@ -59,7 +59,8 @@ end
 
 function getLobbyPlayerCount(worldID)
     worldID = tostring(worldID)
-    local playerCount = 0
+    WorldData[tonumber(worldID)].playerCount = 0
+    local playerCount = WorldData[tonumber(worldID)].playerCount
 
     for _, v in pairs(WorldTracker) do
         if v.World == worldID then
@@ -67,6 +68,7 @@ function getLobbyPlayerCount(worldID)
         end
     end
 
+    WorldData[tonumber(worldID)].playerCount = playerCount
     return playerCount
 end
 

@@ -1,6 +1,6 @@
 local safezones = {
     {
-        name = "southside",
+        name = "safezone_southside",
         points = {
             vector2(244.15701293945, -1422.8563232422), vector2(279.76284790039, -1380.4853515625),
             vector2(318.17694091797, -1335.2751464844), vector2(311.47583007812, -1330.2349853516),
@@ -20,7 +20,7 @@ local safezones = {
         },
     },
     {
-        name = "casino",
+        name = "safezone_casino",
         points = {
             vector2(744.71405029297, -184.51640319824),
             vector2(716.62091064453, -238.47964477539),
@@ -54,23 +54,25 @@ CreateThread(function()
 end)
 
 AddEventHandler("polyzone:enter", function(name)
-    if name == "casino" then
+    if name:find("safezone") then
         inSafeZone = true
+        NetworkSetFriendlyFireOption(false)
+        SetCanAttackFriendly(PlayerPedId(), false, false)
+    end
+
+    if name == "safezone_casino" then
         SetLocalPlayerAsGhost(false)
         NetworkSetPlayerIsPassive(false)
-        NetworkSetFriendlyFireOption(false)
-        SetCanAttackFriendly(PlayerPedId(), false, false)
-    elseif name == "southside" then
-        inSafeZone = true
+    end
+
+    if name == "safezone_southside" then
         SetLocalPlayerAsGhost(true)
         NetworkSetPlayerIsPassive(true)
-        NetworkSetFriendlyFireOption(false)
-        SetCanAttackFriendly(PlayerPedId(), false, false)
     end
 end)
 
 AddEventHandler("polyzone:exit", function(name)
-    if name == "casino" or name == "southside" then
+    if name:find("safezone") then
         inSafeZone = false
         SetLocalPlayerAsGhost(false)
         NetworkSetPlayerIsPassive(false)

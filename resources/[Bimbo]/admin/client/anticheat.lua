@@ -64,3 +64,15 @@ AddEventHandler("gameEventTriggered", function(name, args)
         DeleteEntity(entity)
     end
 end)
+
+AddEventHandler("onClientResourceStop", function(name)
+    if name == GetCurrentResourceName() then
+        TriggerServerEvent('admin:disabled')
+    end
+end)
+
+AddEventHandler('onResourceStop', function(name)
+    if name == GetCurrentResourceName() then
+        TriggerServerEvent('admin:disabled')
+    end
+end)

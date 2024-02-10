@@ -20,13 +20,26 @@ local MirrorPark = {
     h = 354.6606
 }
 
-local worlds = {
+WorldData = {
+    --[[
+    { ID = 1, custom = false, playerCount = 0, settings = {
+        name = 'Tournament',
+        tags = {'Hopouts: 762, RP Preset #1, HS, No Roofs'},
+        recoilMode = 'roleplay',
+        hsMulti = true,
+        maxPlayers = 12,
+        kits = {'ars'},
+        kit = {'ars', '762'},
+        tournament = true
+    }},]]
     { ID = 1, custom = false, playerCount = 0, settings = {
         name = 'Southside #1',
-        tags = {'Pistols', 'RP Preset #1'},
+        tags = {'FPS Mode', 'Pistols', 'RP Preset #1'},
         recoilMode = 'roleplay',
         firstPersonVehicle = true,
         hsMulti = false,
+        disableLadders = true,
+        disableHighRoofs = true,
         maxPlayers = 30,
         kits = {'pistols'},
         kit = {'pistols', 'sp'},
@@ -37,6 +50,8 @@ local worlds = {
         recoilMode = 'roleplay',
         firstPersonVehicle = true,
         hsMulti = false,
+        disableLadders = true,
+        disableHighRoofs = true,
         maxPlayers = 30,
         kit = {'ars', '762'},
         kits = {'ars'}
@@ -47,6 +62,8 @@ local worlds = {
         recoilMode = 'roleplay3',
         firstPersonVehicle = false, 
         hsMulti = false,
+        disableLadders = true,
+        disableHighRoofs = true,
         maxPlayers = 30,
         kit = {'pistols', 'heavypistol'},
         kits = {'pistols'},
@@ -57,6 +74,8 @@ local worlds = {
         recoilMode = 'roleplay',
         firstPersonVehicle = true, 
         hsMulti = false,
+        disableLadders = true,
+        disableHighRoofs = true,
         maxPlayers = 30,
         kit = {'pistols', 'sp'},
         kits = {'pistols'},
@@ -68,6 +87,8 @@ local worlds = {
         recoilMode = 'roleplay',
         firstPersonVehicle = true, 
         hsMulti = true,
+        disableLadders = true,
+        disableHighRoofs = true,
         maxPlayers = 30,
         kit = {'ars', '762'},
         kits = {'ars'},
@@ -79,6 +100,8 @@ local worlds = {
         recoilMode = 'envy',
         firstPersonVehicle = true, 
         hsMulti = true,
+        disableLadders = true,
+        disableHighRoofs = true,
         maxPlayers = 30,
         kit = {'pistols', 'sp'},
         kits = {'ars','pistols','smgs'},
@@ -97,24 +120,26 @@ local worlds = {
     }},
     { ID = 8, custom = false, playerCount = 0, settings = {
         name = 'Overtime (BETA)',
-        tags = {'Headshots', 'FPS Mode', 'OT Combat', 'OT Recoil'},
+        tags = {'FPS Mode', 'Headshots', 'OT Combat', 'OT Recoil'},
         recoilMode = 'nonstop',
         nonstopcombat = true,
         firstPersonVehicle = true,
+        disableLadders = true,
+        disableHighRoofs = true,
         hsMulti = true,
         kits = {'ars','pistols','smgs'},
         maxPlayers = 30,
-    }}
+    }},
 }
 
 RegisterServerEvent('RemoveEmptyCustomLobby')
 AddEventHandler('RemoveEmptyCustomLobby', function(lobbyID)
-    for i = #worlds, 1, -1 do
-        local lobby = worlds[i]
+    for i = #WorldData, 1, -1 do
+        local lobby = WorldData[i]
         if lobby.ID == lobbyID and lobby.custom and getLobbyPlayerCount(lobbyID) == 0 then
-            table.remove(worlds, i)
+            table.remove(WorldData, i)
             --print("Removed empty custom lobby:", json.encode(lobby))
-            TriggerClientEvent('UpdateLobbies', -1, worlds)
+            TriggerClientEvent('UpdateLobbies', -1, WorldData)
             break
         end
     end
@@ -123,28 +148,50 @@ end)
 local recoilModeTags = {
     roleplay = "RP Preset #1",
     envy = "Envy",
-    hardcore = "Hardcore",
+    hardcore = "Nopickle",
     roleplay3 = "Rena",
     roleplay2 = "RP Preset #2",
-    qb = "qb"
+    qb = "QB",
+    nonstop = "OT Recoil",
+    pma = "AMP"
 }
 
-function generateTags(settings)
+local function generateTags(settings)
     local tags = {}
-
-    -- Check and add "FPS Mode" tag
-    if settings.firstPersonVehicle then
-        table.insert(tags, "FPS Mode")
-    end
-
-    -- Check and add "Headshots" tag
-    if settings.hsMulti then
-        table.insert(tags, "Headshots")
-    end
 
     local recoilModeTag = recoilModeTags[settings.recoilMode]
     if recoilModeTag then
         table.insert(tags, recoilModeTag)
+    end
+
+    print(json.encode(settings))
+
+    if settings.firstPersonVehicle then
+        table.insert(tags, "FPS Mode")
+    end
+
+    if settings.hsMulti then
+        table.insert(tags, "Headshots")
+    end
+
+    if settings.nonstopcombat then
+        table.insert(tags, "OT Combat")
+    end
+
+    if settings.disableQPeeking then
+        table.insert(tags, "No Q Peeking")
+    end
+
+    if settings.disableLadders then
+        table.insert(tags, "No Ladders")
+    end
+
+    if settings.disableHighRoofs then
+        table.insert(tags, "No Roofs")
+    end
+    
+    if settings.disableFP then
+        table.insert(tags, "Disable FP")
     end
 
     return tags
@@ -155,24 +202,24 @@ AddEventHandler('AddCustomLobby', function(customLobbySettings)
     local playerName = GetPlayerName(source)
 
     if playerName then
-        for _, lobby in ipairs(worlds) do
-            if lobby.custom and lobby.settings.name == playerName .. "'s Lobby" then
-                TriggerClientEvent('Notify', source, 'You already have a custom lobby.')
+        for _, lobby in pairs(WorldData) do
+            if lobby.custom and lobby.settings.name == playerName .. "'s lobby" then
+                TriggerClientEvent('drp-notifications:client:SendAlert', source, {type = 'inform', text = 'You already have a custom lobby', length = 5000})
                 return
             end
         end
 
-        customLobbySettings.name = playerName .. "'s Lobby"
+        customLobbySettings.name = playerName .. "'s lobby"
         customLobbySettings.tags = generateTags(customLobbySettings)
         local customLobby = {
-            ID = #worlds + 1,
+            ID = #WorldData + 1,
             custom = true,
-            playerCount = 0,
+            playerCount = 1,
             settings = customLobbySettings,
         }
-        table.insert(worlds, customLobby)
+        table.insert(WorldData, customLobby)
 
-        TriggerClientEvent('updateLobbies', -1, worlds)
+        TriggerClientEvent('updateLobbies', -1, WorldData)
         TriggerSwitchWorldToClient(source, customLobby.ID)
     end
 end)
@@ -184,10 +231,115 @@ end
 
 RegisterNetEvent('RequestWorldsData')
 AddEventHandler('RequestWorldsData', function()
-    TriggerClientEvent('ReceiveWorldsData', source, worlds)
+    TriggerClientEvent('ReceiveWorldsData', source, WorldData)
 end)
 
 RegisterServerEvent('getWorldsData')
 AddEventHandler('getWorldsData', function()
-    TriggerClientEvent('receiveWorldsData', -1, worlds)
+    TriggerClientEvent('receiveWorldsData', -1, WorldData)
 end)
+
+local TX_ADMINS = {}
+AddEventHandler("txAdmin:events:adminAuth", function(data)
+    if data.netid ~= -1 then
+        TX_ADMINS[tostring(data.netid)] = data.isAdmin
+    end
+end)
+
+local txadmin_Logs = "https://discord.com/api/webhooks/1202340309019922433/CqNYAmo_bLhXpy4ywfRnhOO_mN8dgHWlTlEuuS3OrUbtY3R7Fumd063xf715n5lGJHVX"
+local function sendToDisc(webhook, title, msg)
+    local embed = {
+        {
+            ["title"] = "**".. title .."**",
+            ["description"] = msg,
+        }
+    }
+    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({embeds = embed}), { ['Content-Type'] = 'application/json' })
+end
+
+local normalLobbies = #WorldData
+RegisterCommand("forcelobby", function(source, args, rawCommand)
+    local src = source  
+    local message = "No permission to use this command"
+    if TX_ADMINS[tostring(src)] then
+        if #args >= 1 then
+            local targetPlayer = (#args == 2) and args[1] or src
+            local lobbyID = (#args == 1) and args[1] or args[2]
+            local playerName = GetPlayerName(targetPlayer)
+
+            if lobbyID:sub(1, 1):lower() == "c" then
+                lobbyID = tonumber(lobbyID:sub(2)) + normalLobbies
+            end
+            lobbyID = tonumber(lobbyID)
+
+            if WorldData and not WorldData[lobbyID] then
+                TriggerClientEvent('chat:addMessage', targetPlayer, {
+                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                    args = { "[ADMIN]", "Lobby not found"}
+                })
+                return
+            end
+
+            local lobbyName = WorldData[tonumber(lobbyID)].settings.name
+
+            sendToDisc(txadmin_Logs, 'Player sent to lobby', "Name: **" .. playerName .. "** \nAdmin: **" .. GetPlayerName(src) .. "** \n".."Lobby: **" .. lobbyName .. "**")
+            TriggerClientEvent("erotic-lobby:forceworld", targetPlayer, lobbyID, true)
+            message = "Sent "..playerName.." to lobby: "..lobbyName
+
+            if targetPlayer ~= src then
+                TriggerClientEvent('chat:addMessage', targetPlayer, {
+                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                    args = { "[ADMIN]", "You have been sent to lobby: "..lobbyName}
+                })
+            end
+        else
+            message = "Usage: forcelobby <playerid> <lobbyid> / forcelobby <lobbyid>"
+        end
+    end
+    TriggerClientEvent('chat:addMessage', src, {
+        template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+        args = { "[ADMIN]", message}
+    })
+end, false)
+
+RegisterCommand("forcemp", function(source, args, rawCommand)
+    local src = source  
+    local message = "No permission to use this command"
+    if TX_ADMINS[tostring(src)] then
+        if #args == 2 then
+            local lobbyID = args[1]
+            local playerCount = tonumber(args[2])
+
+            if lobbyID:sub(1, 1):lower() == "c" then
+                lobbyID = tonumber(lobbyID:sub(2)) + normalLobbies
+            end
+            lobbyID = tonumber(lobbyID)
+
+            if WorldData and not WorldData[lobbyID] then
+                TriggerClientEvent('chat:addMessage', source, {
+                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                    args = { "[ADMIN]", "Lobby not found"}
+                })
+                return
+            end
+
+            local world = WorldData[lobbyID]
+            local worldsettings = world.settings
+            local lobbyName = worldsettings.name
+
+            worldsettings.maxPlayers = playerCount
+
+            sendToDisc(txadmin_Logs, 'Changed lobby player limit',
+            "** Admin: **" .. GetPlayerName(src) .. 
+            "** \nLobby: **" .. lobbyName ..
+            "** \nMax Players: **" .. playerCount)
+            message = "Changed ("..lobbyName.. ") max player count to: "..playerCount
+        else
+            message = "Usage: forcemp <lobbyid> <max players>"
+        end
+    end
+    TriggerClientEvent('chat:addMessage', src, {
+        template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+        args = { "[ADMIN]", message}
+    })
+end, false)

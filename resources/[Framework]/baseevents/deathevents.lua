@@ -26,8 +26,8 @@ end
 RegisterNetEvent('baseevents:revived')
 AddEventHandler('baseevents:revived', function()
 	isDead = false
-    SetEntityHealth(player_ped_id(), 200)
-    SetPedArmour(player_ped_id(), 100)
+    SetPlayerMaxArmour(PlayerId(), GetPlayerMaxArmour(PlayerId()))
+    SetPedArmour(player_ped_id(), GetPlayerMaxArmour(PlayerId()))
 end)
 
 local get_active_players = GetActivePlayers

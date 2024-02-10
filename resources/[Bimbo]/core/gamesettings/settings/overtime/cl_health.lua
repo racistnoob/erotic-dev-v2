@@ -56,6 +56,7 @@ local get_weapon_damage_type = GetWeaponDamageType
 local get_ped_last_damage_bone = GetPedLastDamageBone
 local get_entity_health = GetEntityHealth
 local pairs = pairs
+local SetPlayerMaxArmour = SetPlayerMaxArmour
 function nonstop_Injuries()
 	CreateThread(function()
 		while nonstopcombat do
@@ -63,6 +64,7 @@ function nonstop_Injuries()
 			ShouldUpdate = false
 
 	        set_ped_max_health(PlayerPed, 200)
+            SetPlayerMaxArmour(PlayerId(), 0)
 			ProcessGeneralInjury()
 			ProcessHeadInjury()
 			ProcessLegInjury()

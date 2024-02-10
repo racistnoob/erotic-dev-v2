@@ -80,6 +80,11 @@ local recoilModes = {
             "qb",
         }
     },
+    pma = {
+        commands = {
+            "pma",
+        }
+    },
     roleplay = {
         commands = {
             "roleplay",
@@ -133,6 +138,15 @@ function SetRecoilMode(player, mode)
         local modesList = table.concat(table.keys(recoilModes), ", ")
         --print("^1Invalid mode. Available modes: " .. modesList)
         return
+    end
+
+    SetIntenseCamEnabled(false)
+    if mode == "envy" then
+        SetIntenseCamEnabled(true)
+    end
+
+    if mode == "nonstop" then
+        SetCarRagdoll(true)
     end
 
     Recoil:SetMode(mode)

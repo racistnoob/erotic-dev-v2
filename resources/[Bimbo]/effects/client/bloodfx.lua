@@ -49,10 +49,10 @@ AddEventHandler("blood:changeEffect", function(params)
     
     if particleName then
         SetResourceKvp("graphics_bloodfx", effectType)
-        print('KVP loaded', effectType)
+        -- print('KVP loaded', effectType)
         TriggerEvent("core:bloodfx:change", effectType)
     else
-        print("Invalid bloodfx type.")
+        -- print("Invalid bloodfx type.")
     end
 end)
 
@@ -60,10 +60,10 @@ AddEventHandler('erotic:playerSpawned', function()
     local kvpValue = GetResourceKvpString("graphics_bloodfx")
         
     if kvpValue then
-        print('KVP loaded:', kvpValue)
+        -- print('KVP loaded:', kvpValue)
         TriggerEvent("core:bloodfx:change", kvpValue)
     else
-        print("Player does not have KVP.")
+        -- print("Player does not have KVP.")
     end
 end)
 
@@ -72,11 +72,11 @@ AddEventHandler("onResourceStart", function(resourceName)
         local kvpValue = GetResourceKvpString("graphics_bloodfx")
             
         if kvpValue then
-            print("Resource started. Player has KVP:", kvpValue)
-            print('KVP loaded:', kvpValue)
+            -- print("Resource started. Player has KVP:", kvpValue)
+            -- print('KVP loaded:', kvpValue)
             TriggerEvent("core:bloodfx:change", kvpValue)
         else
-            print("Resource started. Player does not have KVP.")
+            -- print("Resource started. Player does not have KVP.")
         end
     end
 end)

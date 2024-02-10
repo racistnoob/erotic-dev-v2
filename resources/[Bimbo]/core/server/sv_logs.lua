@@ -32,11 +32,12 @@ end)
 
 AddEventHandler('txAdmin:events:playerBanned', function(eventData)
 
-    local target = eventData.target
+    local target = eventData.targetName
     local author = eventData.author
     local reason = eventData.reason
     local id = eventData.actionId
     local exp = eventData.expiration
+    local playername = ""
 
     if not exp then
         exp = 'Never'
@@ -47,7 +48,7 @@ AddEventHandler('txAdmin:events:playerBanned', function(eventData)
     if (type(target) == "table") then 
         playername = "`Offline Ban`"
     else 
-        playername = GetPlayerName(target)
+        playername = target
     end
     
     sendToDisc('Player Banned', "Name: **" .. playername .. "** \nAdmin: **" .. author .. "** \nReason: **" .. reason .. "**\nID: **" .. id .. "**\nExpires: **" .. exp .. "**")
@@ -75,6 +76,8 @@ end)
 AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
 
     local target = eventData.id
+    local playername = ""
+
 
     if target == -1 then
         playername = 'Everyone'
@@ -94,4 +97,15 @@ AddEventHandler('txAdmin:events:serverShuttingDown', function(eventData)
         
         
     sendToDisc('Server Shutdown', "Author: **" .. author .. "**\nMessage: **" .. msg .. "**\nDelay: **" .. delay .. "ms**")
+end)
+
+AddEventHandler('txAdmin:events:actionRevoked', function(eventData)
+
+    local actionAuthor = eventData.actionAuthor
+    local author = eventData.revokedBy
+    local target = eventData.playerName
+    local reason = eventData.actionReason
+    local actionType = eventData.actionType
+        
+    sendToDisc('Action Revoked', "By admin: **" .. author .. "**\nOriginal admin: **" .. actionAuthor .. "**\nPlayer: **" .. target .. "**\nType: **" .. actionType .. "**\nReason: **" .. reason .. "**")
 end)

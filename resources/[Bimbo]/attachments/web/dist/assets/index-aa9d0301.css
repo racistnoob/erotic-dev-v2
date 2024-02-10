@@ -105,6 +105,10 @@
     transition: font-size ease .2s
 }
 
+svg {
+    stroke-width: .4px;
+}
+
 ._icon_1nkj1_45:hover {
     font-size: 170%
 }

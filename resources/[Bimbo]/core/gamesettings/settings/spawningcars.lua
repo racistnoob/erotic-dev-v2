@@ -6,7 +6,35 @@ local whitelistedVehicles = {"revolter", "sheava", "issi7", "cyclone", "shotaro"
                              "manchez", "bf400", "powersurge"}
 
 local spawnedCar
-spawningcars = true
+local spawningcars = true
+local safezoneCheck = false
+local inSafezone = true
+local safezoneEnterCheck = nil
+local safezoneExitCheck = nil
+local function addSafezoneChecks()
+    safezoneCheck = true
+    safezoneEnterCheck = AddEventHandler("polyzone:enter", function(name)
+        if name:find("safezone") then
+            inSafezone = true
+        end
+    end)
+    
+    safezoneExitCheck = AddEventHandler("polyzone:exit", function(name)
+        if name:find("safezone") then
+            inSafezone = false
+        end
+    end)
+end
+
+local function removeSafezoneChecks()
+    safezoneCheck = false
+    if safezoneEnterCheck ~= nil then
+        RemoveEventHandler(safezoneEnterCheck)
+    end
+    if safezoneExitCheck ~= nil then
+        RemoveEventHandler(safezoneExitCheck)
+    end
+end
 
 local pairs = pairs
 local function IsVehicleWhitelisted(model)
@@ -86,12 +114,22 @@ AddEventHandler("drp:spawnvehicle", function(veh)
     local worldID = tonumber(exports['erotic-lobby']:getCurrentWorld())
     local trickLobby = worldID == 4
     if spawningcars or trickLobby and veh == "deluxo" then
+        if IsPedInAnyVehicle(PlayerPed, true) then
+            exports['drp-notifications']:SendAlert('error', 'You are already in a vehicle.', 5000)
+            return
+        end
+
         local playerPed = PlayerPed
         local vehiclehash = get_hash_key(veh)
         local x, y, z = table_unpack(get_offset_from_entity_in_world_coords(playerPed, 0.5, 0.0, 0.0))
 
         if not IsVehicleWhitelisted(vehiclehash) and not trickLobby then
             exports['drp-notifications']:SendAlert('error', 'This vehicle cannot be spawned.', 5000)
+            return
+        end
+
+        if (safezoneCheck and not inSafezone) then
+            exports['drp-notifications']:SendAlert('error', 'Vehicles cannot be spawned outside of safezone.', 5000)
             return
         end
 
@@ -161,6 +199,11 @@ RegisterKeyMapping("dv", "Delete current vehicle", "KEYBOARD", "K")
 
 exports("deletePreviousVehicle", deletePreviousVehicle)
 
-exports("spawningcars", function(state)
+exports("spawningcars", function(state, sfCheck)
     spawningcars = state
+    if sfCheck then
+        addSafezoneChecks()
+    else
+        removeSafezoneChecks()
+    end
 end)

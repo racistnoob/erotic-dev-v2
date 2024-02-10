@@ -815,7 +815,7 @@ local function SetSkin(model, setDefault)
                 SetPedHairColor(plyPed, 1, 1)
             end
         end
-        SetPedArmour(plyPed, 100)
+        SetPedArmour(plyPed, GetPlayerMaxArmour(PlayerId()))
     end
     SetEntityInvincible(PlayerPedId(), false)
 end

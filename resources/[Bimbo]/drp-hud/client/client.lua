@@ -78,6 +78,7 @@ local HUD = {
         while true do
             wait(1000)
             
+
             self.plyPed = player_ped_id()
             SendReactMessage('setPauseMenu', is_pause_menu_active() or is_screen_faded_out() or is_screen_fading_out() or false)
         end
@@ -91,9 +92,10 @@ local HUD = {
                 local map = self:GetMinimapPosition()
                 local rightX = map.rightX * 100
                 local bottomY = map.bottomY * 100
-                
-                reset_player_stamina(player_id())
-                set_player_health_recharge_multiplier(player_id(), 0.0)
+                local playerid = player_id()
+
+                reset_player_stamina(playerid)
+                set_player_health_recharge_multiplier(playerid, 0.0)
                 
                 remove_multiplayer_hud_cash()
                 remove_multiplayer_bank_cash()

@@ -18,7 +18,7 @@ RegisterNetEvent('reset-timecycle')
 AddEventHandler('reset-timecycle', function()
     local kvpValue = GetResourceKvpString("graphics_timecycle")
     if kvpValue then
-        print('KVP loaded:', kvpValue)
+        -- print('KVP loaded:', kvpValue)
         SetTimecycleModifierEffect(kvpValue)
     elseif kvpValue == nil then
         SetTimecycleModifierEffect("default")
@@ -32,10 +32,10 @@ AddEventHandler('set-timecycle', function(params)
     
     if timecycleName then
         SetResourceKvp("graphics_timecycle", timecycleName) -- Store the timecycle name as a string
-        print('KVP loaded', timecycleName)
+        -- print('KVP loaded', timecycleName)
         SetTimecycleModifierEffect(timecycleName)
     else
-        print("Invalid timecycle type.")
+        -- print("Invalid timecycle type.")
     end
 end)
 
@@ -45,10 +45,10 @@ AddEventHandler('erotic:playerSpawned', function()
     local kvpValue = GetResourceKvpString("graphics_timecycle")
         
     if kvpValue then
-        print('KVP loaded:', kvpValue)
+        -- print('KVP loaded:', kvpValue)
         SetTimecycleModifierEffect(kvpValue)
     else
-        print("Player does not have KVP.")
+        -- print("Player does not have KVP.")
     end
 end)
 

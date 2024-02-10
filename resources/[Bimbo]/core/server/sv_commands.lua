@@ -93,17 +93,6 @@ AddEventHandler("txAdmin:events:adminAuth", function(data)
 end)
 
 local report_Logs = "https://discord.com/api/webhooks/1201644493926060143/UzV2wxPv2af8uSqnXmVtKe9QApREglkTvBgC9Z78Iy12OkqabiYEsCf7HEo1mjAC3hLB"
-local txadmin_Logs = "https://discord.com/api/webhooks/1202340309019922433/CqNYAmo_bLhXpy4ywfRnhOO_mN8dgHWlTlEuuS3OrUbtY3R7Fumd063xf715n5lGJHVX"
-local function sendToDisc(webhook, title, msg)
-    local embed = {
-        {
-            ["title"] = "**".. title .."**",
-            ["description"] = msg,
-        }
-    }
-    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({embeds = embed}), { ['Content-Type'] = 'application/json' })
-end
-
 
 RegisterCommand("report", function(source, args, rawCommand)
     local report = string.sub(rawCommand, 8)
@@ -158,32 +147,3 @@ RegisterCommand("playtime", function(source, args, rawCommand)
         })
     end
 end)
-
-RegisterCommand("forcelobby", function(source, args, rawCommand)
-    local src = source  
-    local message = "No permission to use this command"
-    if TX_ADMINS[tostring(src)] then
-        if #args >= 1 then
-            local targetPlayer = (#args == 2) and args[1] or src
-            local lobbyID = (#args == 1) and args[1] or args[2]
-            local playerName = GetPlayerName(targetPlayer)
-                
-            sendToDisc(txadmin_Logs, 'Player sent to lobby', "Name: **" .. playerName .. "** \nAdmin: **" .. GetPlayerName(src) .. "** \nLobby: **" .. lobbyID .. "**")
-            TriggerClientEvent("erotic-lobby:forceworld", targetPlayer, lobbyID, true)
-            message = "Sent "..playerName.." to lobby: "..lobbyID
-
-            if targetPlayer ~= src then
-                TriggerClientEvent('chat:addMessage', targetPlayer, {
-                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
-                    args = { "[ADMIN]", "You have been sent to lobby: "..lobbyID}
-                })
-            end
-        else
-            message = "Usage: forcelobby <playerid> <lobbyid> / forcelobby <lobbyid>"
-        end
-    end
-    TriggerClientEvent('chat:addMessage', src, {
-        template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
-        args = { "[ADMIN]", message}
-    })
-end, false)

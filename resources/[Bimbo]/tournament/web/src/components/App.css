@@ -1,0 +1,142 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand:700&display=swap);
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+.Score-Container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+    left: 0;
+    position: absolute;
+    top: 2px;
+    width: 100%
+}
+
+.Score-gameInformation-,
+.Score,
+.Score-teamScore {
+    height: 100%
+}
+
+.Score {
+    grid-gap: 2px;
+    display: grid;
+    gap: 2px;
+    grid-template-columns: 46px 1fr 46px;
+    width: 170px
+}
+
+.Score-gameInformation- {
+    grid-gap: 1px;
+    display: grid;
+    gap: 1px;
+    grid-template-rows: 24px 24px
+}
+
+.Score-Timer {
+    align-items: center;
+    color: #fff;
+    display: flex;
+    font-family: "Quicksand";
+    font-size: 25px;
+    justify-content: center;
+    text-shadow: 0 0 2px #f8f9fa;
+}
+
+.Score-Container2 {
+    margin-top: 2px;
+    grid-gap: 1px;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: 1fr 1fr
+}
+
+.Score-blueScore,
+.Score-redScore {
+    align-items: center;
+    display: flex;
+    font-family: "Quicksand";
+    font-size: 18px;
+    justify-content: center
+}
+
+.Score-teamScore {
+    box-shadow: inset 0 0 10px 5px rgba(0, 0, 0, .4);
+    display: grid;
+    grid-template-rows: 33px 16px;
+    height: 49px
+}
+
+.Score-aliveCount {
+    font-size: 31px;
+    padding-top: 6px;
+    text-shadow: 2px 2px 5px #000
+}
+
+.Score-aliveCount,
+.Score-aliveText {
+    align-items: center;
+    color: #fff;
+    display: flex;
+    font-family: "Quicksand";
+    justify-content: center
+}
+
+.Score-aliveText {
+    font-size: 11px;
+    padding-bottom: 2px;
+    text-shadow: 1px 1px 3px #000
+}
+
+.Score-blueScore,
+.Score-redScore,
+.Score-Timer {
+    background-color: rgba(0, 0, 0, .3)
+}
+
+.Score-backdrop {
+    align-items: center;
+    display: flex;
+    height: 49px;
+    justify-content: center;
+    position: absolute;
+    width: 46px;
+    z-index: 0
+}
+
+.Score-aliveCount,
+.Score-aliveText {
+    z-index: 1
+}
+
+@-webkit-keyframes Score-flashAnimation {
+    0% {
+        text-shadow: 0 0 6px rgba(79, 1, 1, .8)
+    }
+    50% {
+        text-shadow: 0 0 3px #4f0101
+    }
+    to {
+        text-shadow: 0 0 6px rgba(79, 1, 1, .8)
+    }
+}
+
+@keyframes Score-flashAnimation {
+    0% {
+        text-shadow: 0 0 6px rgba(79, 1, 1, .8)
+    }
+    50% {
+        text-shadow: 0 0 3px #4f0101
+    }
+    to {
+        text-shadow: 0 0 6px rgba(79, 1, 1, .8)
+    }
+}
+
+.Score-lowTimer {
+    -webkit-animation: Score-flashAnimation 1s infinite;
+    animation: Score-flashAnimation 1s infinite;
+}

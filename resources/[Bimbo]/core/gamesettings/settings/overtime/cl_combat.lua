@@ -106,7 +106,12 @@ function setNonstopCombat(state)
             RemoveEventHandler(damageEventHandler)
         end
         set_player_forced_zoom(playerID, false)
+        SetPlayerMaxArmour(PlayerId(), 100)
+        SetPedArmour(PlayerPedId(), 100)
     else
+        SetPlayerMaxArmour(PlayerId(), 0)
+        SetPedArmour(PlayerPedId(), 0)
+
         nonstop_weaponDamage()
         nonstop_Injuries()
         nonstop_Effects()

@@ -1,5 +1,13 @@
 Kits = {
     ["pistols"] = {
+        ["pistolmk2"] = {
+            {item = "WEAPON_PISTOL_MK2", primary = true, amount = 1, slot = 1},
+            {item = "armour", amount = 5, slot = 2},
+            {item = "oxy", amount = 30, slot = 3},
+            {item = "joint", amount = 15, slot = 4},
+            {item = "9mm_rounds", amount = 150, slot = 15},
+            {item = "radio", amount = 1, slot = 30},
+        },
         ["deagle"] = {
             {item = "WEAPON_PISTOL50", primary = true, amount = 1, slot = 1},
             {item = "armour", amount = 5, slot = 2},
@@ -117,7 +125,7 @@ Kits = {
             {item = "radio", amount = 1, slot = 30},
         },
         ["ak"] = {
-            {item = "WEAPON_ASSAULTRIFLE", primary = true, amount = 1, slot = 1},
+            {item = "WEAPON_AK47", primary = true, amount = 1, slot = 1},
             {item = "armour", amount = 5, slot = 2},
             {item = "oxy", amount = 30, slot = 3},
             {item = "joint", amount = 15, slot = 4},
@@ -166,6 +174,14 @@ Kits = {
         },
         ["bullpup"] = {
             {item = "WEAPON_BULLPUPRIFLE", primary = true, amount = 1, slot = 1},
+            {item = "armour", amount = 5, slot = 2},
+            {item = "oxy", amount = 15, slot = 3},
+            {item = "joint", amount = 15, slot = 4},
+            {item = "556_rounds", amount = 250, slot = 15},
+            {item = "radio", amount = 1, slot = 30},
+        },
+        ["bullpupmk2"] = {
+            {item = "WEAPON_BULLPUPRIFLE_MK2", primary = true, amount = 1, slot = 1},
             {item = "armour", amount = 5, slot = 2},
             {item = "oxy", amount = 15, slot = 3},
             {item = "joint", amount = 15, slot = 4},

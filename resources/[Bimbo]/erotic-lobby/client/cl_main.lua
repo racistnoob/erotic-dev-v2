@@ -34,6 +34,7 @@ local function getLobbySettings(worldID)
         end
         return worldSettings
     end
+    return false
 end
 
 local backgroundActive = false
@@ -134,13 +135,18 @@ function switchWorld(worldID, force)
                 exports['lane-inventory']:DoKitStuff('ars', 'hopout')
             end
             
-            exports['core']:spawningcars(false or worldSettings.spawningcars == nil)
+            exports['core']:spawningcars(false or worldSettings.spawningcars == nil, worldSettings.onlyInSafezone or false)
             exports['core']:setHelmetsEnabled(worldSettings.Helmets or false)
             exports['core']:setCarRagdoll(worldSettings.CarRagdoll or false)
             exports['core']:SetRecoilMode(worldSettings.recoilMode or "roleplay")
             exports['core']:setFirstPersonVehicleEnabled(worldSettings.firstPersonVehicle or false)
             exports['core']:setHsMulti(worldSettings.hsMulti or false)
             exports['core']:setNonstopCombat(worldSettings.nonstopcombat or false)
+            exports['core']:disableFirstPerson(worldSettings.disableFP or false)
+            exports['core']:disableLadderClimbing(worldSettings.disableLadders or false)
+            exports['core']:disableQPeeking(worldSettings.disableQPeeking or false)
+            exports['core']:disableRoofs(worldSettings.disableHighRoofs or false)
+            exports['tournament']:showTournamentUI(worldSettings.tournament or false)
 
             if LocalPlayer.state.radioChannel ~= 111 then -- global radio
                 exports['radio']:changeradio(0)

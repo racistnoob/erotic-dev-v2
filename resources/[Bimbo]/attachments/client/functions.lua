@@ -72,12 +72,14 @@ end
 
 function removeAllAttachments()
     local _, gun = GetCurrentPedWeapon(PlayerPedId(), 1)
-    for i = 1, #WEAPON_LIST[gun] do
-        local attachmentInfo = WEAPON_LIST[gun][i]
-        for y = 1, #attachmentInfo.options do
-            local data = attachmentInfo.options[y]
-            if data.attachment then
-                RemoveWeaponComponentFromPed(PlayerPedId(), gun, joaat(data.attachment))
+    if _ then
+        for i = 1, #WEAPON_LIST[gun] do
+            local attachmentInfo = WEAPON_LIST[gun][i]
+            for y = 1, #attachmentInfo.options do
+                local data = attachmentInfo.options[y]
+                if data.attachment then
+                    RemoveWeaponComponentFromPed(PlayerPedId(), gun, joaat(data.attachment))
+                end
             end
         end
     end

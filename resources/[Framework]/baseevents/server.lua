@@ -64,7 +64,7 @@ local Weapons = {
     [`weapon_dbshotgun`] = {['weaponName'] = 'Double Barrel Shotgun', ['type'] = 'Shotgun'},
     [`weapon_autoshotgun`] = {['weaponName'] = 'Sweeper Shotgun', ['type'] = 'Shotgun'},
     --[[ Assault Rifle ]]--
-    [`weapon_assaultrifle`] = {['weaponName'] = 'Assault Rifle', ['type'] = 'Rifle'},
+    [`WEAPON_AK47`] = {['weaponName'] = 'Assault Rifle', ['type'] = 'Rifle'},
     [`weapon_assaultrifle_mk2`] = {['weaponName'] = 'Assault Rifle Mk II', ['type'] = 'Rifle'},
     [`weapon_carbinerifle`] = {['weaponName'] = 'Carbine Rifle', ['type'] = 'Rifle'},
     [`weapon_carbinerifle_mk2`] = {['weaponName'] = 'Carbine Rifle Mk II', ['type'] = 'Rifle'},

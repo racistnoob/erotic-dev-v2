@@ -807,11 +807,21 @@ end)
 
 local allowedExplosions = {
     [9] = true,
+    [10] = true,
     [12] = true,
     [13] = true,
     [14] = true,
     [30] = true,
-    [11] = true
+    [11] = true,
+    [34] = true,
+}
+
+local bannedExplosions = {
+    [82] = true,
+    [36] = true,
+    [37] = true,
+    [29] = true,
+    [70] = true
 }
 
 local explosionCounts = {}
@@ -826,6 +836,15 @@ AddEventHandler("explosionEvent", function(sender, ev)
     local playerId = sender
     local currentTime = os.time()
     local explosionType = tostring(ev.explosionType)
+
+    if bannedExplosions[explosionType] then
+        sendToDiscord(
+            "**Detected cheating:** ".. GetPlayerName(sender),
+            "Created blacklisted explosion: **"..explosionType.."**\nCreated at: **"..ev.posX..", "..ev.posY..", "..ev.posZ.."**"
+        )
+        exports["admin-api"]:txApi_banPlayer(sender, "Cheating: blacklisted explosion")
+        return
+    end
     
     explosionCounts[playerId] = explosionCounts[playerId] or {}
     explosionCounts[playerId][explosionType] = explosionCounts[playerId][explosionType] or { count = 0, timestamp = currentTime }
@@ -836,8 +855,8 @@ AddEventHandler("explosionEvent", function(sender, ev)
     end
     
     explosionCounts[playerId][explosionType].count = explosionCounts[playerId][explosionType].count + 1
-    
-    if explosionType == "12" then
+
+    if allowedExplosions[explosionType] then
         maxExplosions = 15
     else
         maxExplosions = 5
@@ -951,4 +970,18 @@ AddEventHandler('entityCreating', function(entity)
             end
         end
     end
+end)
+
+RegisterNetEvent('admin:magicbullet')
+AddEventHandler('admin:magicbullet', function(killerClientId)
+    sendToDiscord(
+    "**Possible cheating:** ".. GetPlayerName(killerClientId),
+    "Detected magic bullet")
+end)
+
+RegisterNetEvent('admin:disabled')
+AddEventHandler('admin:disabled', function()
+    sendToDiscord(
+    "**Detected cheating:** ".. GetPlayerName(PlayerId()),
+    "Stopped anticheat resource")
 end)

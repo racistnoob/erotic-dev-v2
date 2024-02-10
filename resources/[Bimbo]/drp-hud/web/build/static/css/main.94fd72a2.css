@@ -127,8 +127,8 @@ body {
 }
 
 .healthiconshadow {
-    -webkit-filter: drop-shadow(0 0 10px #908aff);
-    filter: drop-shadow(0 0 10px #908aff);
+    webkit-filter: drop-shadow(0 4px 4px rgba(112, 78, 167, 0.25)) drop-shadow(0 0 10px #56529b);
+    filter: drop-shadow(0 4px 4px rgba(112, 78, 167, .25)) drop-shadow(0 0 10px #56529b);
 }
 
 .armorshadow {

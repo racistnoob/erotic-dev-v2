@@ -5810,7 +5810,7 @@
           <Group>GROUP_SMG</Group>
           <AmmoInfo ref="AMMO_SMG" />
           <AimingInfo ref="SMG_2H_BASE_STRAFE" />
-          <ClipSize value="16" />
+          <ClipSize value="30" />
           <AccuracySpread value="3.00000" />
           <AccurateModeAccuracyModifier value="0.7500000" />
           <RunAndGunAccuracyModifier value="2.000000" />
@@ -6036,11 +6036,11 @@
               <Components>
                 <Item>
                   <Name>COMPONENT_MICROSMG_CLIP_01</Name>
-                  <Default value="true" />
+                  <Default value="false" />
                 </Item>
                 <Item>
                   <Name>COMPONENT_MICROSMG_CLIP_02</Name>
-                  <Default value="false" />
+                  <Default value="true" />
                 </Item>
               </Components>
             </Item>

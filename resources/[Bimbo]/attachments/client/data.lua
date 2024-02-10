@@ -1,55 +1,177 @@
 
 WEAPON_TINTS = {
-    [1] = { --[[@normal_weapons]]
-    [1] = { label = "None", price = 0 },
-    [2] = { label = "Green", price = 2000 },
-    [3] = { label = "Gold", price = 2000 },
-    [4] = { label = "Pink", price = 2000 },
-    [5] = { label = "Army", price = 2000 },
-    [6] = { label = "LSPD", price = 2000 },
-    [7] = { label = "Orange", price = 2000 },
-    [8] = { label = "Platinum", price = 2000 },
-},
-[2] = { --[[@mk2_weapons]]
-[1] = { label = "None", price = 0 },
-[2] = { label = "Gray", price = 2000 },
-[3] = { label = "Two-Tone", price = 2000 },
-[4] = { label = "White", price = 2000 },
-[5] = { label = "Beige", price = 2000 },
-[6] = { label = "Green", price = 2000 },
-[7] = { label = "Blue", price = 2000 },
-[8] = { label = "Earth", price = 2000 },
-[9] = { label = "Brown & Black", price = 3000 },
-[10] = { label = "Red Contrast", price = 2000 },
-[11] = { label = "Blue Contrast", price = 2000 },
-[12] = { label = "Yellow Contrast", price = 2000 },
-[13] = { label = "Orange Contrast", price = 2000 },
-[14] = { label = "Pink", price = 2000 },
-[15] = { label = "Purple & Yellow", price = 3000 },
-[16] = { label = "Orange", price = 2000 },
-[17] = { label = "Green & Purple", price = 2500 },
-[18] = { label = "Red Features", price = 2000 },
-[19] = { label = "Green Features", price = 2000 },
-[20] = { label = "Cyan Features", price = 2000 },
-[21] = { label = "Yellow Features", price = 2000 },
-[22] = { label = "Red & White", price = 3000 },
-[23] = { label = "Blue & White", price = 3000 },
-[24] = { label = "Gold", price = 2000 },
-[25] = { label = "Platinum", price = 2000 },
-[26] = { label = "Gray & Lilac", price = 3000 },
-[27] = { label = "Purple & Lime", price = 3000 },
-[28] = { label = "Red", price = 2000 },
-[29] = { label = "Green", price = 2000 },
-[30] = { label = "Blue", price = 2000 },
-[31] = { label = "White & Aqua", price = 3000 },
-[32] = { label = "Orange & Yellow", price = 3000 },
-[33] = { label = "Red & Yellow", price = 3000 },
-}
-
+    [1] = {
+        [1] = { label = "None", price = 0 },
+        [2] = { label = "Green", price = 2000 },
+        [3] = { label = "Gold", price = 2000 },
+        [4] = { label = "Pink", price = 2000 },
+        [5] = { label = "Army", price = 2000 },
+        [6] = { label = "LSPD", price = 2000 },
+        [7] = { label = "Orange", price = 2000 },
+        [8] = { label = "Platinum", price = 2000 },
+    },
+     --[[@mk2_weapons]]
+    [2] = {
+        [1] = { label = "None", price = 0 },
+        [2] = { label = "Gray", price = 2000 },
+        [3] = { label = "Two-Tone", price = 2000 },
+        [4] = { label = "White", price = 2000 },
+        [5] = { label = "Beige", price = 2000 },
+        [6] = { label = "Green", price = 2000 },
+        [7] = { label = "Blue", price = 2000 },
+        [8] = { label = "Earth", price = 2000 },
+        [9] = { label = "Brown & Black", price = 3000 },
+        [10] = { label = "Red Contrast", price = 2000 },
+        [11] = { label = "Blue Contrast", price = 2000 },
+        [12] = { label = "Yellow Contrast", price = 2000 },
+        [13] = { label = "Orange Contrast", price = 2000 },
+        [14] = { label = "Pink", price = 2000 },
+        [15] = { label = "Purple & Yellow", price = 3000 },
+        [16] = { label = "Orange", price = 2000 },
+        [17] = { label = "Green & Purple", price = 2500 },
+        [18] = { label = "Red Features", price = 2000 },
+        [19] = { label = "Green Features", price = 2000 },
+        [20] = { label = "Cyan Features", price = 2000 },
+        [21] = { label = "Yellow Features", price = 2000 },
+        [22] = { label = "Red & White", price = 3000 },
+        [23] = { label = "Blue & White", price = 3000 },
+        [24] = { label = "Gold", price = 2000 },
+        [25] = { label = "Platinum", price = 2000 },
+        [26] = { label = "Gray & Lilac", price = 3000 },
+        [27] = { label = "Purple & Lime", price = 3000 },
+        [28] = { label = "Red", price = 2000 },
+        [29] = { label = "Green", price = 2000 },
+        [30] = { label = "Blue", price = 2000 },
+        [31] = { label = "White & Aqua", price = 3000 },
+        [32] = { label = "Orange & Yellow", price = 3000 },
+        [33] = { label = "Red & Yellow", price = 3000 },
+    }
 }
 
 WEAPON_LIST = {
     --[[@PISTOLS]]
+    [`WEAPON_PISTOL_MK2`] = {
+        {
+            label = "Flashlight",
+            bone = "WAPFlshLasr",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_AT_PI_FLSH_02",
+                    label = "Flashlight",
+                    price = 1500
+                },
+            },
+        },
+        {
+            label = "Suppressor",
+            bone = "WAPSupp",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_AT_PI_SUPP_02",
+                    label = "Suppressor",
+                    price = 15000
+                },
+                {
+                    attachment = "COMPONENT_AT_PI_COMP",
+                    label = "Compensator",
+                    price = 15000
+                },
+            },
+        },
+        {
+            label = "Optic",
+            bone = "WAPScop",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_AT_PI_RAIL",
+                    label = "Red Dot",
+                    price = 3000
+                },
+            },
+        },
+        {
+            label = "Variation",
+            bone = "gun_root",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO",
+                    label = "Digital",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_02",
+                    label = "Brushstroke",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_03",
+                    label = "Woodland",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_04",
+                    label = "Skull",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_05",
+                    label = "Sessanta",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_06",
+                    label = "Perseus",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_07",
+                    label = "Leopard",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_08",
+                    label = "Zebra",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_09",
+                    label = "Geometric",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_10",
+                    label = "Boom!",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_PISTOL_MK2_CAMO_IND_01",
+                    label = "Patriotic",
+                    price = 5000
+                },
+            },
+        },
+        {
+            label = "Tint",
+            bone = "gun_root",
+            options = {},
+        },
+    },
     [`WEAPON_PISTOL`] = {
         -- {
         --     label = "Mag",
@@ -1264,6 +1386,183 @@ WEAPON_LIST = {
             }
         }
     },
+    [`WEAPON_BULLPUPRIFLE_MK2`] = {
+        {
+            label = "Flashlight",
+            bone = "WAPFlshLasr",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_AT_AR_FLSH",
+                    label = "Flashlight",
+                    price = 3500
+                },
+            },
+        },
+        {
+            label = "Suppressor",
+            bone = "WAPSupp_2",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_AT_AR_SUPP",
+                    label = "Suppressor",
+                    price = 25000
+                },
+                {
+                    attachment = "COMPONENT_AT_MUZZLE_01",
+                    label = "Flat Muzzle",
+                    price = 25000
+                },
+                {
+                    attachment = "COMPONENT_AT_MUZZLE_02",
+                    label = "Tactical Muzzle",
+                    price = 25000
+                },
+                {
+                    attachment = "COMPONENT_AT_MUZZLE_03",
+                    label = "Fat Muzzle",
+                    price = 25000
+                },
+                {
+                    attachment = "COMPONENT_AT_MUZZLE_04",
+                    label = "Precision Muzzle",
+                    price = 25000
+                },
+                {
+                    attachment = "COMPONENT_AT_MUZZLE_05",
+                    label = "Heavy Muzzle",
+                    price = 25000
+                },
+                {
+                    attachment = "COMPONENT_AT_MUZZLE_06",
+                    label = "Slanted Muzzle",
+                    price = 25000
+                },
+                {
+                    attachment = "COMPONENT_AT_MUZZLE_07",
+                    label = "Split Muzzle",
+                    price = 25000
+                },
+            },
+        },
+        {
+            label = "Grip",
+            bone = "WAPGrip_2",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_AT_AR_AFGRIP_02",
+                    label = "Foregrip",
+                    price = 40000
+                },
+            },
+        },
+        {
+            label = "Optic",
+            bone = "WAPScop",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_AT_SIGHTS",
+                    label = "Holographic Sight",
+                    price = 4000
+                },
+                {
+                    attachment = "COMPONENT_AT_SCOPE_MACRO_02_MK2",
+                    label = "Red Dot",
+                    price = 4000
+                },
+                {
+                    attachment = "COMPONENT_AT_SCOPE_SMALL_MK2",
+                    label = "Acog Scope",
+                    price = 4000
+                },
+            },
+        },
+        {
+            label = "Variation",
+            bone = "gun_root",
+            options = {
+                {
+                    label = "None",
+                    price = 0
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO",
+                    label = "Digital",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_02",
+                    label = "Brushstroke",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_03",
+                    label = "Woodland",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_04",
+                    label = "Skull",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_05",
+                    label = "Sessanta",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_06",
+                    label = "Perseus",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_07",
+                    label = "Leopard",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_08",
+                    label = "Zebra",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_09",
+                    label = "Geometric",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_10",
+                    label = "Boom!",
+                    price = 5000
+                },
+                {
+                    attachment = "COMPONENT_BULLPUPRIFLE_MK2_CAMO_IND_01",
+                    label = "Patriotic",
+                    price = 5000
+                },
+            },
+        },
+        {
+            label = "Tint",
+            bone = "gun_root",
+            options = {},
+        },
+    },
     [`WEAPON_CARBINERIFLE`] = {
         -- {
         --     label = "Mag",
@@ -1667,7 +1966,7 @@ WEAPON_LIST = {
             options = {},
         },
     },
-    [`WEAPON_ASSAULTRIFLE`] = {
+    [`WEAPON_AK47`] = {
         -- {
         --     label = "Mag",
         --     bone = "WAPClip",
@@ -1920,7 +2219,7 @@ WEAPON_LIST = {
             bone = "gun_root",
             options = {},
         },
-
+        
     },
     [`WEAPON_762`] = {
         -- {

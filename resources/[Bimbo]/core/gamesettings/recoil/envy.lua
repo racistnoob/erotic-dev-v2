@@ -92,14 +92,7 @@ local GroupRecoil = {
     } -- Heavy
 }
 
-local function GetStressRecoil()
-    
-    return 0.95
-    
-end
-
 local isMoving = false
-
 local storedRecoils = {}
 
 local get_current_ped_weapon = GetCurrentPedWeapon
@@ -118,6 +111,7 @@ local is_ped_armed = IsPedArmed
 local set_weapon_recoil_shake_amplitude = SetWeaponRecoilShakeAmplitude
 local get_weapon_recoil_shake_amplitude = GetWeaponRecoilShakeAmplitude
 local is_ped_shooting = IsPedShooting
+local wait = Wait
 Recoil:RegisterMode('envy', function()
     
     local plyPed = PlayerPed -- Defining the player's ped
@@ -146,10 +140,9 @@ Recoil:RegisterMode('envy', function()
     end
     
     if isArmed and is_ped_shooting(plyPed) then -- Check if they are armed and dangerous (shooting)
-        
         local movementSpeed = math_ceil( get_entity_speed(plyPed) ) -- Getting the speed of the ped
         
-        local stressRecoil = GetStressRecoil() -- Grab recoil multiplier based on stress
+        local stressRecoil = math.random() * (1.17 - 1.09) + 1.09 -- random between 1.09 to 1.17
         
         local camHeading = get_gameplay_cam_relative_heading()
         local headingFactor = math_random(10,40+movementSpeed)/100
@@ -188,7 +181,7 @@ Recoil:RegisterMode('envy', function()
             
             repeat
                 
-                Wait(0)
+                wait(0)
                 
                 set_gameplay_cam_relative_pitch(get_gameplay_cam_relative_pitch()+(weirdRecoil and (math_random(28, 32) / 10) or 0.1), 0.2) -- Move the camera pitch up by 0.1
                 currentRecoil = currentRecoil + 0.1 -- Increment current recoil by 0.1 as we moved up by 0.1
@@ -197,8 +190,7 @@ Recoil:RegisterMode('envy', function()
             
             isMoving = false -- Sets the moving var to false				
             
-        end
-        
+        end        
     end
     
 end)

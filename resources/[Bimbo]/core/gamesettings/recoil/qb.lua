@@ -43,7 +43,7 @@ local recoils = {
 	[94989220] = 0.0,      --['weapon_combatshotgun']
 	
 	-- Assault Rifles
-	[-1074790547] = 0.5,   --['weapon_assaultrifle']
+	[`WEAPON_AK47`] = 0.5,   --['weapon_assaultrifle']
 	[961495388] = 0.2,     --['weapon_assaultrifle_mk2']
 	[-2084633992] = 0.3,   --['weapon_carbinerifle']
 	[-86904375] = 0.1,     --['weapon_carbinerifle_mk2']

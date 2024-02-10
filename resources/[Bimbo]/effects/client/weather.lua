@@ -8,17 +8,17 @@ config.weather = {
 }
 
 local Weathers = {
-  ["neonsky"] = "FOGGY",
-  ["redsky"] = "OVERCAST",
-  ["noday"] = "NEUTRAL",
-  ["variable"] = "SMOG",
-  ["greysky"] = "CLEAR",
-  ["default"] = "EXTRASUNNY",
-  ["sunrise"] = "CLOUDS",
-  ["realism"] = "CLEARING",
-  ["xmas"] = "XMAS",
-  ["snow"] = "SNOWLIGHT",
-  ["blizzard"] = "BLIZZARD",
+    ["neonsky"] = "FOGGY",
+    ["redsky"] = "OVERCAST",
+    ["noday"] = "NEUTRAL",
+    ["variable"] = "SMOG",
+    ["greysky"] = "CLEAR",
+    ["default"] = "EXTRASUNNY",
+    ["sunrise"] = "CLOUDS",
+    ["realism"] = "CLEARING",
+    ["xmas"] = "XMAS",
+    ["snow"] = "SNOWLIGHT",
+    ["blizzard"] = "BLIZZARD",
 }
 
 local weather = "EXTRASUNNY"
@@ -34,7 +34,7 @@ function setWeather(newWeather) -- Define the setWeather function
         weather = "EXTRASUNNY"
         return
     end
-
+    
     weather = newWeather
 end
 
@@ -60,21 +60,21 @@ CreateThread(function()
         set_weather_type_persist(weather)
         set_weather_type_now(weather)
         set_weather_type_now_persist(weather)
-
+        
         set_force_vehicle_trails(weather == 'XMAS')
         set_force_ped_footsteps_track(weather == 'XMAS')
     end
 end)
 
 function ChangeWeather(customName)
-  local selectedWeather = Weathers[customName]
-  
-  if selectedWeather then
-      setWeather(selectedWeather)
-      print("Weather changed to:", selectedWeather)
-  else
-      print("Invalid weather name:", customName)
-  end
+    local selectedWeather = Weathers[customName]
+    
+    if selectedWeather then
+        setWeather(selectedWeather)
+        -- print("Weather changed to:", selectedWeather)
+    else
+        -- print("Invalid weather name:", customName)
+    end
 end
 
 RegisterNetEvent('set-weather')
@@ -84,153 +84,153 @@ AddEventHandler('set-weather', function(params)
     
     if selectedWeather then
         SetResourceKvp("graphics_weather", customName)
-        print('KVP loaded:', customName)
+        -- print('KVP loaded:', customName)
         ChangeWeather(customName)
     else
-        print("Invalid weather type.")
+        -- print("Invalid weather type.")
     end
 end)
 
 AddEventHandler('erotic:playerSpawned', function()
     local kvpValue = GetResourceKvpString("graphics_weather")
-        
+    
     if kvpValue then
-        print('KVP loaded:', kvpValue)
+        -- print('KVP loaded:', kvpValue)
         ChangeWeather(kvpValue)
     else
-        print("Player does not have KVP.")
+        -- print("Player does not have KVP.")
     end
 end)
 
 --[[AddEventHandler("onResourceStart", function(resourceName)
-    if resourceName == GetCurrentResourceName() then
-        local kvpValue = GetResourceKvpString("graphics_weather")
-            
-        if kvpValue then
-            print("Resource started. Player has KVP:", kvpValue)
-            print('KVP loaded:', kvpValue)
-            ChangeWeather(kvpValue)
-        else
-            print("Resource started. Player does not have KVP.")
-        end
+if resourceName == GetCurrentResourceName() then
+    local kvpValue = GetResourceKvpString("graphics_weather")
+    
+    if kvpValue then
+        print("Resource started. Player has KVP:", kvpValue)
+        print('KVP loaded:', kvpValue)
+        ChangeWeather(kvpValue)
+    else
+        print("Resource started. Player does not have KVP.")
     end
+end
 end)]]
-  
+
 local submenu = {
-  {
-      id = 1,
-      header = "< Go Back",
-      txt = "",
-      params = {
-          event = "erp-context:GoBackToMainMenu"
-      }
-  },
-  {
-      id = 2,
-      header = "Default",
-      txt = "Set the weather to default",
-      params = {
-          event = "set-weather",
-          args = {
+    {
+        id = 1,
+        header = "< Go Back",
+        txt = "",
+        params = {
+            event = "erp-context:GoBackToMainMenu"
+        }
+    },
+    {
+        id = 2,
+        header = "Default",
+        txt = "Set the weather to default",
+        params = {
+            event = "set-weather",
+            args = {
                 type = "default",
                 number = 1,
                 id = 2
-          }
-      }
-  },
-  {
-      id = 3,
-      header = "Red Sky",
-      txt = "Set the weather to redsky",
-      params = {
-          event = "set-weather",
-          args = {
+            }
+        }
+    },
+    {
+        id = 3,
+        header = "Red Sky",
+        txt = "Set the weather to redsky",
+        params = {
+            event = "set-weather",
+            args = {
                 type = "redsky",
                 number = 2,
                 id = 3
-          }
-      }
-  },
-  {
-      id = 4,
-      header = "Neon Sky",
-      txt = "Set the weather to Neon",
-      params = {
-          event = "set-weather",
-          args = {
+            }
+        }
+    },
+    {
+        id = 4,
+        header = "Neon Sky",
+        txt = "Set the weather to Neon",
+        params = {
+            event = "set-weather",
+            args = {
                 type = "neonsky",
                 number = 3,
                 id = 4
-          }
-      }
-  },
-  {
-      id = 5,
-      header = "No Day",
-      txt = "Set the weather to no day",
-      params = {
-          event = "set-weather",
-          args = {
+            }
+        }
+    },
+    {
+        id = 5,
+        header = "No Day",
+        txt = "Set the weather to no day",
+        params = {
+            event = "set-weather",
+            args = {
                 type = "noday",
                 number = 4,
                 id = 5
-          }
-      }
-  },
-  {
-      id = 6,
-      header = "Sunrise",
-      txt = "Set the weather to Sunrise",
-      params = {
-          event = "set-weather",
-          args = {
+            }
+        }
+    },
+    {
+        id = 6,
+        header = "Sunrise",
+        txt = "Set the weather to Sunrise",
+        params = {
+            event = "set-weather",
+            args = {
                 type = "sunrise",
                 number = 5,
                 id = 6
-          }
-      }
-  },
-  {
-      id = 7,
-      header = "Nova Sky",
-      txt = "Set the weather to Nova Sky",
-      params = {
-          event = "set-weather",
-          args = {
+            }
+        }
+    },
+    {
+        id = 7,
+        header = "Nova Sky",
+        txt = "Set the weather to Nova Sky",
+        params = {
+            event = "set-weather",
+            args = {
                 type = "variable",
                 number = 6,
                 id = 7
-          }
-      }
-  },
-  {
-      id = 8,
-      header = "Grey Sky",
-      txt = "Set the weather to greysky",
-      params = {
-          event = "set-weather",
-          args = {
-            type = "greysky",
-              number = 7,
-              id = 8
-          }
-      }
-  },
-  {
-      id = 9,
-      header = "Realism",
-      txt = "Set the weather to Realism",
-      params = {
-          event = "set-weather",
-          args = {
+            }
+        }
+    },
+    {
+        id = 8,
+        header = "Grey Sky",
+        txt = "Set the weather to greysky",
+        params = {
+            event = "set-weather",
+            args = {
+                type = "greysky",
+                number = 7,
+                id = 8
+            }
+        }
+    },
+    {
+        id = 9,
+        header = "Realism",
+        txt = "Set the weather to Realism",
+        params = {
+            event = "set-weather",
+            args = {
                 type = "realism",
                 number = 8,
                 id = 9
-          }
-      }
-  },
+            }
+        }
+    },
 }
 
 exports("getWeatherSubMenu", function()
-  return submenu
+    return submenu
 end)
