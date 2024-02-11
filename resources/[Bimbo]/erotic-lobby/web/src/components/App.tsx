@@ -43,6 +43,7 @@ const App: React.FC = () => {
         disableLadders: boolean;
         disableQPeeking: boolean;
         disableFP: boolean;
+        skeletons: boolean;
     }>({
         maxPlayers: 12,
         name: '',
@@ -57,6 +58,7 @@ const App: React.FC = () => {
         disableLadders: false,
         disableQPeeking: false,
         disableFP: false,
+        skeletons: false,
     });
 
     const handleUpdateLobbies = (event: MessageEvent) => {
@@ -434,6 +436,24 @@ const App: React.FC = () => {
                                             </label>
                                         </div>
                                     </div>
+
+                                    <div className="setting">
+                                        <div className="setting-info">
+                                            <h1>ESP</h1>
+                                        </div>
+                                        <div className="setting-check">
+                                            <label className="toggleSwitch nolabel">
+                                                <input type="checkbox" checked={customLobbySettings.skeletons} onChange={(e) => {
+                                                    setCustomLobbySettings({ ...customLobbySettings, skeletons: e.target.checked })
+                                                    playClickSound();
+                                                }
+                                                } />
+                                                <span>
+                                                </span>
+                                                <a></a>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </>
                             } />
 
@@ -449,7 +469,7 @@ const App: React.FC = () => {
                                     } >
                                         <option value="envy">Envy</option>
                                         <option value="roleplay">RP Preset #1</option>
-                                        <option value="roleplay2">RP Preset #2</option>
+                                        <option value="roleplay2">Frenzy</option>
                                         <option value="roleplay3">Rena</option>
                                         <option value="nonstop">Overtime</option>
                                         <option value="hardcore">Nopickle</option>

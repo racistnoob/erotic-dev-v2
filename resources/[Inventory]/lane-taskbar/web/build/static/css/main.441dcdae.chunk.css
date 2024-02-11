@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap);
-
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -84,7 +83,7 @@ body {
 .progress-bar {
     width: 360px;
     height: 40px;
-    background: radial-gradient(50% 50% at 50% 50%, rgba(75, 75, 75, 0.4) 0, rgba(48, 48, 48, 0.7) 100%);
+    background: radial-gradient(50% 50% at 50% 50%, #2c21ff73 0, #554cff47 100%);
     border: 1px solid rgba(0, 0, 0, .15);
     box-sizing: border-box;
     border-radius: 3px;
@@ -93,16 +92,18 @@ body {
     transition: all 1s;
     margin-top: 8px;
     padding-left: 16px;
-    padding-right: 16px
+    padding-right: 16px;
+    border: 1px solid #908aff;
+    box-shadow: 0 0 7px #908aff4d;
 }
 
 .progress-inside {
     position: relative;
     height: 8px;
-    background: linear-gradient(90deg, white -1.57%, gray 102.99%);
+    background: linear-gradient(90deg, #7871f3 -1.57%, #908aff 102.99%);
     border-radius: 4px 0 0 4px;
     bottom: 9px;
-    transition: .1s ease
+    transition: .1s ease;
 }
 
 .progress-inside-shadow {
@@ -186,7 +187,6 @@ body {
     0% {
         bottom: 30px
     }
-
     to {
         bottom: -200px
     }
@@ -196,7 +196,6 @@ body {
     0% {
         bottom: 30px
     }
-
     to {
         bottom: -200px
     }
@@ -206,7 +205,6 @@ body {
     0% {
         bottom: -200px
     }
-
     to {
         bottom: 30px
     }
@@ -216,7 +214,6 @@ body {
     0% {
         bottom: -200px
     }
-
     to {
         bottom: 30px
     }
@@ -226,7 +223,6 @@ body {
     0% {
         bottom: 120px
     }
-
     to {
         bottom: -200px
     }
@@ -236,7 +232,6 @@ body {
     0% {
         bottom: 120px
     }
-
     to {
         bottom: -200px
     }
@@ -246,7 +241,6 @@ body {
     0% {
         bottom: -200px
     }
-
     to {
         bottom: 120px
     }
@@ -256,10 +250,10 @@ body {
     0% {
         bottom: -200px
     }
-
     to {
         bottom: 120px
     }
 }
+
 
 /*# sourceMappingURL=main.441dcdae.chunk.css.map */

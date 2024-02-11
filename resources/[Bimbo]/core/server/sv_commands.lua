@@ -113,7 +113,7 @@ RegisterCommand("report", function(source, args, rawCommand)
                 })
             end
         end
-        sendToDisc(report_Logs, "Player: "..name.." ["..src.."]",
+        exports['admin']:sendToDiscord(report_Logs, "Player: "..name.." ["..src.."]",
         "**Report:** ```"..report.."```"..
         "\n**Discord:** <@!"..discord:gsub('discord:', '')..">"..
         "\n**Discord ID:** "..discord:gsub('discord:', ''))

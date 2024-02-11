@@ -1,5 +1,6 @@
 local disPlayerNames = 10
 local playerDistances = {}
+local espenabled = false
 
 local get_screen_coord_from_world_coord = GetScreenCoordFromWorldCoord
 local get_final_rendered_cam_coord = GetFinalRenderedCamCoord
@@ -71,8 +72,7 @@ local function ShowIds()
                 local targetPed = get_player_ped(id)
                 if targetPed ~= player_ped_id() then
                     if playerDistances[id] then
-                        if playerDistances[id] < disPlayerNames and
-                        has_entity_clear_los_to_entity(player_ped_id(), targetPed, 17) then
+                        if espenabled or (not espenabled and playerDistances[id] < disPlayerNames and has_entity_clear_los_to_entity(player_ped_id(), targetPed, 17)) then
                             local targetPedCords = get_ped_bone_coords(targetPed, 31086)
                             if network_is_player_talking(id) then
                                 DrawText3D(targetPedCords, get_player_server_id(id) .. " | " .. get_player_name(id), 0, 200, 55)
@@ -112,5 +112,11 @@ RegisterCommand("+showtags", function()
     elseif not showing then
         exports['drp-notifications']:SendAlert('inform', 'Nametags disabled', 5000)
     end
+end)
+
+exports("enableESP", function(state)
+    espenabled = state
+    showing = state
+    ShowIds()
 end)
 RegisterKeyMapping("+showtags", "Show nametags", "keyboard", "u")

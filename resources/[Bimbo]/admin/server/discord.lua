@@ -1,14 +1,14 @@
 
 RegisterNetEvent('erp_adminmenu:discord')
-AddEventHandler('erp_adminmenu:discord', function(name, message) sendToDiscord(name, message) end)
-function sendToDiscord(name, message)
+AddEventHandler('erp_adminmenu:discord', function(webhook, name, message) sendToDiscord(webhook, name, message) end)
+function sendToDiscord(webhook, name, message)
     local embed = {
         {
             ["title"] = "**".. name .."**",
             ["description"] = message,
         }
     }
-    PerformHttpRequest("https://discord.com/api/webhooks/1202673451148779620/YXU80Rv8MDiiW-dfhwezKrribDgCJ2nDJGLd8a-cFyrkHGhN6-_JDSjMG1ie5qur8aN0", function(err, text, headers) end, 'POST', json.encode({embeds = embed}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({embeds = embed}), { ['Content-Type'] = 'application/json' })
 end
 exports('sendToDiscord', sendToDiscord) -- exports['adminmenu']:sendToDiscord(name, message, color, webhook)
 

@@ -167,48 +167,53 @@ local CAR_LIST = {
         ['model'] = 'Powersurge',
         ['image'] = 'https://img.atwiki.jp/gtav/attach/2958/11234/Powersurge.jpg',
     },
-  }
-  
-  local backgroundActive = false
-  local function background()
-      Citizen.CreateThread(function()
-          while backgroundActive do
-              Citizen.Wait()
-              DrawSprite("", "", 0.5, 0.5, 1.0, 1.0, 0, 144, 138, 255, 100)
-          end
-      end)
-  end
-  
-  local function toggleNuiFrame(shouldShow)
-      backgroundActive = shouldShow
-      SetNuiFocus(shouldShow, shouldShow)
-      SendReactMessage('setVisible', shouldShow)
-  end
-  
-  RegisterCommand('show-nui', function()
+}
+
+local backgroundActive = false
+local function background()
+    Citizen.CreateThread(function()
+        while backgroundActive do
+            Citizen.Wait()
+            DrawSprite("", "", 0.5, 0.5, 1.0, 1.0, 0, 144, 138, 255, 100)
+        end
+    end)
+end
+
+local function toggleNuiFrame(shouldShow)
+    if shouldShow then
+        TriggerScreenblurFadeIn(50)
+    else
+        TriggerScreenblurFadeOut(50)
+    end
+    backgroundActive = shouldShow
+    SetNuiFocus(shouldShow, shouldShow)
+    SendReactMessage('setVisible', shouldShow)
+end
+
+RegisterCommand('show-nui', function()
     toggleNuiFrame(true)
     debugPrint('Show NUI frame')
-  end)
-  
-  RegisterNUICallback('hideFrame', function(_, cb)
+end)
+
+RegisterNUICallback('hideFrame', function(_, cb)
     toggleNuiFrame(false)
     debugPrint('Hide NUI frame')
     cb({})
-  end)
-  
-  RegisterCommand('+car_menu', function()
-      toggleNuiFrame(true)
-      background()
-  end)
-  
-  RegisterNUICallback('carspawner:spawnVehicle', function(data, cb)
-      toggleNuiFrame(false)
-      TriggerEvent('drp:spawnvehicle', data.model)
-      cb({})
-  end)
-  
-  RegisterNUICallback('getCarData', function(data, cb)
+end)
+
+RegisterCommand('+car_menu', function()
+    toggleNuiFrame(true)
+    background()
+end)
+
+RegisterNUICallback('carspawner:spawnVehicle', function(data, cb)
+    toggleNuiFrame(false)
+    TriggerEvent('drp:spawnvehicle', data.model)
+    cb({})
+end)
+
+RegisterNUICallback('getCarData', function(data, cb)
     cb(CAR_LIST)
-  end)
-  
-  RegisterKeyMapping('+car_menu', '[Car Spawner] Open Menu', 'keyboard', 'm')
+end)
+
+RegisterKeyMapping('+car_menu', '[Car Spawner] Open Menu', 'keyboard', 'm')
