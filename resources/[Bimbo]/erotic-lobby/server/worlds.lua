@@ -174,6 +174,10 @@ local function generateTags(settings)
         table.insert(tags, "Headshots")
     end
 
+    if settings.skeletons then
+        table.insert(tags, "Skeletons")
+    end
+
     if settings.nonstopcombat then
         table.insert(tags, "OT Combat")
     end

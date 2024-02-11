@@ -31,7 +31,7 @@ export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!visible) return;
 
     const keyHandler = (e: KeyboardEvent) => {
-      if (["Backspace", "Escape"].includes(e.code)) {
+      if (["Backspace", "Escape", "M"].includes(e.code)) {
         if (!isEnvBrowser()) fetchNui("hideFrame");
         else setVisible(!visible);
       }
@@ -46,16 +46,22 @@ export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({
     <VisibilityCtx.Provider
       value={{
         visible,
-        setVisible,
+        setVisible
       }}
     >
-      <div
-        style={{ visibility: visible ? "visible" : "hidden", height: "100%" }}
-      >
-        {children}
-      </div>
-    </VisibilityCtx.Provider>
-  );
+        
+        <div
+      style={{
+        visibility: visible ? 'visible' : 'hidden',
+        opacity: visible ? 1 : 0, // Add opacity property for fade effect
+        transition: 'opacity 0.5s ease-in-out', // Adjust duration and timing function as needed
+        height: '100%',
+      }}
+    >
+      {children}
+    </div>
+
+  </VisibilityCtx.Provider>)
 };
 
 export const useVisibility = () =>

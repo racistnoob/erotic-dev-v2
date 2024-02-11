@@ -1,3 +1,9 @@
+local skeletonsEnabled = false
+
+local GetPedBoneIndex = GetPedBoneIndex
+local GetEntityBonePosition_2 = GetEntityBonePosition_2
+local GetScreenCoordFromWorldCoord = GetScreenCoordFromWorldCoord
+local vector2 = vector2
 local boneindexes = {}
 local function GetBonePosW2S(ped, boneIndex)
     if not boneindexes[boneIndex] then
@@ -10,6 +16,7 @@ local function GetBonePosW2S(ped, boneIndex)
     return vector2(screenX, screenY)
 end
 
+local DrawLine_2d = DrawLine_2d
 local function drawthing(firstbone, secondbone, width, r, g, b, a)
     if firstbone.x ~= -1.0 then
         if secondbone.x ~= -1.0 then
@@ -77,19 +84,25 @@ local function DrawBones(ped, width, r, g, b, a)
     drawthing(lClavicle, neck, width, r, g, b, a);
 end
 
-local skeletons = false
-RegisterCommand("skeletons", function()
-    skeletons = not skeletons  
-    local pedPool = GetGamePool('CPed') -- Get the list of vehicles (entities) from the pool
-    local plyped = PlayerPedId()
-    Citizen.CreateThread(function()
-        while skeletons do
-            for i = 1, #pedPool do -- loop through each vehicle (entity)
-                if pedPool[i] ~= plyped then
-                    DrawBones(pedPool[i], 0.0009, 144, 138, 255, 255.0)
-                end
+local Wait = Wait
+local PlayerPedId = PlayerPedId
+local GetActivePlayers = GetActivePlayers
+local GetPlayerPed = GetPlayerPed
+local function drawSkeletons()
+    Wait(1000)
+    CreateThread(function()
+        while skeletonsEnabled do
+            for _, id in pairs(GetActivePlayers()) do
+                local targetPed = GetPlayerPed(id)
+                DrawBones(targetPed, 0.0009, 144, 138, 255, 255.0)
             end
-            Wait()
+            Wait(1)
         end
     end)
+end
+
+exports("enableSkeletons", function(state)
+    exports.noob:enableESP(state)
+    skeletonsEnabled = state
+    drawSkeletons()
 end)

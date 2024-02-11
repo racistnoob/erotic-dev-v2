@@ -43,6 +43,7 @@ const App: React.FC = () => {
         disableLadders: boolean;
         disableQPeeking: boolean;
         disableFP: boolean;
+        skeletons: boolean;
     }>({
         maxPlayers: 12,
         name: '',
@@ -57,6 +58,7 @@ const App: React.FC = () => {
         disableLadders: false,
         disableQPeeking: false,
         disableFP: false,
+        skeletons: false,
     });
 
     const handleUpdateLobbies = (event: MessageEvent) => {
@@ -425,6 +427,24 @@ const App: React.FC = () => {
                                             <label className="toggleSwitch nolabel">
                                                 <input type="checkbox" checked={customLobbySettings.nonstopcombat} onChange={(e) => {
                                                     setCustomLobbySettings({ ...customLobbySettings, nonstopcombat: e.target.checked })
+                                                    playClickSound();
+                                                }
+                                                } />
+                                                <span>
+                                                </span>
+                                                <a></a>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div className="setting">
+                                        <div className="setting-info">
+                                            <h1>ESP</h1>
+                                        </div>
+                                        <div className="setting-check">
+                                            <label className="toggleSwitch nolabel">
+                                                <input type="checkbox" checked={customLobbySettings.skeletons} onChange={(e) => {
+                                                    setCustomLobbySettings({ ...customLobbySettings, skeletons: e.target.checked })
                                                     playClickSound();
                                                 }
                                                 } />

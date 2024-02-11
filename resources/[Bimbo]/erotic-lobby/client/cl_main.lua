@@ -156,6 +156,7 @@ function switchWorld(worldID, force)
 
             exports['core']:deletePreviousVehicle(PlayerPedId())
             TriggerServerEvent('erotic-lobby:ChangeWorld', worldID)
+            exports['core']:enableSkeletons(worldSettings.skeletons or false)
             
             exports['drp-notifications']:SendAlert('inform', 'Changed Worlds', 5000)
         end
