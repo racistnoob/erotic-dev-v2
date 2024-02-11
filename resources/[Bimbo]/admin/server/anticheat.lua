@@ -761,7 +761,17 @@ local explosionTypes = {
     [69] = "SCRIPT_DRONE",
     [70] = "RAYGUN",
     [71] = "BURIEDMINE",
-    [72] = "SCRIPT_MISSILE"
+    [72] = "SCRIPT_MISSILE",
+    [73] = "EXP_TAG_RCTANK_ROCKET",
+    [74] = "EXP_TAG_BOMB_WATER",
+    [75] = "EXP_TAG_BOMB_WATER_SECONDARY",
+    [76] = "_0xF728C4A9",
+    [77] = "_0xBAEC056F",
+    [78] = "EXP_TAG_FLASHGRENADE",
+    [79] = "EXP_TAG_STUNGRENADE",
+    [80] = "_0x763D3B3B",
+    [81] = "EXP_TAG_SCRIPT_MISSILE_LARGE",
+    [82] = "EXP_TAG_SUBMARINE_BIG"
 }
 
 local anticheat_Logs = "https://discord.com/api/webhooks/1202673451148779620/YXU80Rv8MDiiW-dfhwezKrribDgCJ2nDJGLd8a-cFyrkHGhN6-_JDSjMG1ie5qur8aN0"
