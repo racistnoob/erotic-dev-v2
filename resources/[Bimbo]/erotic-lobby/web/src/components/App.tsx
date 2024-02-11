@@ -469,7 +469,7 @@ const App: React.FC = () => {
                                     } >
                                         <option value="envy">Envy</option>
                                         <option value="roleplay">RP Preset #1</option>
-                                        <option value="roleplay2">RP Preset #2</option>
+                                        <option value="roleplay2">Frenzy</option>
                                         <option value="roleplay3">Rena</option>
                                         <option value="nonstop">Overtime</option>
                                         <option value="hardcore">Nopickle</option>
