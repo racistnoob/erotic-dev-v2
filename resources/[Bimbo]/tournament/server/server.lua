@@ -54,12 +54,15 @@ local function getAllDead()
 end
 
 local function resetAlive()
+    timerEnabled = false
     for _, player in pairs(playerData) do
         player.ready = false
         player.alive = true
         data[player.currentTeam].alive = 0
         data[player.currentTeam].alive = data[player.currentTeam].alive + 1
     end
+    newTimer = true
+    remainingTime = 0
     data.timer = "15:00"
     TriggerClientEvent("tournament:NUIMessage", -1, data)
 end
@@ -94,6 +97,7 @@ local function roundEnd(allDead)
     end
     Wait(1000)
     resetAlive()
+    TriggerClientEvent('tournament:roundOver', -1)
 end
 
 local function timerEnd()
@@ -121,27 +125,30 @@ end
 local function countdown()
     roundActive = true
     newTimer = false
-    while remainingTime > 0 and not newTimer do
-        if remainingTime ~= nil then
-            while timePaused do
+    Citizen.CreateThread(function()
+        while remainingTime > 0 and not newTimer and roundActive do
+            if remainingTime ~= nil then
+                while timePaused do
+                    Wait(1000)
+                end
+                local min = math.floor(remainingTime / 60)
+                local sec = remainingTime % 60
+        
+                data.timer = tostring(min..":"..string.format("%02d", sec))
+                TriggerClientEvent("tournament:NUIMessage", -1, data)
+                remainingTime = remainingTime - 1
                 Wait(1000)
             end
-            local min = math.floor(remainingTime / 60)
-            local sec = remainingTime % 60
     
-            data.timer = tostring(min..":"..string.format("%02d", sec))
-            TriggerClientEvent("tournament:NUIMessage", -1, data)
-            remainingTime = remainingTime - 1
-            Wait(1000)
+            if remainingTime == 0 then
+                timerEnabled = false
+            end
         end
-
-        if remainingTime == 0 then
-            timerEnabled = false
+        if not timerEnabled then
+            timerEnd()
+            remainingTime = 0
         end
-    end
-    if not timerEnabled then
-        timerEnd()
-    end
+    end)
     timerEnabled = false
 end
 
@@ -166,11 +173,8 @@ RegisterCommand("ready", function(src, args)
         playerData[src].ready = true
         if getAllReady() then
             if not timerEnabled then
-                for i=1,5 do
-                    TriggerClientEvent("tournament:playSound", -1, "5_Second_Timer", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS")
-                    Wait(1000)
-                end
-                TriggerClientEvent("tournament:playSound", -1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET")
+                TriggerClientEvent("tournament:startRound", -1)
+                Wait(6200)
                 startTimer("15:00")
             end
         end
@@ -268,6 +272,10 @@ AddEventHandler('baseevents:onPlayerDied', function()
             return
         end
 
+        if not roundActive then
+            return
+        end
+
         playerData[player].alive = false
         data[currentTeam].alive = data[currentTeam].alive - 1
         TriggerClientEvent("tournament:NUIMessage", -1, data)
@@ -283,5 +291,20 @@ AddEventHandler('baseevents:onPlayerDied', function()
             TriggerClientEvent("tournament:NUIMessage", -1, data)
             roundEnd(true)
         end
+    end
+end)
+
+AddEventHandler("playerDropped", function()
+    local src = source
+    if playerData[src] and playerData[src].currentTeam ~= nil then
+        local currentTeam = playerData[src].currentTeam
+        data[currentTeam].alive = data[currentTeam].alive - 1
+
+        if data[currentTeam].alive == -1 then
+            data[currentTeam].alive = 0
+        end
+
+        playerData[src] = nil
+        TriggerClientEvent("tournament:NUIMessage", -1, data)
     end
 end)

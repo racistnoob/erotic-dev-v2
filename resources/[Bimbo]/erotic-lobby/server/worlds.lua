@@ -21,17 +21,35 @@ local MirrorPark = {
 }
 
 WorldData = {
+
     --[[
     { ID = 1, custom = false, playerCount = 0, settings = {
+        name = 'Waiting Room',
+        tags = {'FPS Mode', 'ARS', 'RP Preset #1'},
+        recoilMode = 'roleplay',
+        firstPersonVehicle = true,
+        hsMulti = true,
+        disableLadders = true,
+        disableHighRoofs = true,
+        onlyInSafezone = true,
+        maxPlayers = 50,
+        kit = {'ars', '762'},
+        kits = {'ars'}
+    }},
+
+    { ID = 2, custom = false, playerCount = 0, settings = {
         name = 'Tournament',
         tags = {'Hopouts: 762, RP Preset #1, HS, No Roofs'},
         recoilMode = 'roleplay',
+        disableHighRoofs = true,
         hsMulti = true,
-        maxPlayers = 12,
+        onlyInSafezone = true,
+        maxPlayers = 8,
         kits = {'ars'},
         kit = {'ars', '762'},
         tournament = true
     }},]]
+    
     { ID = 1, custom = false, playerCount = 0, settings = {
         name = 'Southside #1',
         tags = {'FPS Mode', 'Pistols', 'RP Preset #1'},
