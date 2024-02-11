@@ -150,19 +150,6 @@ WorldData = {
     }},
 }
 
-RegisterServerEvent('RemoveEmptyCustomLobby')
-AddEventHandler('RemoveEmptyCustomLobby', function(lobbyID)
-    for i = #WorldData, 1, -1 do
-        local lobby = WorldData[i]
-        if lobby.ID == lobbyID and lobby.custom and getLobbyPlayerCount(lobbyID) == 0 then
-            table.remove(WorldData, i)
-            --print("Removed empty custom lobby:", json.encode(lobby))
-            TriggerClientEvent('UpdateLobbies', -1, WorldData)
-            break
-        end
-    end
-end)
-
 local recoilModeTags = {
     roleplay = "RP Preset #1",
     envy = "Envy",
@@ -219,18 +206,36 @@ local function generateTags(settings)
     return tags
 end
 
+local function removeCustomLobby(lobbyID, emptyCheck, forceLeave)
+    for _, lobby in pairs(WorldData) do
+        if lobby.ID == lobbyID and lobby.custom then
+            local players = getLobbyPlayers(lobby.ID)
+
+            if emptyCheck then
+                if #players ~= 0 then
+                    return
+                end
+            end
+
+            if forceLeave then
+                for i, v in pairs(players) do
+                    TriggerClientEvent("erotic-lobby:forceworld", v, 1, true, true)
+                    TriggerClientEvent('drp-notifications:client:SendAlert', v, {type = 'inform', text = 'Lobby closed!', length = 5000})
+                end
+            end
+
+            table.remove(WorldData, lobby.ID)
+            TriggerClientEvent('UpdateLobbies', -1, WorldData)
+            break
+        end
+    end
+end
+
 RegisterNetEvent('AddCustomLobby')
 AddEventHandler('AddCustomLobby', function(customLobbySettings)
     local playerName = GetPlayerName(source)
 
     if playerName then
-        for _, lobby in pairs(WorldData) do
-            if lobby.custom and lobby.settings.name == playerName .. "'s lobby" then
-                TriggerClientEvent('drp-notifications:client:SendAlert', source, {type = 'inform', text = 'You already have a custom lobby', length = 5000})
-                return
-            end
-        end
-
         customLobbySettings.name = playerName .. "'s lobby"
         customLobbySettings.tags = generateTags(customLobbySettings)
         local customLobby = {
@@ -238,18 +243,52 @@ AddEventHandler('AddCustomLobby', function(customLobbySettings)
             custom = true,
             playerCount = 1,
             settings = customLobbySettings,
+            owner = source
         }
-        table.insert(WorldData, customLobby)
 
+        for _, lobby in pairs(WorldData) do
+            if lobby.custom and lobby.owner == source then
+                local players = getLobbyPlayers(lobby.ID)
+                local samePassword = lobby.settings.password == customLobbySettings.password
+                table.remove(WorldData, lobby.ID)
+
+                customLobby.ID = #WorldData + 1
+                table.insert(WorldData, customLobby)
+
+                TriggerClientEvent('UpdateLobbies', -1, WorldData)
+
+                for i, v in pairs(players) do
+                    TriggerClientEvent('ReceiveWorldsData', v, WorldData)
+
+                    if v ~= source then
+                        if samePassword then
+                            TriggerClientEvent("erotic-lobby:forceworld", v, customLobby.ID, true, true, true)
+                            TriggerClientEvent('drp-notifications:client:SendAlert', v, {type = 'inform', text = 'Lobby has been remade!', length = 5000})
+                        else
+                            TriggerClientEvent("erotic-lobby:forceworld", v, 1, true, true, true)
+                            TriggerClientEvent('drp-notifications:client:SendAlert', v, {type = 'inform', text = 'Lobby was closed!', length = 5000})
+                        end
+                    else
+                        TriggerClientEvent("erotic-lobby:forceworld", v, customLobby.ID, true, true, true)
+                        TriggerClientEvent('drp-notifications:client:SendAlert', v, {type = 'inform', text = 'Lobby has been remade!', length = 5000})
+                    end
+                end
+
+                return
+            end
+        end
+
+        TriggerClientEvent('drp-notifications:client:SendAlert', source, {type = 'inform', text = 'Created a new lobby!', length = 5000})
+        table.insert(WorldData, customLobby)
         TriggerClientEvent('updateLobbies', -1, WorldData)
-        TriggerSwitchWorldToClient(source, customLobby.ID)
+        TriggerClientEvent("erotic-lobby:forceworld", source, customLobby.ID, true, true)
     end
 end)
 
-
-function TriggerSwitchWorldToClient(source, worldID)
-    TriggerClientEvent('SwitchWorldData',source, worldID)
-end
+RegisterServerEvent('RemoveEmptyCustomLobby')
+AddEventHandler('RemoveEmptyCustomLobby', function(lobbyID)
+    removeCustomLobby(lobbyID, true, false)
+end)
 
 RegisterNetEvent('RequestWorldsData')
 AddEventHandler('RequestWorldsData', function()
@@ -259,6 +298,15 @@ end)
 RegisterServerEvent('getWorldsData')
 AddEventHandler('getWorldsData', function()
     TriggerClientEvent('receiveWorldsData', -1, WorldData)
+end)
+
+AddEventHandler('playerDropped', function() 
+    local src = source;
+    for _, lobby in pairs(WorldData) do
+        if lobby.custom and lobby.owner == src then
+            removeCustomLobby(lobby.ID, false, true)
+        end
+    end
 end)
 
 local TX_ADMINS = {}

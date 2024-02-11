@@ -984,6 +984,6 @@ end)
 RegisterNetEvent('admin:disabled')
 AddEventHandler('admin:disabled', function()
     sendToDiscord(anticheat_Logs, 
-    "**Detected cheating:** ".. GetPlayerName(PlayerId()),
-    "Stopped anticheat resource")
+    "Detected cheating: ".. GetPlayerName(source), "**Player: **" .. GetPlayerName(source) ..
+    "\n**Action: **Stopped anticheat resource")
 end)

@@ -140,15 +140,6 @@ function SetRecoilMode(player, mode)
         return
     end
 
-    SetIntenseCamEnabled(false)
-    if mode == "envy" then
-        SetIntenseCamEnabled(true)
-    end
-
-    if mode == "nonstop" then
-        SetCarRagdoll(true)
-    end
-
     Recoil:SetMode(mode)
     --print("^2Recoil set: " .. mode)
 end

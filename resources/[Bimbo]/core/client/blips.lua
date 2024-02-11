@@ -1,6 +1,10 @@
 local Blips = {}
 local SavedKVP = {}
 
+Citizen.CreateThread(function()
+    SetBlipAlpha(GetNorthRadarBlip(), 0)
+end)
+
 exports('createBlip', function(params)
 	local blip = 0
 	if params['group'] and params['group'] ~= "" then

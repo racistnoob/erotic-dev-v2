@@ -99,7 +99,7 @@ function GetWorldsData()
     return worlds
 end
 
-function switchWorld(worldID, force)
+function switchWorld(worldID, force, hideNoti, noTeleport)
     local worldID = tonumber(worldID)
     if worldID then
         local worldSettings, worldSpawn = nil, nil
@@ -123,10 +123,12 @@ function switchWorld(worldID, force)
         currentWorldID = worldID
 
         if worldSettings then
-            if worldSpawn then
-                exports['core']:deathSpot(worldSpawn.x, worldSpawn.y, worldSpawn.z, worldSpawn.h)
-            else
-                exports['core']:deathSpot(defaultSpawn.x, defaultSpawn.y, defaultSpawn.z, defaultSpawn.h)
+            if not noTeleport then
+                if worldSpawn then
+                    exports['core']:deathSpot(worldSpawn.x, worldSpawn.y, worldSpawn.z, worldSpawn.h)
+                else
+                    exports['core']:deathSpot(defaultSpawn.x, defaultSpawn.y, defaultSpawn.z, defaultSpawn.h)
+                end
             end
             
             if type(worldSettings.kit) == "table" then
@@ -137,7 +139,7 @@ function switchWorld(worldID, force)
             
             exports['core']:spawningcars(false or worldSettings.spawningcars == nil, worldSettings.onlyInSafezone or false)
             exports['core']:setHelmetsEnabled(worldSettings.Helmets or false)
-            exports['core']:setCarRagdoll(worldSettings.CarRagdoll or false)
+            exports['core']:setCarRagdoll(worldSettings.nonstopcombat)
             exports['core']:SetRecoilMode(worldSettings.recoilMode or "roleplay")
             exports['core']:setFirstPersonVehicleEnabled(worldSettings.firstPersonVehicle or false)
             exports['core']:setHsMulti(worldSettings.hsMulti or false)
@@ -146,6 +148,9 @@ function switchWorld(worldID, force)
             exports['core']:disableLadderClimbing(worldSettings.disableLadders or false)
             exports['core']:disableQPeeking(worldSettings.disableQPeeking or false)
             exports['core']:disableRoofs(worldSettings.disableHighRoofs or false)
+
+            exports['core']:SetIntenseCamEnabled(worldSettings.recoilMode == "envy")
+
             exports['tournament']:showTournamentUI(worldSettings.tournament or false)
 
             if LocalPlayer.state.radioChannel ~= 111 then -- global radio
@@ -158,7 +163,7 @@ function switchWorld(worldID, force)
             TriggerServerEvent('erotic-lobby:ChangeWorld', worldID)
             exports['core']:enableSkeletons(worldSettings.skeletons or false)
             
-            exports['drp-notifications']:SendAlert('inform', 'Changed Worlds', 5000)
+            if not hideNoti then exports['drp-notifications']:SendAlert('inform', 'Changed Worlds', 5000) end
         end
     end
 end
@@ -166,7 +171,7 @@ end
 function getCurrentWorldDeathSpot()
     if currentWorldID then
         for _, world in pairs(worlds) do
-            if world.ID == worldID then
+            if world.ID == currentWorldID then
                 if world.settings.RandomSpawns then
                     return world.settings.RandomSpawns[math.random(1, #world.settings.RandomSpawns)]
                 end

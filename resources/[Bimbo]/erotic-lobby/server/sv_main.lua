@@ -57,6 +57,16 @@ local function ExtractIdentifiers(src)
     return identifiers
 end
 
+function getLobbyPlayers(worldID)
+    local players = {}
+    for _, v in pairs(WorldTracker) do
+        if v.World == tostring(worldID) then
+            players[#players+1] = v.src
+        end
+    end
+    return players
+end
+
 function getLobbyPlayerCount(worldID)
     worldID = tostring(worldID)
     WorldData[tonumber(worldID)].playerCount = 0
