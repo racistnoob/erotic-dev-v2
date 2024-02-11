@@ -38,11 +38,21 @@ function openInventory()
     SendNUIMessage({ action = 'openInventory', isMale = IsPedMale(PlayerPedId()) })
 end
 
+local function background()
+    Citizen.CreateThread(function()
+        while inventoryOpened do
+            Citizen.Wait()
+            DrawSprite("", "", 0.5, 0.5, 1.0, 1.0, 0, 144, 138, 255, 100)
+        end
+    end)
+end
+
 RegisterNUICallback('nui:zbrp:blurState', function(blur)
     if blur == 'on' then
-        TriggerScreenblurFadeIn()
+        background()
+        TriggerScreenblurFadeIn(50)
     elseif blur == 'off' then
-        TriggerScreenblurFadeOut()
+        TriggerScreenblurFadeOut(50)
     end
 end)
 
@@ -58,7 +68,7 @@ RegisterNUICallback('nui:zbrp:openedState', function(data)
     
 
     if state then
-        if blur == 'on' then TriggerScreenblurFadeIn() end
+        if blur == 'on' then TriggerScreenblurFadeIn(50); background() end
     else
         if selectedTrunkOpened and DoesEntityExist(selectedTrunkOpened) then
             
@@ -77,7 +87,7 @@ RegisterNUICallback('nui:zbrp:openedState', function(data)
         end
 
         TriggerServerEvent('zbrp:removeSecondary')
-        TriggerScreenblurFadeOut()
+        TriggerScreenblurFadeOut(50)
         -- Scaleform.Hide()
     end
 end)
