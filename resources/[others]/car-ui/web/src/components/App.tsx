@@ -50,19 +50,31 @@ const App: React.FC = () => {
         fetchNui("carspawner:spawnVehicle", { model: carModel });
     };
 
+    const playClickSound = () => {
+        const clickSound = document.getElementById('clickSound') as HTMLAudioElement;
+        if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play();
+        }
+    }
+
     return (
         <div className="overlay">
+            <audio id="clickSound" src="click_sound.mp3"></audio>
             <div className="VehicleMenu-wrapper">
                 <div className="VehicleMenu-container">
                     {carData.map((car, index) => (
-                        <button key={index} className="VehicleMenu-card" onClick={() => handleCarSelection(car.model)}>
+                        <button key={index} className="VehicleMenu-card" onClick={() => {
+                            playClickSound();
+                            handleCarSelection(car.model)
+                        }}>
                             <img
                                 src={car.image}
                                 alt={car.model}
                                 className="VehicleMenu-card-img"
                                 onMouseEnter={() => handleMouseEnter(index)}
                                 onMouseLeave={handleMouseLeave}
-                                style={{ filter: hoveredIndex === index ? 'brightness(1.0)' : 'brightness(0.5)' }}
+                                style={{ filter: hoveredIndex === index ? 'brightness(0.8)' : 'brightness(0.5)' }}
                             />
                             <p
                                 className="VehicleMenu-card-label"
