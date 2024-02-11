@@ -2,7 +2,7 @@ local kvpValue = GetResourceKvpString("graphics_time")
 local baseTime = 900
 local timeOffset = 0
 local timer = 0
-local freezeTime = false
+local freezeTime = true
 local currentTime = kvpValue or baseTime
 
 AddEventHandler('erotic:playerSpawned', function()
@@ -43,6 +43,7 @@ CreateThread(function()
     while true do
         Wait(0)
         local newBaseTime = currentTime
+
         if GetGameTimer() - 500 > timer then
           newBaseTime = newBaseTime + 0.25
           timer = GetGameTimer()
