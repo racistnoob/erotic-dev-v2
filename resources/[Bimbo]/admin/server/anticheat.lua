@@ -764,11 +764,13 @@ local explosionTypes = {
     [72] = "SCRIPT_MISSILE"
 }
 
+local anticheat_Logs = "https://discord.com/api/webhooks/1202673451148779620/YXU80Rv8MDiiW-dfhwezKrribDgCJ2nDJGLd8a-cFyrkHGhN6-_JDSjMG1ie5qur8aN0"
+
 CreateThread(function()
     for i, eventName in ipairs(ForbiddenEvents) do
         RegisterNetEvent(eventName)
         AddEventHandler(eventName, function()
-            sendToDiscord(GetPlayerName(source) ": " .. "Event Hacker")
+            sendToDiscord(anticheat_Logs, GetPlayerName(source) ": " .. "Event Hacker")
             DropPlayer(source, "Event Hacker")
         end)
     end
@@ -783,25 +785,25 @@ end)
 
 RegisterNetEvent('erp_adminmenu:sendCommands')
 AddEventHandler('erp_adminmenu:sendCommands', function(reason)
-    sendToDiscord(GetPlayerName(source) ": " .. reason)
+    sendToDiscord(anticheat_Logs, GetPlayerName(source) ": " .. reason)
     DropPlayer(source, reason)
 end)
 
 RegisterNetEvent('es_admin:all')
 AddEventHandler('es_admin:all', function(type)
-    sendToDiscord(source, 'Triggered es_admin:all')
+    sendToDiscord(anticheat_Logs, source, 'Triggered es_admin:all')
     DropPlayer(source, 'Triggered es_admin:set')
 end)
 
 RegisterNetEvent('es_admin:quick')
 AddEventHandler('es_admin:quick', function(id, type)
-    sendToDiscord(source, 'Triggered es_admin:quick')
+    sendToDiscord(anticheat_Logs, source, 'Triggered es_admin:quick')
     DropPlayer(source, 'Triggered es_admin:set')
 end)
 
 RegisterNetEvent('es_admin:set')
 AddEventHandler('es_admin:set', function(t, USER, GROUP)
-    sendToDiscord(source, 'Triggered es_admin:set')
+    sendToDiscord(anticheat_Logs, source, 'Triggered es_admin:set')
     DropPlayer(source, 'Triggered es_admin:set')
 end)
 
@@ -838,7 +840,7 @@ AddEventHandler("explosionEvent", function(sender, ev)
     local explosionType = tostring(ev.explosionType)
 
     if bannedExplosions[explosionType] then
-        sendToDiscord(
+        sendToDiscord(anticheat_Logs, 
             "**Detected cheating:** ".. GetPlayerName(sender),
             "Created blacklisted explosion: **"..explosionType.."**\nCreated at: **"..ev.posX..", "..ev.posY..", "..ev.posZ.."**"
         )
@@ -867,7 +869,7 @@ AddEventHandler("explosionEvent", function(sender, ev)
         local explosionName = explosionTypes[tonumber(explosionType)] or "Unknown"
         exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(
             sender,
-            "https://discord.com/api/webhooks/1202673451148779620/YXU80Rv8MDiiW-dfhwezKrribDgCJ2nDJGLd8a-cFyrkHGhN6-_JDSjMG1ie5qur8aN0",
+            anticheat_Logs,
             {
                 encoding = "png",
                 quality = 1
@@ -883,7 +885,7 @@ AddEventHandler("explosionEvent", function(sender, ev)
             2500,
             function(error)
                 if error then
-                    sendToDiscord(
+                    sendToDiscord(anticheat_Logs, 
                         "**Detected cheating:** ".. GetPlayerName(sender),
                         "Exceeded explosion limit for type: **"..explosionName.."** [ID: "..explosionType.."]\nCreated at: **"..ev.posX..", "..ev.posY..", "..ev.posZ.."**"
                     )
@@ -898,7 +900,7 @@ AddEventHandler("explosionEvent", function(sender, ev)
         if not allowedExplosions[tonumber(explosionType)] then
             CancelEvent() -- explosions still appear for the originating player but not for others
             local explosionName = explosionTypes[tonumber(explosionType)] or "Unknown"
-            sendToDiscord("Explosion by: ".. GetPlayerName(sender), "Explosion Type: **"..explosionName.."** [ID: "..explosionType.."]\nCreated at: **"..ev.posX..", "..ev.posY..", "..ev.posZ.."**")
+            sendToDiscord(anticheat_Logs, "Explosion by: ".. GetPlayerName(sender), "Explosion Type: **"..explosionName.."** [ID: "..explosionType.."]\nCreated at: **"..ev.posX..", "..ev.posY..", "..ev.posZ.."**")
         end
     end
 end)
@@ -933,7 +935,7 @@ AddEventHandler('entityCreating', function(entity)
                 if blacklistedModels[model] then
                     CancelEvent()
                     DropPlayer("Spawned blacklisted object")
-                    sendToDiscord("**Cheating (Blocked entity):** ".. GetPlayerName(owner), "**Spawned blacklisted object:** "..model)
+                    sendToDiscord(anticheat_Logs, "**Cheating (Blocked entity):** ".. GetPlayerName(owner), "**Spawned blacklisted object:** "..model)
                     return
                 end
 
@@ -942,7 +944,7 @@ AddEventHandler('entityCreating', function(entity)
                 
                 exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(
                     owner,
-                    "https://discord.com/api/webhooks/1202673451148779620/YXU80Rv8MDiiW-dfhwezKrribDgCJ2nDJGLd8a-cFyrkHGhN6-_JDSjMG1ie5qur8aN0",
+                    anticheat_Logs,
                     {
                         encoding = "png",
                         quality = 1
@@ -974,14 +976,14 @@ end)
 
 RegisterNetEvent('admin:magicbullet')
 AddEventHandler('admin:magicbullet', function(killerClientId)
-    sendToDiscord(
+    sendToDiscord(anticheat_Logs, 
     "**Possible cheating:** ".. GetPlayerName(killerClientId),
     "Detected magic bullet")
 end)
 
 RegisterNetEvent('admin:disabled')
 AddEventHandler('admin:disabled', function()
-    sendToDiscord(
+    sendToDiscord(anticheat_Logs, 
     "**Detected cheating:** ".. GetPlayerName(PlayerId()),
     "Stopped anticheat resource")
 end)

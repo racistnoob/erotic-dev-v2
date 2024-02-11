@@ -242,7 +242,9 @@ end)
 local TX_ADMINS = {}
 AddEventHandler("txAdmin:events:adminAuth", function(data)
     if data.netid ~= -1 then
-        TX_ADMINS[tostring(data.netid)] = data.isAdmin
+        TX_ADMINS[tostring(data.netid)] = {}
+        TX_ADMINS[tostring(data.netid)].isAdmin = data.isAdmin
+        TX_ADMINS[tostring(data.netid)].username = data.username
     end
 end)
 
@@ -261,7 +263,7 @@ local normalLobbies = #WorldData
 RegisterCommand("forcelobby", function(source, args, rawCommand)
     local src = source  
     local message = "No permission to use this command"
-    if TX_ADMINS[tostring(src)] then
+    if TX_ADMINS[tostring(src)] and TX_ADMINS[tostring(src)].isAdmin then
         if #args >= 1 then
             local targetPlayer = (#args == 2) and args[1] or src
             local lobbyID = (#args == 1) and args[1] or args[2]
@@ -282,7 +284,7 @@ RegisterCommand("forcelobby", function(source, args, rawCommand)
 
             local lobbyName = WorldData[tonumber(lobbyID)].settings.name
 
-            sendToDisc(txadmin_Logs, 'Player sent to lobby', "Name: **" .. playerName .. "** \nAdmin: **" .. GetPlayerName(src) .. "** \n".."Lobby: **" .. lobbyName .. "**")
+            sendToDisc(txadmin_Logs, 'Player sent to lobby', "Name: **" .. playerName .. "** \nAdmin: **" .. TX_ADMINS[tostring(src)].username .. "** \n".."Lobby: **" .. lobbyName .. "**")
             TriggerClientEvent("erotic-lobby:forceworld", targetPlayer, lobbyID, true)
             message = "Sent "..playerName.." to lobby: "..lobbyName
 
@@ -305,7 +307,7 @@ end, false)
 RegisterCommand("forcemp", function(source, args, rawCommand)
     local src = source  
     local message = "No permission to use this command"
-    if TX_ADMINS[tostring(src)] then
+    if TX_ADMINS[tostring(src)] and TX_ADMINS[tostring(src)].isAdmin then
         if #args == 2 then
             local lobbyID = args[1]
             local playerCount = tonumber(args[2])
@@ -330,7 +332,7 @@ RegisterCommand("forcemp", function(source, args, rawCommand)
             worldsettings.maxPlayers = playerCount
 
             sendToDisc(txadmin_Logs, 'Changed lobby player limit',
-            "** Admin: **" .. GetPlayerName(src) .. 
+            "** Admin: **" .. TX_ADMINS[tostring(src)].username .. 
             "** \nLobby: **" .. lobbyName ..
             "** \nMax Players: **" .. playerCount)
             message = "Changed ("..lobbyName.. ") max player count to: "..playerCount

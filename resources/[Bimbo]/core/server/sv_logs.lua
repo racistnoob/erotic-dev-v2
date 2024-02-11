@@ -1,13 +1,7 @@
 local txadmin_Logs = "https://discord.com/api/webhooks/1202340309019922433/CqNYAmo_bLhXpy4ywfRnhOO_mN8dgHWlTlEuuS3OrUbtY3R7Fumd063xf715n5lGJHVX"
 
-local function sendToDisc(title, msg)
-    local embed = {
-        {
-            ["title"] = "**".. title .."**",
-            ["description"] = msg,
-        }
-    }
-    PerformHttpRequest(txadmin_Logs, function(err, text, headers) end, 'POST', json.encode({embeds = embed}), { ['Content-Type'] = 'application/json' })
+local function sendToDisc(title, message)
+    exports['admin']:sendToDiscord(txadmin_Logs, title, message)
 end
 
 AddEventHandler('txAdmin:events:playerKicked', function(eventData)
@@ -59,34 +53,12 @@ AddEventHandler('txAdmin:events:announcement', function(eventData)
 
     local author = eventData.author
     local msg = eventData.message
-
-    if Config.FilterAnnouncements then
-        if author ~= 'txAdmin' then
-            sendToDisc('Announcement', "Admin: **" .. author .. "**\nMessage: **" .. msg .. "**")
-        end
-    else
-        sendToDisc('Announcement', "Admin: **" .. author .. "**\nMessage: **" .. msg .. "**")
-    end
+    
+    sendToDisc('Announcement', "Admin: **" .. author .. "**\nMessage: **" .. msg .. "**")
 end)
 
 AddEventHandler('txAdmin:events:configChanged', function(eventData)
     sendToDisc('Config Changed', "TxAdmin config changes made.")
-end)
-
-AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
-
-    local target = eventData.id
-    local playername = ""
-
-
-    if target == -1 then
-        playername = 'Everyone'
-    else
-        playername = GetPlayerName(target)
-    end
-
-    sendToDisc('Player Healed', "Name: **" .. playername .. "**")
-
 end)
 
 AddEventHandler('txAdmin:events:serverShuttingDown', function(eventData)
@@ -108,4 +80,110 @@ AddEventHandler('txAdmin:events:actionRevoked', function(eventData)
     local actionType = eventData.actionType
         
     sendToDisc('Action Revoked', "By admin: **" .. author .. "**\nOriginal admin: **" .. actionAuthor .. "**\nPlayer: **" .. target .. "**\nType: **" .. actionType .. "**\nReason: **" .. reason .. "**")
+end)
+
+local TX_ADMINS = {}
+AddEventHandler("txAdmin:events:adminAuth", function(data)
+    if data.netid ~= -1 then
+        TX_ADMINS[tostring(data.netid)] = {}
+        TX_ADMINS[tostring(data.netid)].isAdmin = data.isAdmin
+        TX_ADMINS[tostring(data.netid)].username = data.username
+    end
+end)
+
+local function getPlayerName(src)
+    return GetPlayerName(src) or "unknown"
+end
+
+local actionMessages = {
+    playerModeChanged = {
+        godmode = "Enabled godmode",
+        noclip = "Enabled noclip",
+        superjump = "Enabled super jump",
+        none = "Disabled godmode/noclip/super jump",
+        default = "Changed player mode to unknown"
+    },
+    teleportWaypoint = "Teleported to a waypoint",
+    teleportCoords = function(data)
+        if type(data) ~= 'table' then return end
+        local x, y, z = data.x or 0.0, data.y or 0.0, data.z or 0.0
+        return ("teleported to coordinates (x=%.3f, y=%.3f, z=%.3f)"):format(x, y, z)
+    end,
+    spawnVehicle = function(data)
+        if type(data) ~= 'string' then return end
+        return "Spawned a vehicle (model: " .. data .. ")"
+    end,
+    deleteVehicle = "Deleted a vehicle",
+    vehicleRepair = "Repaired their vehicle",
+    vehicleBoost = "Boosted their vehicle",
+    healSelf = "Healed themself",
+    healAll = "Healed all players!",
+    clearArea = function(data)
+        if type(data) ~= 'number' then return end
+        return "Cleared an area with " .. data .. "m radius"
+    end,
+    spectatePlayer = function(data)
+        return 'Started spectating player ' .. getPlayerName(data)
+    end,
+    freezePlayer = function(data)
+        return 'Toggled freeze on player ' .. getPlayerName(data)
+    end,
+    teleportPlayer = function(data)
+        if type(data) ~= 'table' then return end
+        local playerName = getPlayerName(data.target)
+        local x = data.x or 0.0
+        local y = data.y or 0.0
+        local z = data.z or 0.0
+        return ("Teleported to player %s (x=%.3f, y=%.3f, z=%.3f)"):format(playerName, x, y, z)
+    end,
+    healPlayer = function(data)
+        return "Healed player " .. getPlayerName(data)
+    end,
+    summonPlayer = function(data)
+        return "Summoned player " .. getPlayerName(data)
+    end,
+    drunkEffect = function(data)
+        return "Triggered drunk effect on " .. getPlayerName(data)
+    end,
+    setOnFire = function(data)
+        return "Set ".. getPlayerName(data) .." on fire" 
+    end,
+    wildAttack = function(data)
+        return "Triggered wild attack on " .. getPlayerName(data)
+    end,
+    showPlayerIDs = function(data)
+        if type(data) ~= 'boolean' then return end
+        if data then
+            return "Turned admin nametags on"
+        else
+            return "Turned admin nametags off"
+        end
+    end
+}
+
+local function getMessage(action, data)
+    local message = "Unknown action"
+    local actionMessage = actionMessages[action]
+
+    if type(actionMessage) == 'function' then
+        message = actionMessage(data)
+    elseif type(actionMessage) == 'table' then
+        message = actionMessage[data] or actionMessage.default or "Unknown action"
+    elseif type(actionMessage) == 'string' then
+        message = actionMessage
+    end
+
+    return message
+end
+
+AddEventHandler('txsv:logger:menuEvent', function(source, action, allowed, data)
+    if not allowed then return end
+
+    local message = getMessage(action, data)
+    if message == "Unknown action" then
+        return
+    end
+
+    local author = TX_ADMINS[tostring(source)] and TX_ADMINS[tostring(source)].username or GetPlayerName(source)
+    sendToDisc('Actions', "Admin: **" .. author .. "**\nAction: **" .. message .. "**")
 end)
