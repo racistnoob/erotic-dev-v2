@@ -1,9 +1,17 @@
 -- locals --
 local timecycles = {
-    ["default"] = "default",
+    ["Default"] = "default",
     ["nofog"] = "full_bright",
     ["nofoglow"] = "full_bright_low_clip",
 }
+
+RegisterNUICallback('getTimecycleSettings', function(data, cb)
+    cb(timecycles)
+end)
+
+RegisterNUICallback('getCurrentTimecycleIndex', function(data, cb)
+    cb(GetResourceKvpString("graphics_timecycle") or "Default")
+end)
 
 function SetTimecycleModifierEffect(timecycleEffect)
     if timecycleEffect then
@@ -52,70 +60,14 @@ AddEventHandler('erotic:playerSpawned', function()
     end
 end)
 
---[[AddEventHandler("onResourceStart", function(resourceName)
-    if resourceName == GetCurrentResourceName() then
-        local kvpValue = GetResourceKvpString("graphics_timecycle")
-            
-        if kvpValue then
-            print("Resource started. Player has KVP:", kvpValue)
-            print('KVP loaded:', kvpValue)
-            SetTimecycleModifierEffect(kvpValue)
-        else
-            print("Resource started. Player does not have KVP.")
-        end
+RegisterNUICallback('timecycle:changeEffect', function(data, cb)
+    local timecycleType = data.type
+    local timecycleName = timecycles[timecycleType]
+    
+    if timecycleName then
+        SetResourceKvp("graphics_timecycle", timecycleType)
+        TriggerEvent("set-timecycle", { type = timecycleType })
+    else
+        print("Invalid timecycle type:", timecycleType)
     end
-end)]]
-
-local submenu = {
-    {
-        id = 1,
-        header = "< Go Back",
-        txt = "",
-        params = {
-            event = "erp-context:GoBackToMainMenu"
-        }
-    },
-    {
-        id = 2,
-        header = "Default",
-        txt = "Set the time cycle to default",
-        params = {
-            event = "set-timecycle",
-            args = {
-                type = "default",
-                number = 1,
-                id = 2
-            }
-        }
-    },
-    {
-        id = 3,
-        header = "No Fog",
-        txt = "Set the No Fog",
-        params = {
-            event = "set-timecycle",
-            args = {
-                type = "nofog",
-                number = 2,
-                id = 3
-            }
-        }
-    },
-    {
-        id = 4,
-        header = "No Fog Low Render",
-        txt = "Set the No Fog with low render",
-        params = {
-            event = "set-timecycle",
-            args = {
-                type = "nofoglow",
-                number = 3,
-                id = 4
-            }
-        }
-    },
-}
-
-exports("getTimecycleSubMenu", function()
-    return submenu
 end)

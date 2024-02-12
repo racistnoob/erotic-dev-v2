@@ -1,29 +1,42 @@
-local kvpValue = GetResourceKvpString("graphics_time")
-local baseTime = 900
+local kvpValue = tonumber(GetResourceKvpString("graphics_time")) or 900
 local timeOffset = 0
 local timer = 0
 local freezeTime = true
-local currentTime = kvpValue or baseTime
+local currentTime = kvpValue or 900
 
 AddEventHandler('erotic:playerSpawned', function()
     SetGameTime(currentTime)
-    -- print('KVP loaded:', currentTime)
 end)
 
-RegisterCommand("time", function(source, args)
-    local hour = (tonumber(args[1]) * 100)
+RegisterNUICallback('effects:setTime', function(data, cb)
+    local hour = tonumber(data.hour)
+    if hour ~= nil and hour % 1 == 0 and hour >= 0 and hour <= 24 then
+        currentTime = hour * 100
+        SetGameTime(currentTime)
+        -- SendUpdateTimeToNUI(currentTime /100)
+    end
+    cb(hour)
+end)
 
-    currentTime = hour
-    SetGameTime(currentTime)
-end, false)
+function SendUpdateTimeToNUI(time)
+    SendNUIMessage({
+        type = "updateTime",
+        time = time
+    })
+end
 
 function SetGameTime(currentTime)
     NetworkOverrideClockTime(currentTime, 0, 0)
-    SetResourceKvp("graphics_time", currentTime)
+    SetResourceKvp("graphics_time", tostring(currentTime))
 end
 
 RegisterNUICallback('getCurrentTimeSettings', function(data, cb)
-    cb(GetResourceKvpString("graphics_time") or "12")
+    local CurrentTimeNow = tonumber(GetResourceKvpString("graphics_time")) or 900
+    -- Ensure CurrentTimeNow is within the range of 0 to 2400
+    local clampedTime = math.min(math.max(CurrentTimeNow, 0), 2400)
+    -- Convert the time to a whole number between 0 and 24
+    local currentTimeInHours = math.floor(clampedTime / 100)
+    cb(currentTimeInHours)
 end)
 
 RegisterNUICallback('getTimeSettings', function(data, cb)
@@ -31,7 +44,6 @@ RegisterNUICallback('getTimeSettings', function(data, cb)
     for i = 0, 24 do
         table.insert(timeSettings, i)
     end
-    print("Sending time settings to client:", json.encode(timeSettings))
     cb(timeSettings)
 end)
 
@@ -54,7 +66,6 @@ CreateThread(function()
         currentTime = newBaseTime
 
         hour = math.floor(((currentTime + timeOffset) / 60) % 24)
-        -- minute = math.floor((currentTime + timeOffset) % 60)
         NetworkOverrideClockTime(hour, 0, 0)
     end
 end)

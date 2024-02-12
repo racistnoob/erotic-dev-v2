@@ -57,6 +57,10 @@ local WeaponRecoil = {
         vertical = .30,
         horizontal = .14
     },
+    [`weapon_carbinerifle_mk2`] = {
+        vertical = .30,
+        horizontal = .14
+    },
     [`weapon_mp5`] = {
         vertical = .26,
         
@@ -70,7 +74,7 @@ local WeaponRecoil = {
 
 local GroupRecoil = {
     [416676503] = {
-        vertical = .20,
+        vertical = .12,
     }, -- Handgun
     [-957766203] = {
         vertical = .17,
@@ -142,7 +146,8 @@ Recoil:RegisterMode('envy', function()
     if isArmed and is_ped_shooting(plyPed) then -- Check if they are armed and dangerous (shooting)
         local movementSpeed = math_ceil( get_entity_speed(plyPed) ) -- Getting the speed of the ped
         
-        local stressRecoil = math.random() * (1.17 - 1.09) + 1.09 -- random between 1.09 to 1.17
+        local stressRecoil = 1 
+        -- math.random() * (1.17 - 1.09) + 1.09 -- random between 1.09 to 1.17
         
         local camHeading = get_gameplay_cam_relative_heading()
         local headingFactor = math_random(10,40+movementSpeed)/100
