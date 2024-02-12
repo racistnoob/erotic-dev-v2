@@ -1474,7 +1474,7 @@ CreateThread(function()
                 group = "Clothing",
                 coords = clothingShops[i]['coords'],
                 sprite = 73,
-                scale = 0.7,
+                scale = 0.6,
                 color = 81,
                 shortrange = true,
                 text = 'Clothing Store'
@@ -1489,7 +1489,7 @@ CreateThread(function()
                 group = "Barber",
                 coords = barberShops[i]['coords'],
                 sprite = 71,
-                scale = 0.7,
+                scale = 0.6,
                 color = 51,
                 shortrange = true,
                 text = 'Barber Shop'
@@ -1502,9 +1502,9 @@ CreateThread(function()
             exports['core']:createBlip({
                 resource = GetCurrentResourceName(),
                 group = "Tattoo",
-                coords = tattoosShops[i]['coords'],
+                coords = vector3(213.8360, -1385.9246, 30.5878),
                 sprite = 75,
-                scale = 0.7,
+                scale = 0.6,
                 color = 1,
                 shortrange = true,
                 text = 'Tattoo Shop'

@@ -1,11 +1,24 @@
+local noImage = "https://cdn.forums.klei.com/monthly_2020_01/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg.269696d99af4a73e886c0731e7ed7c16.jpg"
 local data = {
     red = {
         score =  0,
-        alive =  0
+        alive =  0,
+        players = {
+            [1] = noImage,
+            [2] = noImage,
+            [3] = noImage,
+            [4] = noImage
+        }
     },
     blue = {
         score = 0,
-        alive = 0
+        alive = 0,
+        players = {
+            [1] = noImage,
+            [2] = noImage,
+            [3] = noImage,
+            [4] = noImage
+        }
     },
     timer = "15:00",
     currentTeam = ""
@@ -14,6 +27,7 @@ local data = {
 local playerData = {
     [1] = {
         currentTeam = "",
+        teamID = 0,
         alive = true,
         ready = true
     }
@@ -31,6 +45,49 @@ local damageEnabled = false
 RegisterServerEvent("tournament:server:timer")
 AddEventHandler("tournament:server:timer", function()
 end)
+
+local GetIdentifier = function(src)
+    return GetPlayerIdentifiers(src)[1]
+end
+
+local function stringsplit(input, seperator)
+	if seperator == nil then
+		seperator = '%s'
+	end
+
+	local t={} ; i=1
+    if input ~= nil then
+        for str in string.gmatch(input, '([^'..seperator..']+)') do
+            t[i] = str
+            i = i + 1
+        end
+        return t
+    end
+end
+
+local function GetIDFromSource(Type, CurrentID)
+	local ID = stringsplit(CurrentID, ':')
+	if (ID[1]:lower() == string.lower(Type)) then
+		return ID[2]:lower()
+	end
+	return nil
+end
+
+local function GetSteamPP(identifier)
+    local callback = promise:new()
+    PerformHttpRequest('http://steamcommunity.com/profiles/' .. tonumber(GetIDFromSource('steam', identifier), 16) .. '/?xml=1', function(Error, Content, Head)
+        local SteamProfileSplitted = stringsplit(Content, '\n')
+        if SteamProfileSplitted ~= nil and next(SteamProfileSplitted) ~= nil then
+            for i, Line in ipairs(SteamProfileSplitted) do
+                if Line:find('<avatarFull>') then
+                    callback:resolve(Line:gsub('	<avatarFull><!%[CDATA%[', ''):gsub(']]></avatarFull>', ''))
+                    break
+                end
+            end
+        end
+    end)
+    return Citizen.Await(callback)
+end
 
 local function getAllReady()
     for _, player in pairs(playerData) do
@@ -193,6 +250,11 @@ RegisterCommand("starttimer", function(src, args)
     end
 end)
 
+local nextTeamMemberId = {
+    red = 1,
+    blue = 1
+}
+
 RegisterCommand("team", function(src, args)
     if #args == 1 then
         local newTeam = tostring(args[1])
@@ -202,22 +264,42 @@ RegisterCommand("team", function(src, args)
         end
 
         if playerData[src] == nil then
-            playerData[src] = {
-                currentTeam = newTeam,
-                alive = true,
-                ready = false
-            }
-            data[newTeam].alive = data[newTeam].alive + 1
+            if nextTeamMemberId[newTeam] <= 4 then
+                playerData[src] = {
+                    currentTeam = newTeam,
+                    alive = true,
+                    ready = false,
+                    teamMemberId = nextTeamMemberId[newTeam]
+                }
+
+                data[newTeam].players[nextTeamMemberId[newTeam]] = GetSteamPP(GetIdentifier(src))
+                nextTeamMemberId[newTeam] = nextTeamMemberId[newTeam] + 1
+                data[newTeam].alive = data[newTeam].alive + 1
+            else
+                return
+            end
         else
-            data[playerData[src].currentTeam].alive = data[playerData[src].currentTeam].alive - 1
+            local currentTeam = playerData[src].currentTeam
+            data[currentTeam].alive = data[currentTeam].alive - 1
+            nextTeamMemberId[currentTeam] = nextTeamMemberId[currentTeam] - 1
+            local teamMemberId = playerData[src].teamMemberId
+            table.remove(data[currentTeam].players, teamMemberId)
 
-            playerData[src] = {
-                currentTeam = newTeam,
-                alive = true,
-                ready = false
-            }
+            if nextTeamMemberId[newTeam] <= 4 then
+                playerData[src] = {
+                    currentTeam = newTeam,
+                    alive = true,
+                    ready = false,
+                    teamMemberId = nextTeamMemberId[newTeam]
+                }
 
-            data[newTeam].alive = data[newTeam].alive + 1
+                data[newTeam].players[nextTeamMemberId[newTeam]] = GetSteamPP(GetIdentifier(src))
+                nextTeamMemberId[newTeam] = nextTeamMemberId[newTeam] + 1
+                TriggerClientEvent('drp-notifications:client:SendAlert', src, {type = 'inform', text = "Joined "..newTeam.." team", length = 5000})
+                data[newTeam].alive = data[newTeam].alive + 1
+            else
+                return
+            end
         end
 
         if data[newTeam].alive == -1 then
@@ -232,6 +314,9 @@ RegisterCommand("team", function(src, args)
     else
         if playerData[src] and playerData[src].currentTeam ~= nil then
             local currentTeam = playerData[src].currentTeam
+            local teamMemberId = playerData[src].teamMemberId
+            nextTeamMemberId[currentTeam] = nextTeamMemberId[currentTeam] - 1
+            table.remove(data[currentTeam].players, teamMemberId)
             data[currentTeam].alive = data[currentTeam].alive - 1
 
             if data[currentTeam].alive == -1 then
@@ -298,6 +383,7 @@ AddEventHandler("playerDropped", function()
     local src = source
     if playerData[src] and playerData[src].currentTeam ~= nil then
         local currentTeam = playerData[src].currentTeam
+        table.remove(data[currentTeam].players, playerData[src].teamID)
         data[currentTeam].alive = data[currentTeam].alive - 1
 
         if data[currentTeam].alive == -1 then
