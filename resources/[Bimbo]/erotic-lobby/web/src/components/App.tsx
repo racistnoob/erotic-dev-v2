@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import ClickSound from './audio/click_sound.mp3'
 import { fetchNui } from '../utils/fetchNui';
-import Collapsible from './Collapsible'; // Import your Collapsible component
+import Collapsible from './Collapsible';
 
 interface Lobby {
     ID: number;
@@ -116,11 +117,11 @@ const App: React.FC = () => {
 
     const joinLobby = (lobbyId: number, password: string) => {
         fetchNui('switchWorld', { worldId: lobbyId, password })
-            .then((response) => {
-                if (!response.success) {
-                    console.error('Failed to join the lobby:', response.error);
-                }
-            })
+        .then((response: any) => { // Adjust the type 'any' based on the actual type of response
+            if (response && response.error) { // Check if 'response' exists and has 'error' property
+                console.error('Failed to join the lobby:', response.error);
+            }
+        })
             .catch((error) => {
                 console.error('Failed to join the lobby:', error);
             });
@@ -153,9 +154,8 @@ const App: React.FC = () => {
 
     const handleCreateCustomLobby = () => {
         fetchNui('createCustomLobby', customLobbySettings)
-            .then(response => {
-                if (response.success) {
-                    /* console.log('Custom lobby created successfully!'); */
+        .then((response: any) => {
+            if (response && response.error) {
 
                 } else {
                     console.error('Failed to create custom lobby:', response.error);
@@ -234,7 +234,7 @@ const App: React.FC = () => {
 
     return (
         <div className='overlay'>
-            <audio id="clickSound" src="click_sound.mp3"></audio>
+            <audio id="clickSound" src={ClickSound}></audio>
             <div className="menu-container">
                 <div className="menu-container-header">
                     <button className={`header-title-play ${tab === 'Normal' ? 'active' : ''}`} onClick={() => {
