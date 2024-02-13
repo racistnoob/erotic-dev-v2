@@ -833,7 +833,11 @@ local bannedExplosions = {
     [36] = true,
     [37] = true,
     [29] = true,
-    [70] = true
+    [70] = true,
+    [7] = true,
+    [0] = true,
+    [1] = true,
+    [2] = true,
 }
 
 local explosionCounts = {}
