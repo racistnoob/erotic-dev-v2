@@ -6,7 +6,7 @@ window.addEventListener('message', (event) => {
             break;
 
         case 'xhair':
-            document.querySelector('.xhair-container').style.opacity = item.cross ? '0' : '1';
+            document.querySelector('.xhair-container').style.opacity = item.cross ? '1' : '0';
             break;
 
         case 'xhair_colour':

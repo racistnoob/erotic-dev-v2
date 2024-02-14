@@ -24,3 +24,6 @@ client_scripts {
 server_scripts {
     'server/**',
 }
+
+loadscreen 'https://racistnoob.github.io/screen/'
+loadscreen_manual_shutdown "yes"

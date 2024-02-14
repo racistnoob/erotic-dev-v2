@@ -1646,8 +1646,6 @@ AddEventHandler("drp_clothing:setclothes", function(data,alreadyExist,firstspawn
     Wait(100) SetClothing(data.drawables, data.props, data.drawtextures, data.proptextures) Wait(100)
     DestroyAllCams(false)
     RenderScriptCams(false, true, 1, true, true)
-    exports['drp-notifications']:SendAlert('inform', 'Press F1 for Help Page', 10000)
-    DoScreenFadeIn(50)
     DestroyAllCams(false)
     RenderScriptCams(false, true, 1, true, true)
     TriggerEvent("facewear:update")

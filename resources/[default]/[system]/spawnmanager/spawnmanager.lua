@@ -245,7 +245,6 @@ function spawnPlayer(spawnIdx, cb)
         RemoveAllPedWeapons(ped)
         ClearPlayerWantedLevel(PlayerId())
         SetMaxWantedLevel(0)
-        ShutdownLoadingScreen()
         freezePlayer(PlayerId(), false)
         TriggerEvent('playerSpawned', spawn)
         if cb then cb(spawn) end

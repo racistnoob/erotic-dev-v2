@@ -195,6 +195,8 @@ AddEventHandler('playerDropped', function (reason)
         UpdateStats(world)
         updateAndSendPlayerCount(world) -- updates playercount of disconnected players old lobby
     end
+
+    TriggerClientEvent("core:deletePreviousVehicle", src)
 end)
 
 RegisterServerEvent("erotic:playerSpawned")

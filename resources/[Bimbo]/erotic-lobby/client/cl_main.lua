@@ -160,10 +160,9 @@ function switchWorld(worldID, force, hideNoti, noTeleport)
             worldID = tostring(worldID)
 
             exports['core']:deletePreviousVehicle(PlayerPedId())
+            if not hideNoti then exports['drp-notifications']:SendAlert('inform', 'Changed Worlds', 5000) end
             TriggerServerEvent('erotic-lobby:ChangeWorld', worldID)
             exports['core']:enableSkeletons(worldSettings.skeletons or false)
-            
-            if not hideNoti then exports['drp-notifications']:SendAlert('inform', 'Changed Worlds', 5000) end
         end
     end
 end
@@ -285,9 +284,10 @@ AddEventHandler("polyzone:enter", function(name)
 end)
 
 AddEventHandler('erotic:playerSpawned', function()
+    Wait(500)
     exports['erotic-lobby']:openLobby(true)
-    Wait(250)
-    TriggerEvent("erotic-lobby:forceworld", 1)
+    Wait(500)
+    switchWorld(1, true, true)
 end)
 
 AddEventHandler("polyzone:exit", function(name)

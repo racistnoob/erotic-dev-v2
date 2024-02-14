@@ -75,7 +75,7 @@ const App: React.FC = () => {
                 <div className={scoreClass}>
                     <div className={teamScoreClass} style={{ backgroundColor: "#908aff66", clipPath: "polygon(0 0, 89% 0, 98% 100%, 0 100%)" }}>
                         {Array.from({ length: 4 }).map((_, index) => {
-                            const playerUrl = RANKED_GAME_DATA.red.players.reverse()[index] || "https://cdn.forums.klei.com/monthly_2020_01/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg.269696d99af4a73e886c0731e7ed7c16.jpg"
+                            const playerUrl = RANKED_GAME_DATA.red.players[index] || "https://cdn.forums.klei.com/monthly_2020_01/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg.269696d99af4a73e886c0731e7ed7c16.jpg"
                             return (
                                 <div key={index} className={backdropClass}>
                                     <img

@@ -216,4 +216,4 @@ RegisterNUICallback('getCarData', function(data, cb)
     cb(CAR_LIST)
 end)
 
-RegisterKeyMapping('+car_menu', '[Car Spawner] Open Menu', 'keyboard', 'm')
+RegisterKeyMapping('+car_menu', 'Open Car Menu', 'keyboard', 'm')

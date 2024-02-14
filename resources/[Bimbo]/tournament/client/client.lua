@@ -6,6 +6,12 @@ local function showWalls(state)
     end
 end
 
+Citizen.CreateThread(function()
+    RemoveIpl("southside_blockers")
+end)
+
+-- DisplayPlayerNameTagsOnBlips
+
 exports("showTournamentUI", function(state)
     SendReactMessage('setVisible', state)
     showWalls(state)

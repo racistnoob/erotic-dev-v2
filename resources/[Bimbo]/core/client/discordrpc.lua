@@ -1,4 +1,4 @@
-currentState = "Southside #1"
+currentState = ""
 
 RegisterNetEvent('core:updateLobby')
 AddEventHandler("core:updateLobby", function(args)

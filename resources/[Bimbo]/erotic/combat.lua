@@ -1,7 +1,10 @@
 local currentValues = { MaxAmmo = 0, ClipAmmo = 0 }
-local no_xhair = (GetResourceKvpInt("erotic_xhair") == 1) or false
-
 local toggleHud = true
+
+local xhair = {
+    enabled = true,
+    colour = "#fff"
+}
 
 local disable_control_action = DisableControlAction
 local display_ammo_this_frame = DisplayAmmoThisFrame
@@ -21,6 +24,19 @@ local player_id = PlayerId
 local set_follow_ped_cam_view_mode = SetFollowPedCamViewMode
 local send_nui_message = SendNUIMessage
 local wait = Wait
+
+Citizen.CreateThread(function()
+    local xhairSettings = GetResourceKvpString("xhairSettings")
+    if xhairSettings then
+        xhairSettings = json.decode(xhairSettings)
+
+        xhair.enabled = xhairSettings.enabled
+        xhair.colour = xhairSettings.colour
+        Wait(250)
+        send_nui_message({ type = "xhair", cross = xhair.enabled })
+        send_nui_message({ type = "xhair_colour", color = xhair.colour })
+    end
+end)
 
 COMBAT = {
     plyPed = player_ped_id(),
@@ -130,12 +146,14 @@ end)
 
 AddEventHandler('erotic:playerSpawned', function()
     Wait(100)
-    send_nui_message({ type = "xhair_colour", color = GetResourceKvpString('crosshairColor') })
+    send_nui_message({ type = "xhair_colour", color = xhair.colour })
     send_nui_message({ type = "showWatermark", value = true})
 end)
 
 exports("toggleHud", function(state)
-    send_nui_message({ type = "xhair", cross = not state })
+    if xhair.enabled then
+        send_nui_message({ type = "xhair", cross = not state })
+    end
     send_nui_message({ type = "showWatermark", value = state})
     --toggleHud = state
 end)
@@ -143,14 +161,17 @@ end)
 RegisterCommand('cross', function(src, args, rawCommand)
     local hexArg = string.sub(rawCommand, 7)
     if #hexArg > 0 then
+        xhair.colour = hexArg
+        SetResourceKvp('xhairSettings', json.encode(xhair))
+
         send_nui_message({ type = "xhair_colour", color = hexArg })
         exports['drp-notifications']:SendAlert('inform', 'Crosshair color updated')
-        SetResourceKvp('crosshairColor', hexArg)
     else
-        no_xhair = not no_xhair
-        send_nui_message({ type = "xhair", cross = no_xhair })
-        exports['drp-notifications']:SendAlert('inform', 'Crosshair '.. (no_xhair and "Disabled" or "Enabled"))
-        SetResourceKvpInt("erotic_xhair", no_xhair)
+        xhair.enabled = not xhair.enabled
+        SetResourceKvp('xhairSettings', json.encode(xhair))
+
+        send_nui_message({ type = "xhair", cross = xhair.enabled })
+        exports['drp-notifications']:SendAlert('inform', 'Crosshair '.. (xhair.enabled and "Enabled" or "Disabled"))
     end
 end)
 

@@ -9,9 +9,11 @@ end)
 
 function DeathTimer()
     CreateThread(function()
+        TriggerScreenblurFadeIn(150)
         Citizen.Wait(1000)
         local spawn = exports['erotic-lobby']:getCurrentWorldDeathSpot()
         UndeadedPlayer(spawn.x, spawn.y, spawn.z, spawn.h)
+        TriggerScreenblurFadeOut(0)
     end)
 end
 

@@ -87,6 +87,12 @@ local function deletePreviousVehicle(playerPed)
     end
 end
 
+RegisterNetEvent("core:deletePreviousVehicle")
+AddEventHandler("core:deletePreviousVehicle", function()
+    deleteCurrentVehicle(PlayerPedId())
+    deletePreviousVehicle(PlayerPedId())
+end)
+
 local createthread = CreateThread
 local tonumber = tonumber
 local get_hash_key = GetHashKey
@@ -114,15 +120,8 @@ AddEventHandler("drp:spawnvehicle", function(veh)
     local worldID = tonumber(exports['erotic-lobby']:getCurrentWorld())
     local trickLobby = worldID == 4
     if spawningcars or trickLobby and veh == "deluxo" then
-        if IsPedInAnyVehicle(PlayerPed, true) then
-            exports['drp-notifications']:SendAlert('error', 'You are already in a vehicle.', 5000)
-            return
-        end
-
         local playerPed = PlayerPed
         local vehiclehash = get_hash_key(veh)
-        local x, y, z = table_unpack(get_offset_from_entity_in_world_coords(playerPed, 0.5, 0.0, 0.0))
-
         if not IsVehicleWhitelisted(vehiclehash) and not trickLobby then
             exports['drp-notifications']:SendAlert('error', 'This vehicle cannot be spawned.', 5000)
             return
@@ -132,6 +131,13 @@ AddEventHandler("drp:spawnvehicle", function(veh)
             exports['drp-notifications']:SendAlert('error', 'Vehicles cannot be spawned outside of safezone.', 5000)
             return
         end
+
+        if IsPedInAnyVehicle(PlayerPed, true) then
+            exports['drp-notifications']:SendAlert('error', 'You are already in a vehicle.', 5000)
+            return
+        end
+
+        local x, y, z = table_unpack(get_offset_from_entity_in_world_coords(playerPed, 0.5, 0.0, 0.0))
 
         request_model(vehiclehash)
 
