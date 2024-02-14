@@ -27,7 +27,7 @@ Citizen.CreateThread(
             end)
             RegisterKeyMapping("+" .. name, name, 'keyboard', key)
         end
-        keybind("Open Inventory", "TAB", function()
+        keybind("Inventory", "TAB", function()
                 openInventory()
         end)
         return collectgarbage()
