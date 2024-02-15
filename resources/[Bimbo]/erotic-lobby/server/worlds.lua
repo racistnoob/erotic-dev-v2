@@ -22,7 +22,6 @@ local MirrorPark = {
 
 WorldData = {
 
-    
     { ID = 1, custom = false, playerCount = 0, settings = {
         name = 'Waiting Room',
         tags = {'FPS Mode', 'ARS', 'RP Preset #1'},
@@ -225,6 +224,12 @@ local function removeCustomLobby(lobbyID, emptyCheck, forceLeave)
             end
 
             table.remove(WorldData, lobby.ID)
+
+            local worldID = tostring(lobby.ID)
+            if Config.Worlds[worldID] then
+                Config.Worlds[worldID] = nil
+            end
+
             TriggerClientEvent('UpdateLobbies', -1, WorldData)
             break
         end
@@ -245,6 +250,11 @@ AddEventHandler('AddCustomLobby', function(customLobbySettings)
             settings = customLobbySettings,
             owner = source
         }
+
+        local worldID = tostring(customLobby.ID)
+        if Config.Worlds[worldID] == nil then
+            Config.Worlds[worldID] = { customLobby.ID, false }
+        end
 
         for _, lobby in pairs(WorldData) do
             if lobby.custom and lobby.owner == source then

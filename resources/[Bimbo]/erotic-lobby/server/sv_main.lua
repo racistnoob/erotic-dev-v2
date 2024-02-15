@@ -4,30 +4,14 @@ Worlds = {}
 
 Config = {
     Worlds = { -- ["worldID"] = {RoutingBucket, Spawnpoint, PermissionRequired},
-        ["1"] = {1, false}, -- DO NOT REMOVE
-        ["2"] = {2, false},
-        ["3"] = {3, false},
-        ["4"] = {4, false},
-        ["5"] = {5, false},
-        ["6"] = {6, false},
-        ["7"] = {7, false},
-        ["8"] = {8, false},
-        ["9"] = {9, false},
-        ["10"] = {10, false},
-        ["11"] = {11, false},
-        ["12"] = {12, false},
-        ["13"] = {13, false},
-        ["14"] = {14, false},
-        ["15"] = {15, false},
-        ["16"] = {16, false},
-        ["17"] = {17, false},
-        ["18"] = {18, false},
-        ["19"] = {19, false},
-        ["20"] = {20, false},
-        ["21"] = {21, false},
-        ["22"] = {22, false},
     },
 }
+
+Citizen.CreateThread(function()
+    for i=1, #WorldData do
+        Config.Worlds[tostring(i)] = {i, false}
+    end
+end)
 
 local function ExtractIdentifiers(src)
     local identifiers = {
@@ -230,9 +214,6 @@ end)
 RegisterNetEvent('erotic-lobby:ChangeWorld')
 AddEventHandler('erotic-lobby:ChangeWorld', function(worldID)
     local src = source;
-    if Config.Worlds[worldID] == nil then
-        Config.Worlds[worldID] = { tonumber(worldID), false }
-    end
 
     local coords = Config.Worlds[worldID][2];
     local ids = ExtractIdentifiers(src);
