@@ -1,34 +1,34 @@
-local is_ped_shooting = IsPedShooting
-local get_current_ped_weapon = GetCurrentPedWeapon
-local get_entity_speed = GetEntitySpeed
-local get_vehicle_ped_is_in = GetVehiclePedIsIn
-local get_vehicle_class = GetVehicleClass
-local get_weapon_type_group = GetWeapontypeGroup
-local get_gameplay_cam_relative_heading = GetGameplayCamRelativeHeading
-local set_gameplay_cam_relative_heading = SetGameplayCamRelativeHeading
-local get_gameplay_cam_relative_pitch = GetGameplayCamRelativePitch
-local set_gameplay_cam_relative_pitch = SetGameplayCamRelativePitch
-local get_follow_ped_cam_view_mode = GetFollowPedCamViewMode
-local math_ceil = math.ceil
-local math_random = math.random
-local get_entity_coords = GetEntityCoords
-local get_gameplay_cam_coord = GetGameplayCamCoord
+local IsPedShooting = IsPedShooting
+local GetCurrentPedWeapon = GetCurrentPedWeapon
+local GetEntitySpeed = GetEntitySpeed
+local GetVehiclePedIsIn = GetVehiclePedIsIn
+local GetVehicleClass = GetVehicleClass
+local GetWeapontypeGroup = GetWeapontypeGroup
+local GetGameplayCamRelativeHeading = GetGameplayCamRelativeHeading
+local SetGameplayCamRelativeHeading = SetGameplayCamRelativeHeading
+local GetGameplayCamRelativePitch = GetGameplayCamRelativePitch
+local SetGameplayCamRelativePitch = SetGameplayCamRelativePitch
+local GetFollowPedCamViewMode = GetFollowPedCamViewMode
+local ceil = math.ceil
+local random = math.random
+local GetEntityCoords = GetEntityCoords
+local GetGameplayCamCoord = GetGameplayCamCoord
 
 Recoil:RegisterMode("roleplay", function()
     local ped = PlayerPed
-    if is_ped_shooting(ped) then
-        local _, wep = get_current_ped_weapon(ped)
-        local GamePlayCam = get_follow_ped_cam_view_mode()
-        local MovementSpeed = math_ceil(get_entity_speed(ped))
+    if IsPedShooting(ped) then
+        local _, wep = GetCurrentPedWeapon(ped)
+        local GamePlayCam = GetFollowPedCamViewMode()
+        local MovementSpeed = ceil(GetEntitySpeed(ped))
 
         if MovementSpeed > 69 then
             MovementSpeed = 69
         end
 
-        local group = get_weapon_type_group(wep)
-        local p = get_gameplay_cam_relative_pitch()
-        local cameraDistance = #(get_gameplay_cam_coord() - get_entity_coords(ped))
-        local recoil = math_random(50, 75 + (math_ceil(MovementSpeed * 1.5))) / 100
+        local group = GetWeapontypeGroup(wep)
+        local p = GetGameplayCamRelativePitch()
+        local cameraDistance = #(GetGameplayCamCoord() - GetEntityCoords(ped))
+        local recoil = random(50, 75 + (ceil(MovementSpeed * 1.5))) / 100
         local rifle = false
 
         if group == 970310034 or group == 1159398588 then
@@ -59,28 +59,28 @@ Recoil:RegisterMode("roleplay", function()
             recoil = recoil * 0.15
         end
 
-        local rightleft = math_random(4)
-        local h = get_gameplay_cam_relative_heading()
-        local hf = math_random(10, 40 + MovementSpeed) / 100
+        local rightleft = random(4)
+        local h = GetGameplayCamRelativeHeading()
+        local hf = random(10, 40 + MovementSpeed) / 100
 
         local direction = (rightleft == 1) and 1 or -1
-        set_gameplay_cam_relative_heading(h + direction * hf)        
+        SetGameplayCamRelativeHeading(h + direction * hf)        
 
         local standardPitch = p + recoil
-        local vehicleClass = get_vehicle_class(get_vehicle_ped_is_in(ped))
+        local vehicleClass = GetVehicleClass(GetVehiclePedIsIn(ped))
 
         if vehicleClass == 8 or vehicleClass == 13 then
-            local bikePitch = p + math_random(2, 5)
-            if math_random(1, 10) >= math_random(1, 5) then
-                set_gameplay_cam_relative_pitch(bikePitch, 1.0)
+            local bikePitch = p + random(2, 5)
+            if random(1, 10) >= random(1, 5) then
+                SetGameplayCamRelativePitch(bikePitch, 1.0)
             else
-                set_gameplay_cam_relative_pitch(bikePitch, 1.0)
+                SetGameplayCamRelativePitch(bikePitch, 1.0)
             end
         else
-            if math_random(1, 10) >= math_random(1, 5) then
-                set_gameplay_cam_relative_pitch(standardPitch, 1.0)
+            if random(1, 10) >= random(1, 5) then
+                SetGameplayCamRelativePitch(standardPitch, 1.0)
             else
-                set_gameplay_cam_relative_pitch(standardPitch, 1.0)
+                SetGameplayCamRelativePitch(standardPitch, 1.0)
             end
         end
     end

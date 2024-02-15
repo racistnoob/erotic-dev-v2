@@ -5,23 +5,22 @@ local isShaking = false
 local intenseCam = false
 
 local wait = Wait
-local is_ped_still = IsPedStill
-local is_player_free_aiming = IsPlayerFreeAiming
-local is_ped_aiming_from_cover = IsPedAimingFromCover
-local shake_gameplay_cam = ShakeGameplayCam
-local stop_gameplay_cam_shaking = StopGameplayCamShaking
-local createthread = CreateThread
+local IsPedStill = IsPedStill
+local IsPlayerFreeAiming = IsPlayerFreeAiming
+local IsPedAimingFromCover = IsPedAimingFromCover
+local ShakeGameplayCam = ShakeGameplayCam
+local StopGameplayCamShaking = StopGameplayCamShaking
 local function setIntenseCam()
-    createthread(function()
+    CreateThread(function()
         while intenseCam do
             
             local plyPed = PlayerPed
     
             while true do
-                local isAiming = is_player_free_aiming(playerID)
-                local isPedStill = is_ped_still(plyPed)
+                local isAiming = IsPlayerFreeAiming(playerID)
+                local isPedStill = IsPedStill(plyPed)
         
-                if isAiming and isPedStill and not is_ped_aiming_from_cover(plyPed) then
+                if isAiming and isPedStill and not IsPedAimingFromCover(plyPed) then
     
                     wait(100)
         
@@ -30,7 +29,7 @@ local function setIntenseCam()
         
                     if shakeCounter == 5 then
                         isShaking = true
-                        shake_gameplay_cam('HAND_SHAKE', 0.2)
+                        ShakeGameplayCam('HAND_SHAKE', 0.2)
                     end
         
                 elseif isAiming and not isPedStill then
@@ -42,7 +41,7 @@ local function setIntenseCam()
         
                     if shakeCounter2 == 5 then
                         isShaking = true
-                        shake_gameplay_cam('HAND_SHAKE', 0.9)
+                        ShakeGameplayCam('HAND_SHAKE', 0.9)
                     end
         
                     shakeCounter = 0
@@ -56,7 +55,7 @@ local function setIntenseCam()
                         shakeCounter = 0
                         shakeCounter2 = 0
         
-                        stop_gameplay_cam_shaking(true)
+                        StopGameplayCamShaking(true)
         
                     end
         
@@ -74,7 +73,7 @@ function SetIntenseCamEnabled(state)
     isShaking = false
     shakeCounter = 0
     shakeCounter2 = 0
-    stop_gameplay_cam_shaking(true)
+    StopGameplayCamShaking(true)
     if state then
         setIntenseCam()
     end

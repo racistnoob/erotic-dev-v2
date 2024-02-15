@@ -24,41 +24,41 @@ local weaponRecoils = {
     [324215364] = { onFoot = 1.3, onBike = 1.2 },  -- microsmg
 }
 
-local is_ped_shooting = IsPedShooting
-local is_ped_doing_driveby = IsPedDoingDriveby
-local get_selected_ped_weapon = GetSelectedPedWeapon
-local get_gameplay_cam_relative_pitch = GetGameplayCamRelativePitch
-local set_gameplay_cam_relative_pitch = SetGameplayCamRelativePitch
-local get_follow_ped_cam_view_mode = GetFollowPedCamViewMode
+local IsPedShooting = IsPedShooting
+local IsPedDoingDriveby = IsPedDoingDriveby
+local GetSelectedPedWeapon = GetSelectedPedWeapon
+local GetGameplayCamRelativePitch = GetGameplayCamRelativePitch
+local SetGameplayCamRelativePitch = SetGameplayCamRelativePitch
+local GetFollowPedCamViewMode = GetFollowPedCamViewMode
 
 Recoil:RegisterMode('roleplay2', function()
     local ped = PlayerPed
-    local currentWeapon = get_selected_ped_weapon(ped)
+    local currentWeapon = GetSelectedPedWeapon(ped)
     local recoilInfo = weaponRecoils[currentWeapon]
     
-    if is_ped_shooting(ped) then
-        if not is_ped_doing_driveby(ped) and recoilInfo and recoilInfo.onFoot > 0.1 then
+    if IsPedShooting(ped) then
+        if not IsPedDoingDriveby(ped) and recoilInfo and recoilInfo.onFoot > 0.1 then
             local tv = 0
-            local followCamMode = get_follow_ped_cam_view_mode()
+            local followCamMode = GetFollowPedCamViewMode()
             repeat
                 Wait(0)
-                local pitch = get_gameplay_cam_relative_pitch()
+                local pitch = GetGameplayCamRelativePitch()
 
                 if followCamMode ~= 4 then
-                    set_gameplay_cam_relative_pitch(pitch + 0.1, 0.2)
+                    SetGameplayCamRelativePitch(pitch + 0.1, 0.2)
                     tv = tv + 0.1
                 else
                     local pitchIncrement = (recoilInfo.onFoot > 0.1) and 0.6 or 0.016
-                    set_gameplay_cam_relative_pitch(pitch + pitchIncrement, (pitchIncrement > 0.1) and 1.2 or 0.333)
+                    SetGameplayCamRelativePitch(pitch + pitchIncrement, (pitchIncrement > 0.1) and 1.2 or 0.333)
                     tv = tv + pitchIncrement
                 end
             until tv >= recoilInfo.onFoot
-        elseif is_ped_doing_driveby(ped) and recoilInfo and recoilInfo.onBike > 0.1 then
+        elseif IsPedDoingDriveby(ped) and recoilInfo and recoilInfo.onBike > 0.1 then
             local tv = 0
             repeat
                 Wait(0)
-                local pitch = get_gameplay_cam_relative_pitch()
-                set_gameplay_cam_relative_pitch(pitch + 3.0, 0.2)
+                local pitch = GetGameplayCamRelativePitch()
+                SetGameplayCamRelativePitch(pitch + 3.0, 0.2)
                 tv = tv + 0.1
             until tv >= recoilInfo.onBike
         end

@@ -120,69 +120,59 @@ local function getWeaponSettings(weaponHash)
 end
 
 local wait = Wait
-local is_ped_shooting = IsPedShooting
-local get_selected_ped_weapon = GetSelectedPedWeapon
-local get_current_ped_vehicle_weapon = GetCurrentPedVehicleWeapon
-local get_game_timer = GetGameTimer
-local get_vehicle_ped_is_in = GetVehiclePedIsIn
-local get_gameplay_cam_relative_heading = GetGameplayCamRelativeHeading
-local set_gameplay_cam_relative_heading = SetGameplayCamRelativeHeading
-local get_gameplay_cam_relative_pitch = GetGameplayCamRelativePitch
-local set_gameplay_cam_relative_pitch = SetGameplayCamRelativePitch
-local set_gameplay_cam_relative_rotation = SetGameplayCamRelativeRotation
-local get_follow_ped_cam_view_mode = GetFollowPedCamViewMode
-local get_follow_vehicle_cam_view_mode = GetFollowVehicleCamViewMode
-local math_random = math.random
-local math_floor = math.floor
-local get_weapon_damage = GetWeaponDamage
-local does_entity_exist = DoesEntityExist
-local shake_gameplay_cam = ShakeGameplayCam
-local get_weapon_settings = getWeaponSettings
+local IsPedShooting = IsPedShooting
+local GetSelectedPedWeapon = GetSelectedPedWeapon
+local GetCurrentPedVehicleWeapon = GetCurrentPedVehicleWeapon
+local GetGameTimer = GetGameTimer
+local GetVehiclePedIsIn = GetVehiclePedIsIn
+local GetGameplayCamRelativeHeading = GetGameplayCamRelativeHeading
+local SetGameplayCamRelativeHeading = SetGameplayCamRelativeHeading
+local GetGameplayCamRelativePitch = GetGameplayCamRelativePitch
+local SetGameplayCamRelativePitch = SetGameplayCamRelativePitch
+local SetGameplayCamRelativeRotation = SetGameplayCamRelativeRotation
+local GetFollowPedCamViewMode = GetFollowPedCamViewMode
+local GetFollowVehicleCamViewMode = GetFollowVehicleCamViewMode
+local GetWeaponDamage = GetWeaponDamage
+local DoesEntityExist = DoesEntityExist
+local ShakeGameplayCam = ShakeGameplayCam
+local getWeaponSettings = getWeaponSettings
 local createthread = CreateThread
-
-local function get_random_float_in_range(min, max)
-    return min + math_random() * (max - min)
-end
-
-local function get_random_int_in_range(min, max)
-    return math_floor(min + math_random() * (max - min + 1))
-end
 
 Recoil:RegisterMode("nonstop", function(_)
     local ped = PlayerPed
     -- recoil.
-    if is_ped_shooting(ped) then
-        local weapon = get_selected_ped_weapon(ped)
-        local damage = get_weapon_damage(weapon)
-        local inVehicle = does_entity_exist(get_vehicle_ped_is_in(ped))
-        local weaponSettings = get_weapon_settings(weapon)
+    if IsPedShooting(ped) then
+        local weapon = GetSelectedPedWeapon(ped)
+        local damage = GetWeaponDamage(weapon)
+        local inVehicle = DoesEntityExist(GetVehiclePedIsIn(ped))
+        local weaponSettings = getWeaponSettings(weapon)
 
         local ammo = weaponSettings.ammo
         local recoilModifier = (recoilSettings.ammo[ammo]+0.5 or 1.0) * (weaponSettings.recoil)
 
-        shake_gameplay_cam("JOLT_SHAKE", 0.2 * recoilModifier)
+        ShakeGameplayCam("JOLT_SHAKE", 0.2 * recoilModifier)
 
         if damage then
             createthread(function()
-                local startTime = get_game_timer()
+                local startTime = GetGameTimer()
                 local lastTime = startTime
-                local mult = get_random_float_in_range(recoilSettings.randomMult, 1.0)
-                local verticalMult = get_random_int_in_range(0, 2) * 2.0 - 1.0
-                local horizontalMult = get_random_int_in_range(0, 2) * 2.0 - 1.0
+                local mult = GetRandomFloatInRange(recoilSettings.randomMult, 1.0)
+                local verticalMult = GetRandomIntInRange(0, 2) * 2.0 - 1.0
+                local horizontalMult = GetRandomIntInRange(0, 2) * 2.0 - 1.0
                 local duration = recoilSettings.maxDur * 1000 * recoilModifier
                 local pitchOffset, headingOffset = -0.25, 0.0
                 local viewMode
 
                 if inVehicle then
-                    viewMode = get_follow_vehicle_cam_view_mode()
+                    viewMode = GetFollowVehicleCamViewMode()
                     verticalMult = verticalMult * 1.0
 
-                    local isVehicleWeapon, _ = get_current_ped_vehicle_weapon(ped)
+                    local isVehicleWeapon, _ = GetCurrentPedVehicleWeapon(ped)
                     if isVehicleWeapon then
                         return
                     end
                 else
-                    viewMode = get_follow_ped_cam_view_mode()
+                    viewMode = GetFollowPedCamViewMode()
                 end
 
                 if not inVehicle and viewMode == 4 then
@@ -198,28 +188,28 @@ Recoil:RegisterMode("nonstop", function(_)
 
                 while (lastTime - startTime < duration) do
                     wait(1)
-                    local amount = (get_game_timer() - lastTime) / 1000.0 * mult * damage * recoilModifier
-                    local pitch, heading = get_gameplay_cam_relative_pitch(), get_gameplay_cam_relative_heading()
+                    local amount = (GetGameTimer() - lastTime) / 1000.0 * mult * damage * recoilModifier
+                    local pitch, heading = GetGameplayCamRelativePitch(), GetGameplayCamRelativeHeading()
 
                     pitch = pitch + (recoilSettings.pitchModifier * amount * verticalMult)
                     heading = heading + (recoilSettings.headingModifier * amount * horizontalMult)
 
                     if inVehicle then
                         if viewMode == 4 then
-                            set_gameplay_cam_relative_rotation(heading, pitch, 0.0)
+                            SetGameplayCamRelativeRotation(heading, pitch, 0.0)
                         else
-                            set_gameplay_cam_relative_pitch(pitch + 2.0, 1.0)
-                            set_gameplay_cam_relative_heading(heading + headingOffset)
+                            SetGameplayCamRelativePitch(pitch + 2.0, 1.0)
+                            SetGameplayCamRelativeHeading(heading + headingOffset)
                         end
                     else
-                        set_gameplay_cam_relative_pitch(pitch + pitchOffset, 1.0)
-                        set_gameplay_cam_relative_heading(heading + headingOffset)
+                        SetGameplayCamRelativePitch(pitch + pitchOffset, 1.0)
+                        SetGameplayCamRelativeHeading(heading + headingOffset)
                     end
 
-                    lastTime = get_game_timer()
+                    lastTime = GetGameTimer()
                 end
 
-                while (get_game_timer() - startTime < 1000) do
+                while (GetGameTimer() - startTime < 1000) do
                     wait(200)
                 end
 

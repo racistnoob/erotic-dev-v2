@@ -25,34 +25,34 @@ local recoilTable = {
     [`weapon_mk18`] = {noAim = 1.15, aim = 0.785},
 }
 
-local is_ped_shooting = IsPedShooting
-local get_selected_ped_weapon = GetSelectedPedWeapon
-local get_gameplay_cam_relative_pitch = GetGameplayCamRelativePitch
-local is_control_pressed = IsControlPressed
-local is_ped_doing_driveby = IsPedDoingDriveby
-local is_ped_in_any_vehicle = IsPedInAnyVehicle
-local get_gameplay_cam_relative_heading = GetGameplayCamRelativeHeading
-local set_gameplay_cam_relative_heading = SetGameplayCamRelativeHeading
-local set_gameplay_cam_relative_pitch = SetGameplayCamRelativePitch
+local IsPedShooting = IsPedShooting
+local GetSelectedPedWeapon = GetSelectedPedWeapon
+local GetGameplayCamRelativePitch = GetGameplayCamRelativePitch
+local IsControlPressed = IsControlPressed
+local IsPedDoingDriveby = IsPedDoingDriveby
+local IsPedInAnyVehicle = IsPedInAnyVehicle
+local GetGameplayCamRelativeHeading = GetGameplayCamRelativeHeading
+local SetGameplayCamRelativeHeading = SetGameplayCamRelativeHeading
+local SetGameplayCamRelativePitch = SetGameplayCamRelativePitch
 
 
 Recoil:RegisterMode('pma', function()
     local ped = PlayerPedId()
-    local currentWeapon = get_selected_ped_weapon(ped)
+    local currentWeapon = GetSelectedPedWeapon(ped)
     local weprecoil = recoilTable[currentWeapon]
     
-    if is_ped_shooting(ped) then
+    if IsPedShooting(ped) then
         local regularRecoil = weprecoil and weprecoil.noAim or 0.6
         local recoilAiming = weprecoil and weprecoil.aim or 0.25
         local recoilVehicle = -1.0
         
-        local recoil = get_gameplay_cam_relative_pitch()
-        local isShooting = is_control_pressed(0, 25)
-        local doingDriveby = is_ped_doing_driveby(ped)
-        local inVehicle = is_ped_in_any_vehicle(ped, true)
+        local recoil = GetGameplayCamRelativePitch()
+        local isShooting = IsControlPressed(0, 25)
+        local doingDriveby = IsPedDoingDriveby(ped)
+        local inVehicle = IsPedInAnyVehicle(ped, true)
     
         if inVehicle then
-            recoil = get_gameplay_cam_relative_heading()
+            recoil = GetGameplayCamRelativeHeading()
         end
     
         if isShooting and not doingDriveby then
@@ -64,9 +64,9 @@ Recoil:RegisterMode('pma', function()
         end
     
         if inVehicle then
-            set_gameplay_cam_relative_heading(recoil);
+            SetGameplayCamRelativeHeading(recoil);
         else
-            set_gameplay_cam_relative_pitch(recoil, 1.0)
+            SetGameplayCamRelativePitch(recoil, 1.0)
         end
     end
 end)

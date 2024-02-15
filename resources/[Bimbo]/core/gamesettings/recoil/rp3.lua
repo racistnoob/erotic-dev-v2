@@ -17,39 +17,39 @@ local noRecoil = {
 }
 
 
-local is_ped_shooting = IsPedShooting
-local get_selected_ped_weapon = GetSelectedPedWeapon
-local get_gameplay_cam_relative_pitch = GetGameplayCamRelativePitch
-local set_gameplay_cam_relative_pitch = SetGameplayCamRelativePitch
-local get_gameplay_cam_relative_heading = GetGameplayCamRelativeHeading
-local set_gameplay_cam_relative_heading = SetGameplayCamRelativeHeading
-local get_follow_ped_cam_view_mode = GetFollowPedCamViewMode
-local get_follow_vehicle_cam_view_mode = GetFollowVehicleCamViewMode
-local is_ped_in_any_vehicle = IsPedInAnyVehicle
-local get_entity_speed = GetEntitySpeed
-local get_weapon_type_group = GetWeapontypeGroup
-local get_gameplay_cam_coord = GetGameplayCamCoord
-local get_entity_coords = GetEntityCoords
-local math_ceil = math.ceil
-local math_random = math.random
-local math_min = math.min
+local IsPedShooting = IsPedShooting
+local GetSelectedPedWeapon = GetSelectedPedWeapon
+local GetGameplayCamRelativePitch = GetGameplayCamRelativePitch
+local SetGameplayCamRelativePitch = SetGameplayCamRelativePitch
+local GetGameplayCamRelativeHeading = GetGameplayCamRelativeHeading
+local SetGameplayCamRelativeHeading = SetGameplayCamRelativeHeading
+local GetFollowPedCamViewMode = GetFollowPedCamViewMode
+local GetFollowVehicleCamViewMode = GetFollowVehicleCamViewMode
+local IsPedInAnyVehicle = IsPedInAnyVehicle
+local GetEntitySpeed = GetEntitySpeed
+local GetWeapontypeGroup = GetWeapontypeGroup
+local GetGameplayCamCoord = GetGameplayCamCoord
+local GetEntityCoords = GetEntityCoords
+local ceil = math.ceil
+local random = math.random
+local min = math.min
 
 Recoil:RegisterMode('roleplay3', function()
     local ply = PlayerPed
-    if is_ped_shooting(ply) then
-        local weapon = get_selected_ped_weapon(ply)
+    if IsPedShooting(ply) then
+        local weapon = GetSelectedPedWeapon(ply)
         if not noRecoil[weapon] then
-            local GamePlayCam = is_ped_in_any_vehicle(ply, false) and get_follow_vehicle_cam_view_mode() or get_follow_ped_cam_view_mode()
-            local MovementSpeed = math_min(math_ceil(get_entity_speed(ply)), 69)
-            local group = get_weapon_type_group(weapon)
-            local p = get_gameplay_cam_relative_pitch()
-            local cameraDistance = #(get_gameplay_cam_coord() - get_entity_coords(ply))
-            local recoil = math_random(130, 140 + (math_ceil(MovementSpeed * 0.5))) / 100
+            local GamePlayCam = IsPedInAnyVehicle(ply, false) and GetFollowVehicleCamViewMode() or GetFollowPedCamViewMode()
+            local MovementSpeed = min(ceil(GetEntitySpeed(ply)), 69)
+            local group = GetWeapontypeGroup(weapon)
+            local p = GetGameplayCamRelativePitch()
+            local cameraDistance = #(GetGameplayCamCoord() - GetEntityCoords(ply))
+            local recoil = random(130, 140 + (ceil(MovementSpeed * 0.5))) / 100
             local rifle = group == 970310034 or group == 1159398588
 
             cameraDistance = (cameraDistance < 5.3 and 1.5) or (cameraDistance < 8.0 and 2.0) or 3.0
 
-            if is_ped_in_any_vehicle(ply, false) then
+            if IsPedInAnyVehicle(ply, false) then
                 recoil = recoil + (recoil * cameraDistance)
             else
                 recoil = recoil * 0.8
@@ -61,13 +61,13 @@ Recoil:RegisterMode('roleplay3', function()
                 recoil = recoil * 0.1
             end
 
-            local rightleft = math_random(4)
-            local h = get_gameplay_cam_relative_heading()
-            local hf = math_random(10, 40 + MovementSpeed) / 100
-            hf = is_ped_in_any_vehicle(ply, false) and hf * 2.0 or hf
+            local rightleft = random(4)
+            local h = GetGameplayCamRelativeHeading()
+            local hf = random(10, 40 + MovementSpeed) / 100
+            hf = IsPedInAnyVehicle(ply, false) and hf * 2.0 or hf
 
-            set_gameplay_cam_relative_heading(h + (rightleft == 1 and hf or -hf))
-            set_gameplay_cam_relative_pitch(p + recoil, 0.8)
+            SetGameplayCamRelativeHeading(h + (rightleft == 1 and hf or -hf))
+            SetGameplayCamRelativePitch(p + recoil, 0.8)
         end
     end
 end)

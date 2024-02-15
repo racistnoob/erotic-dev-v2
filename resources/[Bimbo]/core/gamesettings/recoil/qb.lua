@@ -109,37 +109,37 @@ local recoils = {
 }
 
 local wait = Wait
-local is_ped_shooting = IsPedShooting
-local is_ped_doing_driveby = IsPedDoingDriveby
-local get_current_ped_weapon = GetCurrentPedWeapon
-local get_gameplay_cam_relative_pitch = GetGameplayCamRelativePitch
-local set_gameplay_cam_relative_pitch = SetGameplayCamRelativePitch
-local get_follow_ped_cam_view_mode = GetFollowPedCamViewMode
+local IsPedShooting = IsPedShooting
+local IsPedDoingDriveby = IsPedDoingDriveby
+local GetCurrentPedWeapon = GetCurrentPedWeapon
+local GetGameplayCamRelativePitch = GetGameplayCamRelativePitch
+local SetGameplayCamRelativePitch = SetGameplayCamRelativePitch
+local GetFollowPedCamViewMode = GetFollowPedCamViewMode
 
 -- Recoil
 Recoil:RegisterMode('qb', function(self)
     local ped = PlayerPed
-    if is_ped_shooting(ped) and not is_ped_doing_driveby(ped) then
-        local _, wep = get_current_ped_weapon(ped)
+    if IsPedShooting(ped) and not IsPedDoingDriveby(ped) then
+        local _, wep = GetCurrentPedWeapon(ped)
         local recoil = recoils[wep]
     
         if recoil and recoil ~= 0 then
             local timeValue = 0
-            local followCamMode = get_follow_ped_cam_view_mode()
+            local followCamMode = GetFollowPedCamViewMode()
 
             repeat
                 wait(0)
-                local pitch = get_gameplay_cam_relative_pitch()
+                local pitch = GetGameplayCamRelativePitch()
 
                 if followCamMode ~= 4 then
-                    set_gameplay_cam_relative_pitch(pitch + 0.1, 0.2)
+                    SetGameplayCamRelativePitch(pitch + 0.1, 0.2)
                     timeValue = timeValue + 0.1
                 else
                     if recoil > 0.1 then
-                        set_gameplay_cam_relative_pitch(pitch + 0.6, 1.2)
+                        SetGameplayCamRelativePitch(pitch + 0.6, 1.2)
                         timeValue = timeValue + 0.6
                     else
-                        set_gameplay_cam_relative_pitch(pitch + 0.016, 0.333)
+                        SetGameplayCamRelativePitch(pitch + 0.016, 0.333)
                         timeValue = timeValue + 0.1
                     end
                 end
