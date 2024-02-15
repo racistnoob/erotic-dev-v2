@@ -124,11 +124,11 @@ local function GetWeaponName(hash)
 end
 
 AddEventHandler('baseevents:onPlayerKilled', function(killerId, deathData)
-    local weaponName = GetWeaponName(deathData)
-
     if source == killerId then
         return
     end
+    
+    local weaponName = GetWeaponName(deathData)
 
     local Victim = source
     local Killer = killerId
