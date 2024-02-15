@@ -10,7 +10,7 @@ AddEventHandler('core:sendReport', function(data)
     local adminID = data["adminID"]
     local src = source
     TriggerClientEvent('chat:addMessage', adminID, {
-        template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+        template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
         args = { "[ADMIN]", "Recording of "..GetPlayerName(src).. " uploaded" }
     })
 end)
@@ -18,7 +18,7 @@ end)
 RegisterCommand("record", function(source, args, rawCommand)
     local src = source
     local message = {
-        template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+        template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
         args = { "[ADMIN]", "Player ID not specified/invalid"}
     }
     

@@ -35,14 +35,14 @@ RegisterCommand('all', function(source, args, rawCommand)
     if source == 0 then
         local user = "Console"
         TriggerClientEvent('chat:addMessage', -1, {
-            template = '<div class="chat-message-ooc"><b>[ALL] <font color="red"><b>{0}</b></font>:</b> {1}</div>',
+            template = '<div class="chat-message"><b>[ALL] <font color="red"><b>{0}</b></font>:</b> <b1>{1}</b1></div>',
             args = { user, msg }
         }) 
     else 
         if player ~= false then
             local user = GetPlayerName(src)
                 TriggerClientEvent('chat:addMessage', -1, {
-                template = '<div class="chat-message-ooc"><b>[ALL] {0}:</b> {1}</div>',
+                template = '<div class="chat-message"><b2>[ALL]</b2> <b>{0}:</b> <b1>{1}</b1></div>',
                 args = { user, msg }
             })
         end

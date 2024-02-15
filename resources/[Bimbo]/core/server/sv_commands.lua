@@ -101,14 +101,14 @@ RegisterCommand("report", function(source, args, rawCommand)
         local name = GetPlayerName(src)
         local discord = getIdentifier(src, "discord")
         TriggerClientEvent('chat:addMessage', src, {
-            template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+            template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
             args = { "[REPORT]", "Report submitted."}
         })
 
         for adminId, admin in pairs(TX_ADMINS) do
             if admin then
                 TriggerClientEvent('chat:addMessage', adminId, {
-                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                    template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
                     args = { "[REPORT]", "\n"..name..": "..report}
                 })
             end
@@ -136,14 +136,14 @@ RegisterCommand("playtime", function(source, args, rawCommand)
         
         PerformHttpRequest(api, function (errorCode, resultData)
             TriggerClientEvent('chat:addMessage', source, {
-                template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #f9ff8a;"><b2>{0}:</b2> <b style="color: #f9ff8a; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #f9ff8a;">{1}</b1></div>',
                 args = { "[PLAYTIME]", disp_time(json.decode(resultData)[1].seconds)}
             })
         end)
     else
         TriggerClientEvent('chat:addMessage', source, {
-            template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
-            args = { "[PLAYTIME]", "FiveM identifier not connected."}
+            template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #ff908a;"><b2>{0}:</b2> <b style="color: #ff908a; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #ff908a;">{1}</b1></div>',
+            args = { "[PLAYTIME]", "FiveM identifier not connected." }
         })
     end
 end)

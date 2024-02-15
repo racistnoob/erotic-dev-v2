@@ -345,8 +345,8 @@ RegisterCommand("forcelobby", function(source, args, rawCommand)
             lobbyID = tonumber(lobbyID)
 
             if WorldData and not WorldData[lobbyID] then
-                TriggerClientEvent('chat:addMessage', targetPlayer, {
-                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                TriggerClientEvent('chat:addMessage', src, {
+                    template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
                     args = { "[ADMIN]", "Lobby not found"}
                 })
                 return
@@ -360,7 +360,7 @@ RegisterCommand("forcelobby", function(source, args, rawCommand)
 
             if targetPlayer ~= src then
                 TriggerClientEvent('chat:addMessage', targetPlayer, {
-                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                    template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
                     args = { "[ADMIN]", "You have been sent to lobby: "..lobbyName}
                 })
             end
@@ -369,7 +369,7 @@ RegisterCommand("forcelobby", function(source, args, rawCommand)
         end
     end
     TriggerClientEvent('chat:addMessage', src, {
-        template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+        template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
         args = { "[ADMIN]", message}
     })
 end, false)
@@ -388,8 +388,8 @@ RegisterCommand("forcemp", function(source, args, rawCommand)
             lobbyID = tonumber(lobbyID)
 
             if WorldData and not WorldData[lobbyID] then
-                TriggerClientEvent('chat:addMessage', source, {
-                    template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                TriggerClientEvent('chat:addMessage', src, {
+                    template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
                     args = { "[ADMIN]", "Lobby not found"}
                 })
                 return
@@ -411,7 +411,7 @@ RegisterCommand("forcemp", function(source, args, rawCommand)
         end
     end
     TriggerClientEvent('chat:addMessage', src, {
-        template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+        template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
         args = { "[ADMIN]", message}
     })
 end, false)

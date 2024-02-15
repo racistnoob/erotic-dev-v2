@@ -319,11 +319,15 @@ end
 -- makes a command to list all loadouts under each category (/snipers, /smg etc..)
 for i, v in pairs(kitNames) do
     RegisterCommand(i, function(source,args,rawcommand)
-        local message = '<div class="chat-message-deg"> <b>'..i..':<br></b>'
-        for k,j in pairs(v) do
-            message = message ..j..' <br>'
-        end 
-        message = message .. '</div>'
+
+        local message = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8abfff;"> <b style="font-weight: 300; color: #8abfff; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8abfff;">['..string.upper(i)..']: </b> <b1>'
+        for k, j in pairs(v) do
+            message = message .. j
+            if next(v, k) then
+                message = message .. ', '
+            end
+        end        
+        message = message .. '</b1></div>'
         TriggerEvent('chat:addMessage', {
             template = message,
             args = {}
@@ -360,10 +364,9 @@ function DoKitStuff(genre, kit)
                 break
             end
         end
-    
         if not isGenreAllowed then
             TriggerEvent('chat:addMessage', {
-                template = '<div class="chat-message-report"><b>{0}:</b> {1}</div>',
+                template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #ff908a;"><b2>{0}:</b2> <b style="color: #ff908a; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #ff908a;">{1}</b1></div>',
                 args = { "[EROTIC]", "This gun category is disabled in this lobby." }
             })
             return

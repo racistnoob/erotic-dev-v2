@@ -44,7 +44,7 @@ end)
 
 AddEventHandler('chat:addMessage', function(message)
     if message['color'] then
-        message =  { template = '<div class="chat-message-system"><b>SYSTEM :</b> {1}</div>', args = message['args'] }
+        message =  { template = '<div class="chat-message-system"><b>SYSTEM :</b> <b1>{1}</b1></div>', args = message['args'] }
     end
     
     SendNUIMessage({
@@ -134,13 +134,10 @@ RegisterNUICallback('chatResult', function(data, cb)
     if not data.canceled then
         local id = PlayerId()
         
-        --deprecated
-        local r, g, b = 0, 0x99, 255
-        
         if data.message:sub(1, 1) == '/' then
             ExecuteCommand(data.message:sub(2))
         else
-            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, exports['erotic-lobby']:getCurrentWorld())
+            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), data.message, exports['erotic-lobby']:getCurrentWorld())
         end
     end
     
@@ -224,11 +221,4 @@ end)
 RegisterNetEvent('drp-chat:reply')
 AddEventHandler('drp-chat:reply', function(id, msg, name, callid)
     TriggerServerEvent('drp-chat:reply', id, msg, name, callid)
-end)
-
-AddEventHandler("erp:vehdeg", function(msg, plate)
-    TriggerEvent('chat:addMessage', {
-        template = '<div class="chat-message-deg"> Vehicle Plate: '..plate..'<br><b>Axle</b> : '..msg['axle']..'<br><b>Clutch</b> : '..msg['clutch']..'<br><b>Fuel Tank</b> : '..msg['fuel_tank']..'<br><b>Transmission</b> : '..msg['transmission']..'<br><b>Brakes</b> : '..msg['brakes']..'<br><b>Radiator</b> : '..msg['radiator']..'<br><b>Fuel Injector</b> : '..msg['fuel_injector']..'<br><b>Electronics</b> : '..msg['electronics']..'</div>',
-        args = msg
-    })
 end)

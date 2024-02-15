@@ -18,7 +18,7 @@ local function routeMessage(source, author, message, lobbyID)
     end
 
     local outMessage = {
-        template = '<div class="chat-message-ooc"><b>{0}:</b> {1}</div>',
+        template = '<div class="chat-message"><b>{0}:</b> <b1>{1}</b1></div>',
         args = { message },
     }
 
@@ -38,7 +38,7 @@ local function routeMessage(source, author, message, lobbyID)
     end
 end
 
-AddEventHandler('_chat:messageEntered', function(author, color, message, lobbyID)
+AddEventHandler('_chat:messageEntered', function(author, message, lobbyID)
     if not message or not author then
         return
     end
