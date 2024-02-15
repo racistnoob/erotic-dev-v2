@@ -60,13 +60,15 @@ em {
 #app {
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 95%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     /* padding: calc(.092592592vh * 25); */
     color: white;
+    top: 5%;
+    right: 0.7%;
 }
 
 .chat-window {
