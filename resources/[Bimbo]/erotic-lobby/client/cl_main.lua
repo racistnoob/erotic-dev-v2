@@ -72,6 +72,8 @@ local function toggleNuiFrame(shouldShow)
 	SendNUIMessage({
 		type = 'closePasswordPrompt' and 'closeCustomLobbyPrompt'
 	})
+
+    collectgarbage()
 end
 
 --## FUNCTIONS ##--
@@ -236,12 +238,12 @@ end)
 RegisterNUICallback('createCustomLobby', function(data, cb)
     local customLobbySettings = data
 
-    -- print('Received custom lobby settings:')
-    -- print(json.encode(customLobbySettings))
+    --print('Received custom lobby settings:')
+    --print(json.encode(customLobbySettings))
 
     TriggerEvent('customLobbyCreate', customLobbySettings)
     
-    cb({ success = true })
+    cb({})
 end)
 
 RegisterNUICallback("hideFrame", function(data, cb)
@@ -253,7 +255,7 @@ RegisterNUICallback('switchWorld', function(data, cb)
     if data.worldId then
         exports['erotic-lobby']:openLobby(false)
         exports['erotic-lobby']:switchWorld(data.worldId)
-        cb({ success = true })
+        cb({})
     else
         cb({ error = 'Invalid world ID' })
     end

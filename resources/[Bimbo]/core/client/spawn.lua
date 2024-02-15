@@ -22,6 +22,7 @@ local function Initialize()
             Wait(500)
             DoScreenFadeIn(1500)
         end)
+        collectgarbage()
     end)
 end
 

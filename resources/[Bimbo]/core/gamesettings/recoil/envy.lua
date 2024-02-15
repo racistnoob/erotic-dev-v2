@@ -23,6 +23,10 @@ local WeaponRecoil = {
         vertical = .80,
         horizontal = .20
     }, 
+    [`WEAPON_APPISTOL`] = {
+        vertical = .80,
+        horizontal = .20
+    }, 
     [`weapon_minismg`] = {
         vertical = .80,
     },

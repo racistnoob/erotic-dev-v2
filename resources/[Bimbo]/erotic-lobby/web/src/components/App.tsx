@@ -156,10 +156,7 @@ const App: React.FC = () => {
         fetchNui('createCustomLobby', customLobbySettings)
         .then((response: any) => {
             if (response && response.error) {
-
-                } else {
                     console.error('Failed to create custom lobby:', response.error);
-
                 }
             })
             .catch(error => {
@@ -254,8 +251,10 @@ const App: React.FC = () => {
 
                     <button className={`header-create ${tab === 'Normal' ? 'hide' : ''}`}
                         onClick={() => {
-                            setShowCustomLobbyPrompt(true)
-                            playClickSound();
+                            if (tab !== 'Normal') {
+                                setShowCustomLobbyPrompt(true)
+                                playClickSound();
+                            }
                         }}
                         onMouseEnter={() => {
                             if (tab !== 'Normal') {
