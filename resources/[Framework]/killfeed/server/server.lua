@@ -1,4 +1,4 @@
-function GetIdentifier(type, id)
+local function GetIdentifier(type, id)
     local identifiers = {}
     local numIdentifiers = GetNumPlayerIdentifiers(id)
 
@@ -14,7 +14,7 @@ function GetIdentifier(type, id)
     return false
 end
 
-function CalculateKD(kills, deaths)
+local function CalculateKD(kills, deaths)
     if not deaths or deaths == 0 then
         return 0
     end
@@ -75,10 +75,64 @@ AddEventHandler("Grab:Leaderboard", function()
     TriggerClientEvent('Recieved:Info', src, Database)
 end)
 
-RegisterNetEvent('killfeed:server:playerWasKilled')
-AddEventHandler('killfeed:server:playerWasKilled', function(killerId, weaponName)
+local weaponNames = {
+    [`WEAPON_UNARMED`] = 'weapon_unarmed',
+    [`WEAPON_KNUCKLE`] = 'knuckle',
+    [`WEAPON_BOTTLE`] = 'bottle',
+    [`WEAPON_MACHETE`] = 'machete',
+    [`WEAPON_REVOLVER`] = 'revolver',
+    [`WEAPON_BAT`] = 'bat',
+    [`WEAPON_GOLFCLUB`] = 'golfclub',
+    [`WEAPON_TACTICALRIFLE`] = 'tacticalrifle',
+    [`WEAPON_HEAVYRIFLE`] = 'weapon_heavyrifle',
+    [`WEAPON_762`] = 'carbinerifle_mk2',
+    [`WEAPON_SP45`] = 'weapon_heavypistol',
+    [`WEAPON_1911`] = 'weapon_pistol_mk2',
+    [`weapon_pistol_mk2`] = 'weapon_pistol_mk2',
+    [`WEAPON_HEAVYPISTOL`] = 'weapon_heavypistol',
+    [`WEAPON_PISTOL50`] = 'weapon_pistol50',
+    [`WEAPON_MARKSMANRIFLE_MK2`] = 'weapon_marksmanrifle_mk2',
+    [`WEAPON_HEAVYSNIPER_MK2`] = 'weapon_heavysniper_mk2',
+    [`WEAPON_ASSAULTSMG`] = 'weapon_assaultsmg',
+    [`WEAPON_GUSENBERG`] = 'weapon_gusenberg',
+    [`WEAPON_MINISMG`] = 'weapon_minismg',
+    [`WEAPON_MICROSMG`] = 'weapon_microsmg',
+    [`WEAPON_MPX`] = 'weapon_smg_mk2',
+    [`WEAPON_SMG_MK2`] = 'weapon_smg_mk2',
+    [`WEAPON_COMPACTRIFLE`] = 'weapon_compactrifle',
+    [`WEAPON_MACHINEPISTOL`] = 'weapon_machinepistol',
+    [`WEAPON_COMBATMG`] = 'weapon_combatmg',
+    [`WEAPON_ADVANCEDRIFLE`] = 'weapon_advancedrifle',
+    [`WEAPON_MK18`] = 'carbinerifle_mk2',
+    [`WEAPON_SPECIALCARBINE`] = 'weapon_specialcarbine',
+    [`WEAPON_SCARH`] = 'weapon_scarh',
+    [`WEAPON_AK47`] = 'weapon_assaultrifle',
+    [`WEAPON_APPISTOL`] = 'weapon_appistol',
+    [`WEAPON_CERAMICPISTOL`] = 'weapon_ceramicpistol',
+    [`WEAPON_PISTOLXM3`] = 'weapon_ceramicpistol',
+    [`WEAPON_GLOCK18C`] = 'weapon_appistol',
+    [`WEAPON_GLOCK17`] = 'weapon_glock',
+    [`WEAPON_FNX45`] = 'pistol',
+    [`WEAPON_USP45`] = 'weapon_heavypistol',
+    [`WEAPON_VINTAGEPISTOL`] = 'weapon_vintagepistol',
+    [`WEAPON_COMBATPISTOL`] = 'weapon_combatpistol',
+    [`WEAPON_M45A1`] = 'weapon_combatpistol',
+}
+
+local function GetWeaponName(hash)
+    return weaponNames[hash.weaponhash] or 'unknown'
+end
+
+AddEventHandler('baseevents:onPlayerKilled', function(killerId, deathData)
+    local weaponName = GetWeaponName(deathData)
+
+    if source == killerId then
+        return
+    end
+
     local Victim = source
     local Killer = killerId
+
     local lobby = exports['erotic-lobby']:GetWorld(Killer)
 
     local KillerSteam = GetIdentifier("steam", Killer)
