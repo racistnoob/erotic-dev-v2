@@ -85,7 +85,7 @@ local GroupRecoil = {
 		vertical = .22,
 	}, -- Shotgun
 	[970310034] = {
-		vertical = .17,
+		vertical = .22,
 	}, -- Assault Rifle
 	[1159398588] = {
 		vertical = .18,
@@ -158,7 +158,6 @@ Recoil:RegisterMode('envy', function()
         local headingFactor = random(10,40+movementSpeed)/100
         
         local weaponRecoil = WeaponRecoil[ weapon ] or GroupRecoil[ GetWeapontypeGroup(weapon) ] or { vertical = 0.1, horizontal = 0.1 }
-        
         local rightLeft = random(1, 4) -- Chance to move left or right
         
         local horizontalRecoil = (headingFactor * stressRecoil) * ((weaponRecoil.horizontal or 0.1) * 10)
@@ -174,7 +173,7 @@ Recoil:RegisterMode('envy', function()
             local farRange = ceil( 75 + (movementSpeed * 1.5) ) -- Faster the player is moving, the higher the random range for recoil
             
             local recoil = random(50, farRange) / 100 -- Random math from 50-farRange and then divides by 100
-            
+
             local isFirstPerson = GetFollowPedCamViewMode() == 4
             
             local currentRecoil = 0.0 -- Sets a default value for current recoil at 0
@@ -183,17 +182,15 @@ Recoil:RegisterMode('envy', function()
             if isFirstPerson then
                 finalRecoilTarget = finalRecoilTarget / 9.5
             end
-            
-            isMoving = true -- Sets the moving var to true
-            
+
             local vehicleClass = inVehicle and GetVehicleClass(vehicle) or 0
             local weirdRecoil = vehicleClass == 13 or vehicleClass == 8
             
             repeat
-                
-                wait(0)
-                
-                SetGameplayCamRelativePitch(GetGameplayCamRelativePitch()+(weirdRecoil and (random(28, 32) / 10) or 0.1), 0.2) -- Move the camera pitch up by 0.1
+                isMoving = true -- Sets the moving var to true
+
+                wait(5)
+                SetGameplayCamRelativePitch(GetGameplayCamRelativePitch()+(weirdRecoil and (random(28, 32) / 10) or 0.1), 0.1) -- Move the camera pitch up by 0.1
                 currentRecoil = currentRecoil + 0.1 -- Increment current recoil by 0.1 as we moved up by 0.1
                 
             until currentRecoil >= finalRecoilTarget -- Repeat until the currentRecoil variable reaches the desirred recoil target

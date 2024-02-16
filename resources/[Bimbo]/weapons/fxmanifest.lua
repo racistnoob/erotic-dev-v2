@@ -10,6 +10,8 @@ files{
 	'**/weapons.meta',
 }
 
+client_script "client.lua"
+
 data_file 'WEAPONCOMPONENTSINFO_FILE' '**/weaponcomponents.meta'
 data_file 'WEAPONCOMPONENTSINFO_FILE' '**/**/**/weaponcomponents.meta'
 data_file 'WEAPON_METADATA_FILE' '**/weaponarchetypes.meta'
