@@ -22,9 +22,9 @@ body {
 
 .notification-container {
     position: absolute;
-    top: 1vh;
-    right: 16vh;
-    width: 58.6vh;
+    top: 5vh;
+    right: 18vh;
+    width: 16.3vh;
     height: auto;
     display: flex;
     flex-direction: row;
