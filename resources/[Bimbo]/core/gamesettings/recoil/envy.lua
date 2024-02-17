@@ -62,8 +62,8 @@ local WeaponRecoil = {
 		vertical = .48,
 	},
 	[`weapon_762`] = {
-		vertical = .30,
-		horizontal = .14
+		vertical = .56,
+		horizontal = .18
 	},
 	[`weapon_mp5`] = {
 		vertical = .26,
@@ -77,15 +77,16 @@ local WeaponRecoil = {
 local GroupRecoil = {
 	[416676503] = {
 		vertical = .20,
+        horizontal = .1
 	}, -- Handgun
 	[-957766203] = {
 		vertical = .17,
 	}, -- Submachine
 	[860033945] = {
-		vertical = .22,
+		vertical = .25,
 	}, -- Shotgun
 	[970310034] = {
-		vertical = .22,
+		vertical = .27,
 	}, -- Assault Rifle
 	[1159398588] = {
 		vertical = .18,
@@ -170,7 +171,7 @@ Recoil:RegisterMode('envy', function()
         
         if not isMoving then -- Checks if the recoil is already being vertically adjusted
             
-            local farRange = ceil( 75 + (movementSpeed * 1.5) ) -- Faster the player is moving, the higher the random range for recoil
+            local farRange = ceil( 75 + (movementSpeed * 3.0) ) -- Faster the player is moving, the higher the random range for recoil
             
             local recoil = random(50, farRange) / 100 -- Random math from 50-farRange and then divides by 100
 
@@ -190,7 +191,7 @@ Recoil:RegisterMode('envy', function()
                 isMoving = true -- Sets the moving var to true
 
                 wait(5)
-                SetGameplayCamRelativePitch(GetGameplayCamRelativePitch()+(weirdRecoil and (random(28, 32) / 10) or 0.1), 0.1) -- Move the camera pitch up by 0.1
+                SetGameplayCamRelativePitch(GetGameplayCamRelativePitch()+(weirdRecoil and (random(28, 32) / 10) or 0.1), 0.125) -- Move the camera pitch up by 0.1
                 currentRecoil = currentRecoil + 0.1 -- Increment current recoil by 0.1 as we moved up by 0.1
                 
             until currentRecoil >= finalRecoilTarget -- Repeat until the currentRecoil variable reaches the desirred recoil target

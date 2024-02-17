@@ -22,13 +22,15 @@ body {
 
 .notification-container {
     position: absolute;
-    top: 5vh;
+    top: 4.5vh;
     right: 18vh;
-    width: 16.3vh;
+    width: 24vh;
     height: auto;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    align-items: flex-end;
 }
 
 .notification {

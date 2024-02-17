@@ -179,7 +179,7 @@ local function generateTags(settings)
     end
 
     if settings.skeletons then
-        table.insert(tags, "Skeletons")
+        table.insert(tags, "ESP")
     end
 
     if settings.nonstopcombat then
