@@ -125,11 +125,8 @@ local function resetAlive()
 end
 
 local function dodamageTick()
-    if not damageEnabled then
-        return
-    end
     for playerId, _ in pairs(playerData) do
-        if _.alive then
+        if _.alive and damageEnabled then
             TriggerClientEvent('tournament:damagetick', playerId)
         end
     end
@@ -139,10 +136,11 @@ local function damageTick()
     Citizen.CreateThread(function()
         getAllDead()
         while damageEnabled do
-            getAllDead()
-            if not allDead then
-                dodamageTick()
+            if not damageEnabled then
+                return
             end
+            getAllDead()
+            dodamageTick()
             Wait(2000)
         end
     end)
