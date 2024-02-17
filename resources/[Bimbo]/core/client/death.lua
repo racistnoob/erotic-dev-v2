@@ -51,3 +51,5 @@ end)
 exports("deathSpot", function(x, y, z, h)
     UndeadedPlayer(x, y, z, h)
 end)
+
+exports("DeathTimer", DeathTimer)

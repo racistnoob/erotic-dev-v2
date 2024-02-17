@@ -78,7 +78,6 @@ end)
 
 RegisterNetEvent("tournament:roundOver")
 AddEventHandler("tournament:roundOver", function()
-    local spawn = exports['erotic-lobby']:getCurrentWorldDeathSpot()
-    exports['core']:UndeadedPlayer(spawn.x, spawn.y, spawn.z, spawn.h)
+    exports['core']:DeathTimer()
     showWalls(true)
 end)
