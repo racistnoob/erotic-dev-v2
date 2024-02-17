@@ -104,6 +104,7 @@ local function getAllDead()
             allDead = false
             return false
         end
+        Wait()
     end
     damageEnabled = false
     allDead = true
@@ -126,6 +127,7 @@ end
 
 local function dodamageTick()
     for playerId, _ in pairs(playerData) do
+        Wait()
         if _.alive then
             TriggerClientEvent('tournament:damagetick', playerId)
         end
@@ -150,6 +152,7 @@ local function roundEnd(allDead)
     
     roundActive = false
     if allDead then
+        damageEnabled = false
         TriggerClientEvent('drp-notifications:client:SendAlert', -1, {type = 'inform', text = "Round over!", length = 5000})
     end
     Wait(1000)
