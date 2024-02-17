@@ -152,7 +152,7 @@ end)
 
 exports("toggleHud", function(state)
     if xhair.enabled then
-        send_nui_message({ type = "xhair", cross = not state })
+        send_nui_message({ type = "xhair", cross = state })
     end
     send_nui_message({ type = "showWatermark", value = state})
     --toggleHud = state
