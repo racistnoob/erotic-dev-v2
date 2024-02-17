@@ -295,7 +295,6 @@ RegisterCommand("team", function(src, args)
 
                 data[newTeam].players[nextTeamMemberId[newTeam]] = GetSteamPP(GetIdentifier(src))
                 nextTeamMemberId[newTeam] = nextTeamMemberId[newTeam] + 1
-                TriggerClientEvent('drp-notifications:client:SendAlert', src, {type = 'inform', text = "Joined "..newTeam.." team", length = 5000})
                 data[newTeam].alive = data[newTeam].alive + 1
             else
                 return
