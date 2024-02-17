@@ -125,26 +125,6 @@ local function resetAlive()
     TriggerClientEvent("tournament:NUIMessage", -1, data)
 end
 
-local function dodamageTick()
-    for playerId, _ in pairs(playerData) do
-        Wait()
-        if _.alive then
-            TriggerClientEvent('tournament:damagetick', playerId)
-        end
-    end
-end
-
-local function damageTick()
-    Citizen.CreateThread(function()
-        getAllDead()
-        while not allDead and damageEnabled do
-            getAllDead()
-            dodamageTick()
-            Wait(2000)
-        end
-    end)
-end
-
 local function roundEnd(allDead)
     data.timer = "15:00"
     TriggerClientEvent("tournament:NUIMessage", -1, data)
@@ -164,16 +144,7 @@ local function timerEnd()
     data.timer = "0:00"
     TriggerClientEvent("tournament:NUIMessage", -1, data)
 
-    damageTick()
-
     getAllDead()
-    damageEnabled = true
-    while not allDead do
-        if damageEnabled then
-            getAllDead()
-            Wait(1000)
-        end
-    end
     roundEnd()
 end
 
