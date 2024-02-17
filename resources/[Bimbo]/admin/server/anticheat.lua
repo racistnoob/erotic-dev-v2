@@ -784,6 +784,7 @@ CreateThread(function()
             DropPlayer(source, "Event Hacker")
         end)
     end
+    collectgarbage()
 end)
 
 local TX_ADMINS = {}
@@ -996,8 +997,14 @@ AddEventHandler('admin:magicbullet', function(killerClientId)
 end)
 
 RegisterNetEvent('admin:disabled')
-AddEventHandler('admin:disabled', function()
+AddEventHandler('admin:disabled', function(name)
+    if TX_ADMINS[tostring(source)] then
+        return
+    end
+
     sendToDiscord(anticheat_Logs, 
     "Detected cheating: ".. GetPlayerName(source), "**Player: **" .. GetPlayerName(source) ..
-    "\n**Action: **Stopped anticheat resource")
+    "\n**Action: **Stopped " .. name .. " resource")
+
+    DropPlayer(source, "Cheating")
 end)

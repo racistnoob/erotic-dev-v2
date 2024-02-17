@@ -1,22 +1,3 @@
-local ForbiddenClientEvents = {
-    "ambulancier:selfRespawn",
-    "bank:transfer",
-    "HCheat:TempDisableDetection",
-    "UnJP"
-}
-
-local AlreadyTriggered = false
-
-CreateThread(function()    
-    for i, eventName in ipairs(ForbiddenClientEvents) do
-        AddEventHandler(eventName, function()
-            if AlreadyTriggered then CancelEvent() return end
-            TriggerServerEvent("erp_adminmenu:sendCommands", "Cheating (1)")
-            AlreadyTriggered = true
-        end)
-    end
-end)
-
 local bannedClientCommands = {
     ["brutan"] = true,
     ["chocolate"] = true,
@@ -62,17 +43,5 @@ AddEventHandler("gameEventTriggered", function(name, args)
     if name == "CEventNetworkVehicleUndrivable" then
         local entity = table.unpack(args)
         DeleteEntity(entity)
-    end
-end)
-
-AddEventHandler("onClientResourceStop", function(name)
-    if name == GetCurrentResourceName() then
-        TriggerServerEvent('admin:disabled')
-    end
-end)
-
-AddEventHandler('onResourceStop', function(name)
-    if name == GetCurrentResourceName() then
-        TriggerServerEvent('admin:disabled')
     end
 end)
