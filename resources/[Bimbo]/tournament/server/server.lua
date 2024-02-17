@@ -126,7 +126,7 @@ end
 
 local function dodamageTick()
     for playerId, _ in pairs(playerData) do
-        if _.alive and damageEnabled then
+        if _.alive then
             TriggerClientEvent('tournament:damagetick', playerId)
         end
     end
@@ -135,10 +135,7 @@ end
 local function damageTick()
     Citizen.CreateThread(function()
         getAllDead()
-        while damageEnabled do
-            if not damageEnabled then
-                return
-            end
+        while not allDead and damageEnabled do
             getAllDead()
             dodamageTick()
             Wait(2000)
@@ -233,7 +230,6 @@ RegisterCommand("ready", function(src, args)
         playerData[src].ready = true
         if getAllReady() then
             if not timerEnabled then
-                damageEnabled = false
                 TriggerClientEvent("tournament:startRound", -1)
                 Wait(6200)
                 startTimer("15:00")
@@ -328,12 +324,12 @@ RegisterCommand("team", function(src, args)
 
             TriggerClientEvent('drp-notifications:client:SendAlert', src, {type = 'inform', text = "Left "..currentTeam.." team", length = 5000})
             playerData[src] = nil
-
-            local clientData = data
-            clientData.currentTeam = ""
-            TriggerClientEvent("tournament:NUIMessage", -1, data)
-            TriggerClientEvent("tournament:NUIMessage", src, clientData)
         end
+
+        local clientData = data
+        clientData.currentTeam = ""
+        TriggerClientEvent("tournament:NUIMessage", -1, data)
+        TriggerClientEvent("tournament:NUIMessage", src, clientData)
     end
 end)
 
@@ -342,38 +338,9 @@ RegisterCommand("setscore", function(src, args)
         local team = args[1]
         local score = tonumber(args[2])
 
-        data[team].score = score
+        data[args[1]].score = score
         TriggerClientEvent("tournament:NUIMessage", -1, data)
     end
-end)
-
-RegisterCommand("resetall", function(src, args)
-    data = {
-        red = {
-            score =  0,
-            alive =  0,
-            players = {
-                [1] = noImage,
-                [2] = noImage,
-                [3] = noImage,
-                [4] = noImage
-            }
-        },
-        blue = {
-            score = 0,
-            alive = 0,
-            players = {
-                [1] = noImage,
-                [2] = noImage,
-                [3] = noImage,
-                [4] = noImage
-            }
-        },
-        timer = "15:00",
-        currentTeam = ""
-    }
-    playerData = {}
-    TriggerClientEvent("tournament:NUIMessage", -1, data)
 end)
 
 RegisterServerEvent('baseevents:onPlayerDied')
