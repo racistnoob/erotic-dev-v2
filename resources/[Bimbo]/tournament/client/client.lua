@@ -78,6 +78,6 @@ end)
 
 RegisterNetEvent("tournament:roundOver")
 AddEventHandler("tournament:roundOver", function()
-    exports['core']:DeathTimer()
+    SetEntityHealth(PlayerPedId(), 0)
     showWalls(true)
 end)

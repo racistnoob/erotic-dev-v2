@@ -123,6 +123,7 @@ local function GetWeaponName(hash)
     return weaponNames[hash.weaponhash] or 'unknown'
 end
 
+RegisterNetEvent('baseevents:onPlayerKilled')
 AddEventHandler('baseevents:onPlayerKilled', function(killerId, deathData)
     if source == killerId then
         return
