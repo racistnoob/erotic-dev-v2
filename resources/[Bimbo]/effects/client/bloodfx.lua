@@ -13,6 +13,7 @@ local effects = {
     BiggerBlood = "blood_wheel",
     Default = "blood_entry",
     Smoke = "blood_armour",
+    Spark = "ent_brk_metal_frag"
 }
 
 RegisterNUICallback('getBloodFx', function(data, cb)

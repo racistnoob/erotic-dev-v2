@@ -78,7 +78,7 @@ const App: React.FC = () => {
       setWeathers(weatherArray);
   
     } catch (error) {
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
     }
   };
 
@@ -311,7 +311,7 @@ const App: React.FC = () => {
             }`}
             onClick={() => handleTimeChange(times[selectedTimeIndex])}
           >
-            {times[selectedTimeIndex]}
+            {times[selectedTimeIndex]}:00
           </div>
         </div>
       </div>
