@@ -149,7 +149,6 @@ const App: React.FC = () => {
             return newIndex;
           });
         }
-        setTimeout(() => setIsLeftArrowPressed(false), 150); // Reset left arrow after 1 second
         break;
       case "ArrowRight":
         setIsLeftArrowPressed(false);
@@ -179,7 +178,6 @@ const App: React.FC = () => {
             return newIndex;
           });
         }
-        setTimeout(() => setIsRightArrowPressed(false), 150); // Reset right arrow after 1 second
         break;
       case "ArrowUp":
         setIsLeftArrowPressed(false);
@@ -228,11 +226,22 @@ const App: React.FC = () => {
     });
   };
 
+  const handleKeyUp = (event: KeyboardEvent) => {
+    const { key } = event;
+    if (key === "ArrowLeft") {
+      setIsLeftArrowPressed(false);
+    } else if (key === "ArrowRight") {
+      setIsRightArrowPressed(false);
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-
+    document.addEventListener("keyup", handleKeyUp);
+  
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
     };
   }, [selectedCategory, selectedEffectIndex, selectedTimeIndex]);
 
@@ -240,7 +249,7 @@ const App: React.FC = () => {
     <div className="settings-menu">
       <h1 className="settings-header">Graphics Settings</h1>
       {/* <h2 className="settings-header-tooltip">EroticRP</h2> */}
-      <div className="settings-item">
+      <div className={`settings-item ${selectedCategory === Category.Effects ? 'active-item' : ''}`}>
       {selectedCategory === Category.Effects && (
         <div
         className={`settings-item-arrow-left ${
@@ -283,7 +292,7 @@ const App: React.FC = () => {
         </div>
       )}
     </div>
-    <div className="settings-item">
+    <div className={`settings-item ${selectedCategory === Category.Time ? 'active-item' : ''}`}>
       {selectedCategory === Category.Time && (
         <div
           className={`settings-item-arrow-left ${
@@ -316,76 +325,74 @@ const App: React.FC = () => {
         </div>
       )}
     </div>
-    <div className="settings-item">
-  {selectedCategory === Category.Timecycles && (
-    <div
-      className={`settings-item-arrow-left ${
-        isLeftArrowPressed ? "active" : ""
-      }`}
-    >
-      &#9664;
-    </div>
-  )}
-  <div className={`settings-category ${selectedCategory === Category.Timecycles ? 'active' : ''}`}>
-    <div className="settings-item-title">TimeCycles</div>
-    <div className="settings-item-label">
-      <div
-        className={`settings-item-selected ${
-          selectedCategory === Category.Timecycles ? 'active' : ''
-        }`}
-        onClick={() =>
-          handleTimecycleChange(timecycles[selectedTimecycleIndex]?.name ?? '')
-        }
-      >
-        {timecycles[selectedTimecycleIndex]?.name}
+    <div className={`settings-item ${selectedCategory === Category.Timecycles ? 'active-item' : ''}`}>
+      {selectedCategory === Category.Timecycles && (
+        <div
+          className={`settings-item-arrow-left ${
+            isLeftArrowPressed ? "active" : ""
+          }`}
+        >
+          &#9664;
+        </div>
+      )}
+      <div className={`settings-category ${selectedCategory === Category.Timecycles ? 'active' : ''}`}>
+        <div className="settings-item-title">TimeCycles</div>
+        <div className="settings-item-label">
+          <div
+            className={`settings-item-selected ${
+              selectedCategory === Category.Timecycles ? 'active' : ''
+            }`}
+            onClick={() =>
+              handleTimecycleChange(timecycles[selectedTimecycleIndex]?.name ?? '')
+            }
+          >
+            {timecycles[selectedTimecycleIndex]?.name}
+          </div>
+        </div>
       </div>
+      {selectedCategory === Category.Timecycles && (
+        <div
+          className={`settings-item-arrow-right ${
+            isRightArrowPressed ? "active" : ""
+          }`}
+        >
+          &#9654;
+        </div>
+      )}
     </div>
-  </div>
-  {selectedCategory === Category.Timecycles && (
-    <div
-      className={`settings-item-arrow-right ${
-        isRightArrowPressed ? "active" : ""
-      }`}
-    >
-      &#9654;
-    </div>
-  )}
-</div>
-
-<div className="settings-item">
-  {selectedCategory === Category.Weather && (
-    <div
-      className={`settings-item-arrow-left ${
-        isLeftArrowPressed ? "active" : ""
-      }`}
-    >
-      &#9664;
-    </div>
-  )}
-  <div className={`settings-category ${selectedCategory === Category.Weather ? 'active' : ''}`}>
-    <div className="settings-item-title">Weather</div>
-    <div className="settings-item-label">
-      <div
-        className={`settings-item-selected ${
-          selectedCategory === Category.Weather ? 'active' : ''
-        }`}
-        onClick={() => handleWeatherChange(weathers[selectedWeatherIndex]?.name ?? '')}
-      >
-        {weathers[selectedWeatherIndex]?.name}
+    <div className={`settings-item ${selectedCategory === Category.Weather ? 'active-item' : ''}`}>
+        {selectedCategory === Category.Weather && (
+          <div
+            className={`settings-item-arrow-left ${
+              isLeftArrowPressed ? "active" : ""
+            }`}
+          >
+            &#9664;
+          </div>
+        )}
+        <div className={`settings-category ${selectedCategory === Category.Weather ? 'active' : ''}`}>
+          <div className="settings-item-title">Weather</div>
+          <div className="settings-item-label">
+            <div
+              className={`settings-item-selected ${
+                selectedCategory === Category.Weather ? 'active' : ''
+              }`}
+              onClick={() => handleWeatherChange(weathers[selectedWeatherIndex]?.name ?? '')}
+            >
+              {weathers[selectedWeatherIndex]?.name}
+            </div>
+          </div>
+        </div>
+        {selectedCategory === Category.Weather && (
+          <div
+            className={`settings-item-arrow-right ${
+              isRightArrowPressed ? "active" : ""
+            }`}
+          >
+            &#9654;
+          </div>
+        )}
       </div>
-    </div>
-  </div>
-  {selectedCategory === Category.Weather && (
-    <div
-      className={`settings-item-arrow-right ${
-        isRightArrowPressed ? "active" : ""
-      }`}
-    >
-      &#9654;
-    </div>
-  )}
-</div>
-
     </div>
   );
 };

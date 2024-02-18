@@ -58,14 +58,13 @@
   color: #c8c8c8;
   font-size: 25px;
   margin: 10px;
-  transition: opacity 0.3s ease;
+  transition: color 0.05s ease;
 }
 
 .settings-item-arrow-right.active,
 .settings-item-arrow-left.active {
   color: #908aff;
-  transition: color 0.3s ease;
-  transition: opacity 1s ease;
+  transition: color 0.05s ease;
 }
 
 .settings-category {
@@ -78,6 +77,12 @@
   color: #908aff;
   opacity: 1;
   width: 250PX;
+}
+
+.active-item {
+  background-color: #4a4a72;
+  box-shadow:inset 0 0 1px 1px #908aff,inset 0 0 20px 10px #000000d0;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .settings-item-title {
