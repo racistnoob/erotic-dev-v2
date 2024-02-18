@@ -99,21 +99,49 @@ const App: React.FC = () => {
       setSelectedTimeIndex(newTime);
     }
   };
-
-  const handleTimeChange = (hour: number) => {
-    fetchNui("effects:setTime", { hour });
-  };
   
   const handleBloodFXChange = (name: string) => {
+    const label = document.querySelector('.settings-item-label');
+    label?.classList.add('updated');
+
     fetchNui("blood:changeEffect", { effectName: name });
+
+    setTimeout(() => {
+      label?.classList.remove('updated');
+  }, 250);
+  };
+
+  const handleTimeChange = (hour: number) => {
+    const label = document.querySelector('.settings-item-label');
+    label?.classList.add('updated');
+
+    fetchNui("effects:setTime", { hour });
+
+    setTimeout(() => {
+      label?.classList.remove('updated');
+  }, 250);
   };
 
   const handleTimecycleChange = (type: string) => {
+    const label = document.querySelector('.settings-item-label');
+    label?.classList.add('updated');
+
     fetchNui("timecycle:changeEffect", { type });
+
+    setTimeout(() => {
+      label?.classList.remove('updated');
+  }, 250);
   };
 
   const handleWeatherChange = (type: string) => {
+    const label = document.querySelector('.settings-item-label');
+    label?.classList.add('updated');
+
     fetchNui("weather:changeEffect", { type });
+
+    setTimeout(() => {
+      label?.classList.remove('updated');
+  }, 250);
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -274,9 +302,6 @@ const App: React.FC = () => {
             className={`settings-item-selected ${
               selectedCategory === Category.Effects ? "active" : ""
             }`}
-            onClick={() =>
-              handleBloodFXChange(effects[selectedEffectIndex]?.name ?? "")
-            }
           >
             {effects[selectedEffectIndex]?.name}
           </div>
@@ -309,7 +334,6 @@ const App: React.FC = () => {
             className={`settings-item-selected ${
               selectedCategory === Category.Time ? 'active' : ''
             }`}
-            onClick={() => handleTimeChange(times[selectedTimeIndex])}
           >
             {times[selectedTimeIndex]}:00
           </div>
@@ -342,9 +366,6 @@ const App: React.FC = () => {
             className={`settings-item-selected ${
               selectedCategory === Category.Timecycles ? 'active' : ''
             }`}
-            onClick={() =>
-              handleTimecycleChange(timecycles[selectedTimecycleIndex]?.name ?? '')
-            }
           >
             {timecycles[selectedTimecycleIndex]?.name}
           </div>
@@ -377,7 +398,6 @@ const App: React.FC = () => {
               className={`settings-item-selected ${
                 selectedCategory === Category.Weather ? 'active' : ''
               }`}
-              onClick={() => handleWeatherChange(weathers[selectedWeatherIndex]?.name ?? '')}
             >
               {weathers[selectedWeatherIndex]?.name}
             </div>
