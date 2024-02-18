@@ -360,7 +360,7 @@ const App: React.FC = () => {
         </div>
       )}
       <div className={`settings-category ${selectedCategory === Category.Timecycles ? 'active' : ''}`}>
-        <div className="settings-item-title">TimeCycles</div>
+        <div className="settings-item-title">Timecycles</div>
         <div className="settings-item-label">
           <div
             className={`settings-item-selected ${
