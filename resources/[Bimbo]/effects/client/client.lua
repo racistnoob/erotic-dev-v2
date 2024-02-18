@@ -19,4 +19,8 @@ RegisterCommand('+effects_menu', function()
   toggleNuiFrame(true)
 end)
 
+RegisterCommand('settings', function()
+  toggleNuiFrame(true)
+end)
+
 RegisterKeyMapping('+effects_menu', 'Open Graphics Menu', 'keyboard', 'f1')
