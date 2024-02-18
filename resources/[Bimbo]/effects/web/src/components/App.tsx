@@ -239,7 +239,7 @@ const App: React.FC = () => {
   return (
     <div className="settings-menu">
       <h1 className="settings-header">Graphics Settings</h1>
-      <h2 className="settings-header-tooltip"> Use Arrow Keys</h2>
+      {/* <h2 className="settings-header-tooltip">EroticRP</h2> */}
       <div className="settings-item">
       {selectedCategory === Category.Effects && (
         <div
