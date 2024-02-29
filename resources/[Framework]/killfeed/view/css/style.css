@@ -201,6 +201,8 @@ body {
     display: flex;
     flex-direction: column;
     transition: left 0.4s;
+    justify-content: center;
+    align-items: center;
 }
 
 .information {
@@ -215,22 +217,31 @@ body {
 }
 
 .label {
-    background: radial-gradient(50% 50% at 50% 50%, rgba(94, 94, 94, 0.6) 0%, rgba(58, 58, 58, 0.7) 100%);
-    padding: 10px;
+    background: radial-gradient(50% 50% at 50% 50%, #908aff 0%, #7c75ff 100%);
+    text-align: center;
+    padding: 10px 0; /* Adjust padding */
     width: 167px;
     height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Oswald';
     font-style: normal;
-    font-weight: 500;
-    font-size: 22px;
-    line-height: 13px;
+    font-weight: 600;
+    font-size: 26px;
     color: #FFFFFF;
+    text-shadow: 0 10px 10px black;
+    border-radius: 5px;
+    line-height: 13px;
 }
 
 .value {
-    background: radial-gradient(50% 50% at 50% 50%, rgba(94, 94, 94, 0.6) 0%, rgba(58, 58, 58, 0.7) 100%);
+    background: radial-gradient(50% 50% at 50% 50%, #b2aeff 0%, #7c75ff 100%);
+    text-shadow: 0 10px 10px black;
+    box-shadow: 0 0 10px #000000;
     padding: 10px;
     height: 33px;
+    border-radius: 3px;
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 500;

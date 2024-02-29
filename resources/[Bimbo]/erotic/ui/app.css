@@ -74,8 +74,9 @@
     .WM-data {
         padding: 0%;
         margin: 0%;
-        text-shadow: 2px 2px 1px black;
-        color: gray;
+        text-shadow: 0 3px 10px rgb(255, 255, 255, 1);
+        color: #908aff;
+        font-weight: 700;
         font-family: Poppins;
         text-align: left;
     }
@@ -86,7 +87,7 @@
         margin: 0%;
         margin-left: 3px;
         font-size: 12px;
-        text-shadow: 2px 2px 1px black;
+        text-shadow: 0 3px 10px rgb(0, 0, 0);
         color: white;
         font-family: Poppins;
     }

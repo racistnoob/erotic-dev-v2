@@ -38,7 +38,7 @@
         position: relative
     }
     
-     ::selection {
+    ::selection {
         background: #908aff7a;
     }
     
