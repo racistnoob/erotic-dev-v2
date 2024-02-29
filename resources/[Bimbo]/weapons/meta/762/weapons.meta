@@ -460,7 +460,7 @@
                 </Item>
                 <Item>
                   <Name>COMPONENT_CARBINERIFLE_MK2_CAMO_09</Name>
-                  <Default value="true" />
+                  <Default value="false" />
                 </Item>
                 <Item>
                   <Name>COMPONENT_CARBINERIFLE_MK2_CAMO_10</Name>
