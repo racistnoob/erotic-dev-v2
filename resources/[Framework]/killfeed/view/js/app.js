@@ -18,6 +18,19 @@ function truncate(str, num) {
     }
 }
 
+function getColor(index) {
+    switch (index) {
+        case 1:
+            return '#f5c761';
+        case 2:
+            return '#a8a9ab';
+        case 3:
+            return '#92734e';
+        default:
+            return '#fff';
+    }
+}
+
 function GenerateExtendedStats(stats) {
     $(".ExtendedStats").show()
     $('.ExtendedInformation').append(`
@@ -42,15 +55,18 @@ function GenerateExtendedStats(stats) {
 
 function GenerateStats(stats) {
     $(".StatsInfo").show();
-    stats.slice(0, 3).forEach(stat => {
+    stats.slice(0, 3).forEach((stat, index) => {
+        const labelColor = getColor(index + 1);
+        const textShadow = '0 0 3px ' + labelColor;
         $('.information').append(`
             <div class='labelValue'>
-                <div class='label'>${truncate(stat.Name, 13)}</div>
+                <div class='label' style='color: ${labelColor}; text-shadow: ${textShadow}'>${truncate(stat.Name, 16).toUpperCase()}</div>
                 <div class='value'>${stat.Kills}</div>
             </div>
         `);
     });
 }
+
 
 
 function GenerateList(players) {

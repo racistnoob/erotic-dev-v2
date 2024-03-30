@@ -1,5 +1,5 @@
 CreateThread(function()
-    AddTextEntry("FE_THDR_GTAO", "Erotic PVP")      
+    AddTextEntry("FE_THDR_GTAO", "Illusion PVP")      
     ReplaceHudColourWithRgba(116, 144, 138, 255, 255)
 end)
 

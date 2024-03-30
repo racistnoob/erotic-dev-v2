@@ -58,11 +58,12 @@ function createWeaponCam(coords, gunHash)
     weaponCam = create_cam("DEFAULT_SCRIPTED_CAMERA", true)
     set_cam_coord(weaponCam, cameraX, cameraY, cameraZ)
     point_cam_at_entity(weaponCam, weaponObject, 0.0, 0.0, 0.0, true)
-    set_cam_use_shallow_dof_mode(weaponCam, true)
-    set_cam_near_dof(weaponCam, 0.1)
-    set_cam_far_dof(weaponCam, 0.7)
+    --set_cam_use_shallow_dof_mode(weaponCam, true)
+    --set_cam_near_dof(weaponCam, 0.1)
+    --set_cam_far_dof(weaponCam, 0.7)
     set_cam_active(weaponCam, true)
     render_script_cams(true, false, 0, true, true)
+
     local hasChanged = GetWeaponBoneCoords(gunHash)
     if hasChanged then
         send_nui_message({ type = "updatePos", bonePositions = BONE_POSITIONS })
@@ -150,6 +151,10 @@ function handleCamUpdates(weaponObject, gunHash, coords)
                 send_nui_message({ type = "updatePos", bonePositions = BONE_POSITIONS })
             end
 
+            SetEntityDrawOutlineColor(0, 0, 0, 100) -- set color
+            SetEntityDrawOutlineShader(2)                -- set shader
+            SetEntityDrawOutline(weaponObject, true)           -- toggle it on the entity (not inside loop, just once)
+
             camControl(weaponObject, coords)
 
             if is_disabled_control_just_pressed(0, 191) then
@@ -160,6 +165,9 @@ function handleCamUpdates(weaponObject, gunHash, coords)
                 set_nui_focus(false, false)
                 set_nui_focus_keep_input(false)
                 freeze_entity_position(plyPed, false)
+                SetEntityDrawOutlineColor(0, 0, 0, 0)
+                SetEntityDrawOutlineShader(1)
+                SetEntityDrawOutline(weaponObject, false)
                 delete_entity(weaponObject)
                 destroy_cam(weaponCam, true)
                 render_script_cams(false, false, 0, true, true)

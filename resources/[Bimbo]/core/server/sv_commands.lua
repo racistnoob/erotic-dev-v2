@@ -85,13 +85,6 @@ local function getIdentifier(plyId, identifier)
     return ""
 end
 
-local TX_ADMINS = {}
-AddEventHandler("txAdmin:events:adminAuth", function(data)
-    if data.netid ~= -1 then
-        TX_ADMINS[tostring(data.netid)] = data.isAdmin
-    end
-end)
-
 local report_Logs = "https://discord.com/api/webhooks/1201644493926060143/UzV2wxPv2af8uSqnXmVtKe9QApREglkTvBgC9Z78Iy12OkqabiYEsCf7HEo1mjAC3hLB"
 
 RegisterCommand("report", function(source, args, rawCommand)
@@ -105,8 +98,10 @@ RegisterCommand("report", function(source, args, rawCommand)
             args = { "[REPORT]", "Report submitted."}
         })
 
+        local TX_ADMINS = exports.admin.getTXAdmins()
+
         for adminId, admin in pairs(TX_ADMINS) do
-            if admin then
+            if admin.isAdmin then
                 TriggerClientEvent('chat:addMessage', adminId, {
                     template = '<div class="chat-message" style="border-left: calc(0.092592592vh * 2) solid #8aff90;"><b2>{0}:</b2> <b style="color: #8aff90; text-shadow: 0px 0px calc(.092592592vh * 11.1000003815) #8aff90;">{1}</b1></div>',
                     args = { "[REPORT]", "\n"..name..": "..report}

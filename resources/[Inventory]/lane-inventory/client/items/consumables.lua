@@ -140,7 +140,6 @@ CreateThread(function()
                 SetVehicleEngineHealth(veh, 9999)
                 SetVehiclePetrolTankHealth(veh, 9999)
                 SetVehicleFixed(veh)
-                TriggerEvent("InteractSound_CL:PlayOnOne","airwrench", 0.1)
                 StopAnimTask(Player.Ped(), "mini@repair", "fixing_a_player", 1.0)
                 Player.InAnim = false
                 API.RemoveItem(item, 1)

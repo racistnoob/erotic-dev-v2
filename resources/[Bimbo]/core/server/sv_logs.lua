@@ -82,15 +82,6 @@ AddEventHandler('txAdmin:events:actionRevoked', function(eventData)
     sendToDisc('Action Revoked', "By admin: **" .. author .. "**\nOriginal admin: **" .. actionAuthor .. "**\nPlayer: **" .. target .. "**\nType: **" .. actionType .. "**\nReason: **" .. reason .. "**")
 end)
 
-local TX_ADMINS = {}
-AddEventHandler("txAdmin:events:adminAuth", function(data)
-    if data.netid ~= -1 then
-        TX_ADMINS[tostring(data.netid)] = {}
-        TX_ADMINS[tostring(data.netid)].isAdmin = data.isAdmin
-        TX_ADMINS[tostring(data.netid)].username = data.username
-    end
-end)
-
 local function getPlayerName(src)
     return GetPlayerName(src) or "unknown"
 end
@@ -183,6 +174,8 @@ AddEventHandler('txsv:logger:menuEvent', function(source, action, allowed, data)
     if message == "Unknown action" then
         return
     end
+
+    local TX_ADMINS = exports.admin:getTXAdmins()
 
     local author = TX_ADMINS[tostring(source)] and TX_ADMINS[tostring(source)].username or GetPlayerName(source)
     sendToDisc('Actions', "Admin: **" .. author .. "**\nAction: **" .. message .. "**")

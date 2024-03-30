@@ -27,6 +27,7 @@ AddEventHandler('weaponDamageEvent', function(sender, data)
     local victim = NetworkGetEntityFromNetworkId(data.hitGlobalId)
 
     if GetEntityType(victim) == 1 then
+        -- TODO ADD CHECK FOR ANTI STUN GUN COCKKKK
         local damage = data.weaponDamage
 
         if data.willKill and damage > 100 then

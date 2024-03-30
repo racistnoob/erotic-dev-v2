@@ -153,8 +153,6 @@ function switchWorld(worldID, force, hideNoti, noTeleport)
 
             exports['core']:SetIntenseCamEnabled(worldSettings.recoilMode == "envy")
 
-            exports['tournament']:showTournamentUI(worldSettings.tournament or false)
-
             if LocalPlayer.state.radioChannel ~= 111 then -- global radio
                 exports['radio']:changeradio(0)
             end

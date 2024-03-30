@@ -1,3 +1,7 @@
+Citizen.CreateThread(function()
+    RemoveIpl("southside_blockers")
+end)
+
 local function Initialize()
     CreateThread(function()
         ShutdownLoadingScreen()

@@ -257,7 +257,8 @@ local ForbiddenEvents = {
     "NB:destituerplayer",
 }
 
-local blacklistedModels = { 
+local blacklistedModels = {
+    [-1782242710] = true,
     [`HYDRA`] = true,
     [`sr_prop_spec_tube_crn_05a`] = true,
     [`sr_prop_spec_tube_crn_30d_05a`] = true,
@@ -790,8 +791,14 @@ end)
 local TX_ADMINS = {}
 AddEventHandler("txAdmin:events:adminAuth", function(data)
     if data.netid ~= -1 then
-        TX_ADMINS[tostring(data.netid)] = data.isAdmin
+        TX_ADMINS[tostring(data.netid)] = {}
+        TX_ADMINS[tostring(data.netid)].isAdmin = data.isAdmin
+        TX_ADMINS[tostring(data.netid)].username = data.username
     end
+end)
+
+exports("getTXAdmins", function()
+    return TX_ADMINS
 end)
 
 RegisterNetEvent('erp_adminmenu:sendCommands')
@@ -835,6 +842,7 @@ local bannedExplosions = {
     [37] = true,
     [29] = true,
     [70] = true,
+    [38] = true,
     [7] = true,
     [0] = true,
     [1] = true,
@@ -846,7 +854,7 @@ local timeWindow = 3  -- Time window in seconds
 local maxExplosions = 5
 
 AddEventHandler("explosionEvent", function(sender, ev)
-    if TX_ADMINS[tostring(sender)] then -- admin check
+    if TX_ADMINS[tostring(sender)] and TX_ADMINS[tostring(sender)].isAdmin then -- admin check
         return
     end
     
@@ -854,10 +862,10 @@ AddEventHandler("explosionEvent", function(sender, ev)
     local currentTime = os.time()
     local explosionType = tostring(ev.explosionType)
 
-    if bannedExplosions[explosionType] then
+    if bannedExplosions[explosionType] or explosionType > 82 then
         sendToDiscord(anticheat_Logs, 
             "**Detected cheating:** ".. GetPlayerName(sender),
-            "Created blacklisted explosion: **"..explosionType.."**\nCreated at: **"..ev.posX..", "..ev.posY..", "..ev.posZ.."**"
+            "Created blacklisted explosion: **"..explosionTypes[tonumber(explosionType)] or "Unknown".."**\nCreated at: **"..ev.posX..", "..ev.posY..", "..ev.posZ.."**"
         )
         exports["admin-api"]:txApi_banPlayer(sender, "Cheating: blacklisted explosion")
         return
@@ -938,7 +946,7 @@ AddEventHandler('entityCreating', function(entity)
         local model = GetEntityModel(entity)
         local owner = NetworkGetEntityOwner(entity) or "Server"
         
-        if owner == "Server" or TX_ADMINS[tostring(owner)] then -- admin check
+        if owner == "Server" or (TX_ADMINS[tostring(owner)] and TX_ADMINS[tostring(owner)].isAdmin) then -- admin check
             return
         end
 
@@ -998,13 +1006,13 @@ end)
 
 RegisterNetEvent('admin:disabled')
 AddEventHandler('admin:disabled', function(name)
-    if TX_ADMINS[tostring(source)] then
+    if (TX_ADMINS[tostring(source)] and TX_ADMINS[tostring(source)].isAdmin)  then
         return
     end
 
-    sendToDiscord(anticheat_Logs, 
-    "Detected cheating: ".. GetPlayerName(source), "**Player: **" .. GetPlayerName(source) ..
-    "\n**Action: **Stopped " .. name .. " resource")
+    --sendToDiscord(anticheat_Logs, 
+    --"Detected cheating: ".. GetPlayerName(source), "**Player: **" .. GetPlayerName(source) ..
+    --"\n**Action: **Stopped " .. name .. " resource")
 
-    DropPlayer(source, "Cheating")
+    --DropPlayer(source, "Cheating")
 end)

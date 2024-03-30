@@ -188,6 +188,7 @@ body {
 }
 
 .StatsInfo {
+    filter: drop-shadow(rgb(36, 36, 36) 0px 0px 1px);
     width: 247px;
     height: 130px;
     position: fixed;
@@ -195,10 +196,8 @@ body {
     right: -100px;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    /* background: radial-gradient(50% 50% at 50% 50%, rgba(94, 94, 94, 0.6) 0%, rgba(58, 58, 58, 0.7) 100%); */
-    /* border: 1px solid rgba(0, 0, 0, 0.15); */
     border-radius: 5px;
-    display: flex;
+    display: grid;
     flex-direction: column;
     transition: left 0.4s;
     justify-content: center;
@@ -206,53 +205,37 @@ body {
 }
 
 .information {
-    margin: 16px 24px;
+    display: grid;
 }
 
 .labelValue {
-    display: flex;
+    column-gap: 0.2vh;
+    display: grid;
     flex-direction: row;
-    width: 199px;
     border-bottom: 2px solid rgba(167, 167, 167, 0);
+    font-size: 1.5vmin;
+    width: 100%;
+    grid-template-columns: 13vh 1fr 0vh;
 }
 
 .label {
-    background: radial-gradient(50% 50% at 50% 50%, #908aff 0%, #7c75ff 100%);
-    text-align: center;
-    padding: 10px 0; /* Adjust padding */
-    width: 167px;
-    height: 33px;
-    display: flex;
-    justify-content: center;
+    font-size: 1.6vmin;
+    padding-bottom: 0.1vmin;
     align-items: center;
-    font-family: 'Oswald';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 26px;
-    color: #FFFFFF;
-    text-shadow: 0 10px 10px black;
-    border-radius: 5px;
-    line-height: 13px;
+    background-color: #212528;
+    display: flex;
+    justify-content: left;
+    padding-left: 0.5vh;
+    color: #fff;
 }
 
 .value {
-    background: radial-gradient(50% 50% at 50% 50%, #b2aeff 0%, #7c75ff 100%);
-    text-shadow: 0 10px 10px black;
-    box-shadow: 0 0 10px #000000;
-    padding: 10px;
-    height: 33px;
-    border-radius: 3px;
-    font-family: 'Oswald';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 22px;
-    line-height: 13px;
-    color: #FFFFFF;
-    margin-left: auto;
-    &.time {
-        position: absolute;
-        left: 136px;
-        text-align: right;
-        width: 80px;
-    }
+    font-size: 1.6vmin;
+    padding-bottom: 0.1vmin;
+    width: 3vh;
+    align-items: center;
+    background-color: #212528;
+    display: flex;
+    justify-content: center;
+    color: #fff;
 }
