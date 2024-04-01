@@ -80,6 +80,7 @@ local set_ped_can_play_ambient_anims = SetPedCanPlayAmbientAnims
 local set_ped_can_lose_props_on_damage = SetPedCanLosePropsOnDamage
 Citizen.CreateThread(function()
     DisableIdleCamera(true)
+    SetWeaponsNoAutoswap(true)
     while true do
         N_0x4757f00bc6323cfe(-1553120962, 0)
         set_ped_can_play_ambient_anims(PlayerPed, false)

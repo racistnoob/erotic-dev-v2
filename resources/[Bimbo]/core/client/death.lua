@@ -31,9 +31,9 @@ function UndeadedPlayer(x, y, z, h)
     end
 end
 
-
 RegisterCommand('kill', function(source, args, rawCommand)
     exports['drp-notifications']:SendAlert('error', 'About to die', 5000)
+    Citizen.Wait(3000)
     local playerPed = PlayerPedId()
     SetPedToRagdoll(playerPed, 5000, 5000, 0, true, true, false)
     Citizen.Wait(1000)
@@ -41,6 +41,9 @@ RegisterCommand('kill', function(source, args, rawCommand)
     SetEntityHealth(playerPed, 0)
     DetachEntity(playerPed)
 end)
+
+RegisterKeyMapping("kill", "Suicide", "KEYBOARD", "")
+
 
 RegisterCommand('leave', function(source, args, rawCommand)
     exports['drp-notifications']:SendAlert('inform', 'Leaving lobby', 5000)

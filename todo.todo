@@ -1,35 +1,20 @@
 [TODO]:
-    - /kill keybind in settings
-    - Redesign watermark + leaderboard (should take like no time at all todo)
+    - resetscore command
+    - Redesign extended leaderboard
     - Gungame
     - Tournament fixes
     - Disable safezone option
-    - Safezone-in delay (delay ghosting when going into a safezone to prevent abuse)
     - Disable weapon attachments in lobby
     - Add more spawn options (other than southside)
     - Emotes
     - Whitelist/blacklist specific weapons option
     - Mix & match different recoil settings (eg. echo recoil on foot, arena recoil in car)
+    - recoil multiplier
     - Banktruck/CvR mode
-    - Sticky bombs (ECHO COMBAT SETITNG)
-
-    performance:
-    RegisterCommand('hint', function(source, args)
-        local number = tonumber(args[1])  -- 0-4
-        if number and number >= 0 and number <= 4 then
-            SetInstancePriorityHint(number)
-        else    
-            print('Not a valid number to use')
-        end
-    end)
-    DisableWorldhorizonRendering
-
-    random:
-    DisableVehiclePassengerIdleCamera
-    OverridePedsCanStandOnTopFlag
-    SetWeaponsNoAimBlocking
-    SetWeaponsNoAutoreload
-    SetWeaponsNoAutoswap
+    - Echo vehicle/ped damage (c4, car, bandage, walkstyle)
 
     ac:
     GetConsoleBuffer
+
+    sv_enableNetworkedSounds false
+    sv_filterRequestControl 4

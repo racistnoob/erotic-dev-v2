@@ -53,26 +53,29 @@ CreateThread(function()
     end
 end)
 
+local safezoneInDelay = 0
+exports("safezoneDelay", function(delay)
+    if delay then
+        safezoneInDelay = 2000
+    else
+        safezoneInDelay = 0
+    end
+end)
+
 AddEventHandler("polyzone:enter", function(name)
-    if name:find("safezone") then
+    if string.match(name, 'safezone') then
+        wait(safezoneInDelay)
         inSafeZone = true
         NetworkSetFriendlyFireOption(false)
         SetCanAttackFriendly(PlayerPedId(), false, false)
-    end
-
-    if name == "safezone_casino" then
-        SetLocalPlayerAsGhost(false)
-        NetworkSetPlayerIsPassive(false)
-    end
-
-    if name == "safezone_southside" then
-        SetLocalPlayerAsGhost(true)
-        NetworkSetPlayerIsPassive(true)
+        
+        SetLocalPlayerAsGhost(name == "safezone_southside" or false)
+        NetworkSetPlayerIsPassive(name == "safezone_southside" or false)
     end
 end)
 
 AddEventHandler("polyzone:exit", function(name)
-    if name:find("safezone") then
+    if string.match(name, 'safezone') then
         inSafeZone = false
         SetLocalPlayerAsGhost(false)
         NetworkSetPlayerIsPassive(false)

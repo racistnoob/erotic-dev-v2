@@ -1550,7 +1550,7 @@ CreateThread(function()
                     sleepTimer = 1
                     if neartat > 0.65 then
                         DrawMarker(1, shopCoords.x, shopCoords.y, shopCoords.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.7, 0.7, 159, 72, 240, 120, false, true, 2, nil, nil, false)
-                        DrawText3D(shopCoords.x, shopCoords.y, shopCoords.z + 0.5, "Speak to Harold (~h~H~h~) For Tattoos")
+                        DrawText3D(shopCoords.x, shopCoords.y, shopCoords.z + 0.5, "Press ~h~H~h~ For Tattoos")
                     end
                     if neartat < 2.0 then
                         sleepTimer = 0

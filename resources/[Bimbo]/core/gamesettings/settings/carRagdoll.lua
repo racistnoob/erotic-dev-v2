@@ -1,3 +1,4 @@
+--[[
 local WasOnVehicle = false
 local RagdollSpeed = 30.0
 local carRagDollEnabled = false  -- State control variable
@@ -8,6 +9,7 @@ local set_ragdoll_blocking_flags = SetRagdollBlockingFlags
 local get_entity_speed = GetEntitySpeed
 local clear_ragdoll_blocking_flags = ClearRagdollBlockingFlags
 local set_ped_to_ragdoll = SetPedToRagdoll
+
 
 local function EnableCarRagdoll()
     CreateThread(function()
@@ -26,14 +28,15 @@ local function EnableCarRagdoll()
         end
     end)
 end
-  
+]]
 
 -- Function to control the state of car ragdoll
 function SetCarRagdoll(state)
-    carRagDollEnabled = state
-    if state then
-        EnableCarRagdoll()
-    end
+    --carRagDollEnabled = state
+    OverridePedsCanStandOnTopFlag(state)
+    --if state then
+        --EnableCarRagdoll()
+    --end
 end
 
 -- Exporting the function

@@ -10,6 +10,7 @@ AddEventHandler('killfeed:client:feed', function(worldID, context)
     end
 end)
 
+--[[
 local List = {}
 RegisterCommand("stats", function()
     TriggerServerEvent("Grab:Leaderboard")
@@ -40,6 +41,7 @@ RegisterNUICallback("exit",function()
     SetNuiFocus(false,false)
     TriggerScreenblurFadeOut(50)
 end)
+--]]
 
 local lobbystats = {}
 local extended = false

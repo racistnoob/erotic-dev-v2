@@ -11,10 +11,6 @@ RegisterNUICallback('nui:zbrp:mounted', function()
     TriggerServerEvent('SETUPINVENTORY')
 end)
 
-AddEventHandler('erotic:playerSpawned', function()
-    TriggerEvent("Inv:load:components")
-end)
-
 -- MAIN OPENING THREAD
 Citizen.CreateThread(
     function()

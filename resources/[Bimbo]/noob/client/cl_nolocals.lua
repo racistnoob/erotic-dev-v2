@@ -2,6 +2,8 @@ CreateThread(function()
     SetAudioFlag("PoliceScannerDisabled", true)
     DistantCopCarSirens(false)
     DisableVehicleDistantlights(true)
+    DisableWorldhorizonRendering(true)
+    SetInstancePriorityHint(1)
 
     RemoveVehiclesFromGeneratorsInArea(335.2616 - 300.0, -1432.455 - 300.0, 46.51 - 300.0, 335.2616 + 300.0, -1432.455 + 300.0, 46.51 + 300.0)
     RemoveVehiclesFromGeneratorsInArea(441.8465 - 500.0, -987.99 - 500.0, 30.68 - 500.0, 441.8465 + 500.0, -987.99 + 500.0,30.68 + 500.0)
@@ -12,4 +14,3 @@ CreateThread(function()
     RemoveVehiclesFromGeneratorsInArea(1854.82 - 300.0, 3679.4 - 300.0, 33.82 - 300.0, 1854.82 + 300.0, 3679.4 + 300.0,33.82 + 300.0)
     RemoveVehiclesFromGeneratorsInArea(-724.46 - 300.0, -1444.03 - 300.0, 5.0 - 300.0, -724.46 + 300.0, -1444.03 + 300.0,5.0 + 300.0)
 end)
-  

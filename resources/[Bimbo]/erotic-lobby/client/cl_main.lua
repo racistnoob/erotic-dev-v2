@@ -141,7 +141,7 @@ function switchWorld(worldID, force, hideNoti, noTeleport)
             
             exports['core']:spawningcars(false or worldSettings.spawningcars == nil, worldSettings.onlyInSafezone or false)
             exports['core']:setHelmetsEnabled(worldSettings.Helmets or false)
-            exports['core']:setCarRagdoll(worldSettings.nonstopcombat)
+            exports['core']:setCarRagdoll(worldSettings.nonstopcombat or false)
             exports['core']:SetRecoilMode(worldSettings.recoilMode or "roleplay")
             exports['core']:setFirstPersonVehicleEnabled(worldSettings.firstPersonVehicle or false)
             exports['core']:setHsMulti(worldSettings.hsMulti or false)
@@ -150,8 +150,11 @@ function switchWorld(worldID, force, hideNoti, noTeleport)
             exports['core']:disableLadderClimbing(worldSettings.disableLadders or false)
             exports['core']:disableQPeeking(worldSettings.disableQPeeking or false)
             exports['core']:disableRoofs(worldSettings.disableHighRoofs or false)
+            exports['noob']:safezoneDelay(worldSettings.safezoneDelay or false)
 
             exports['core']:SetIntenseCamEnabled(worldSettings.recoilMode == "envy")
+            SetWeaponsNoAimBlocking(worldSettings.barrelStuffing or false)
+            SetWeaponsNoAutoreload(worldSettings.noAutoReload or false)
 
             if LocalPlayer.state.radioChannel ~= 111 then -- global radio
                 exports['radio']:changeradio(0)

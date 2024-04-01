@@ -45,6 +45,9 @@ const App: React.FC = () => {
         disableQPeeking: boolean;
         disableFP: boolean;
         skeletons: boolean;
+        barrelStuffing: boolean;
+        noAutoReload: boolean;
+        safezoneDelay: boolean;
     }>({
         maxPlayers: 12,
         name: '',
@@ -60,6 +63,9 @@ const App: React.FC = () => {
         disableQPeeking: false,
         disableFP: false,
         skeletons: false,
+        barrelStuffing: false,
+        noAutoReload: false,
+        safezoneDelay: false,
     });
 
     const handleUpdateLobbies = (event: MessageEvent) => {
@@ -413,6 +419,42 @@ const App: React.FC = () => {
                                         </div>
                                     </div>
 
+                                    <div className="setting">
+                                        <div className="setting-info">
+                                            <h1>Disable Barrel Stuffing</h1>
+                                        </div>
+                                        <div className="setting-check">
+                                            <label className="toggleSwitch nolabel">
+                                                <input type="checkbox" checked={customLobbySettings.barrelStuffing} onChange={(e) => {
+                                                    setCustomLobbySettings({ ...customLobbySettings, barrelStuffing: e.target.checked })
+                                                    playClickSound();
+                                                }
+                                                } />
+                                                <span>
+                                                </span>
+                                                <a></a>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div className="setting">
+                                        <div className="setting-info">
+                                            <h1>Disable Auto Reload</h1>
+                                        </div>
+                                        <div className="setting-check">
+                                            <label className="toggleSwitch nolabel">
+                                                <input type="checkbox" checked={customLobbySettings.noAutoReload} onChange={(e) => {
+                                                    setCustomLobbySettings({ ...customLobbySettings, noAutoReload: e.target.checked })
+                                                    playClickSound();
+                                                }
+                                                } />
+                                                <span>
+                                                </span>
+                                                <a></a>
+                                            </label>
+                                        </div>
+                                    </div>
+
                                 </>
                             } />
 
@@ -426,6 +468,24 @@ const App: React.FC = () => {
                                             <label className="toggleSwitch nolabel">
                                                 <input type="checkbox" checked={customLobbySettings.nonstopcombat} onChange={(e) => {
                                                     setCustomLobbySettings({ ...customLobbySettings, nonstopcombat: e.target.checked })
+                                                    playClickSound();
+                                                }
+                                                } />
+                                                <span>
+                                                </span>
+                                                <a></a>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div className="setting">
+                                        <div className="setting-info">
+                                            <h1>Safezone-in Delay</h1>
+                                        </div>
+                                        <div className="setting-check">
+                                            <label className="toggleSwitch nolabel">
+                                                <input type="checkbox" checked={customLobbySettings.safezoneDelay} onChange={(e) => {
+                                                    setCustomLobbySettings({ ...customLobbySettings, safezoneDelay: e.target.checked })
                                                     playClickSound();
                                                 }
                                                 } />

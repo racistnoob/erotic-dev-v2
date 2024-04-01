@@ -5,8 +5,8 @@ AddEventHandler("core:updateLobby", function(args)
     local lobbyID = tonumber(args)
     if lobbyID ~= nil then
         local lobbySettings = exports['erotic-lobby']:getLobbySettings(lobbyID)
-        currentState = ('[' .. lobbySettings.name .. ']')
-        TriggerEvent('erotic:changeWatermark', currentState)
+        currentState = (lobbySettings.name)
+        TriggerEvent('erotic:changeWatermark', '[' .. currentState .. ']')
     end
 end)
 

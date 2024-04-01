@@ -1,4 +1,4 @@
-local function GetIdentifier(type, id)
+--[[local function GetIdentifier(type, id)
     local identifiers = {}
     local numIdentifiers = GetNumPlayerIdentifiers(id)
 
@@ -12,8 +12,40 @@ local function GetIdentifier(type, id)
         end
     end
     return false
-end
+end]]
 
+local blacklistedWeapons = {
+    -- stun guns
+    ["911657153"] = true,
+    ["1171102963"] = true
+}
+
+AddEventHandler('weaponDamageEvent', function(sender, data)
+    local victim = NetworkGetEntityFromNetworkId(data.hitGlobalId)
+
+    if GetEntityType(victim) == 1 then
+        local damage = data.weaponDamage
+
+        if data.weaponType and blacklistedWeapons[data.weaponType] then
+            return CancelEvent()
+        end
+
+        --[[if data.willKill and damage > 100 then
+            damage = damage - 100
+        end]]
+    
+        local lobby = exports['erotic-lobby']:GetWorld(sender)
+        local lobbyStats = {damage = damage}
+        exports['erotic-lobby']:UpdateLobbyStats(sender, lobby, "Damage", lobbyStats)
+    --[[else
+        -- cancels all damage coming from a gun that isnt going towards a player except for tires
+        if data.tyreIndex == 0 then
+            CancelEvent()
+        end]]
+    end
+end)
+
+--[[
 local function CalculateKD(kills, deaths)
     if not deaths or deaths == 0 then
         return 0
@@ -21,28 +53,6 @@ local function CalculateKD(kills, deaths)
 
     return (kills / deaths)
 end
-
-AddEventHandler('weaponDamageEvent', function(sender, data)
-    local _src = sender
-    local victim = NetworkGetEntityFromNetworkId(data.hitGlobalId)
-
-    if GetEntityType(victim) == 1 then
-        -- TODO ADD CHECK FOR ANTI STUN GUN COCKKKK
-        local damage = data.weaponDamage
-
-        if data.willKill and damage > 100 then
-            damage = damage - 100
-        end
-    
-        local lobby = exports['erotic-lobby']:GetWorld(_src)
-        exports['erotic-lobby']:UpdateLobbyStats(_src, lobby, "Damage", {damage = damage})
-    else
-        -- cancels all damage coming from a gun that isnt going towards a player except for tires
-        if data.tyreIndex == 0 then
-            CancelEvent()
-        end
-    end
-end)
 
 local pairs = pairs
 RegisterServerEvent("Grab:Leaderboard")
@@ -74,7 +84,7 @@ AddEventHandler("Grab:Leaderboard", function()
 
     table.sort(Database, function(a, b) return a.Kills > b.Kills end)
     TriggerClientEvent('Recieved:Info', src, Database)
-end)
+end)]]
 
 local weaponNames = {
     [`WEAPON_UNARMED`] = 'weapon_unarmed',
@@ -137,14 +147,15 @@ AddEventHandler('baseevents:onPlayerKilled', function(killerId, deathData)
 
     local lobby = exports['erotic-lobby']:GetWorld(Killer)
 
-    local KillerSteam = GetIdentifier("steam", Killer)
-    local VictimSteam = GetIdentifier("steam", Victim)
-
     local picture = '</strong> <img src="img/'.. tostring(weaponName) ..'.png" width="30px" style="transform: rotate(-30deg);;"> <strong>'
     if weaponName == 'unknown' then
         picture = '<img src="img/skull.png" width="15px" style="margin: 2px;"> <strong>'
     end
     TriggerClientEvent('killfeed:client:feed', -1, lobby, '<strong>' .. tostring(GetPlayerName(killerId)) .. picture .. tostring(GetPlayerName(source)) .. '</strong>')
+
+    --[[
+    local KillerSteam = GetIdentifier("steam", Killer)
+    local VictimSteam = GetIdentifier("steam", Victim)
 
     if KillerSteam then
         exports.oxmysql:execute("UPDATE users SET Kills = Kills + 1 WHERE identifier=:identifier", { identifier = KillerSteam }, function(result)
@@ -156,7 +167,7 @@ AddEventHandler('baseevents:onPlayerKilled', function(killerId, deathData)
         exports.oxmysql:execute("UPDATE users SET Deaths = Deaths + 1 WHERE identifier=:identifier", { identifier = VictimSteam }, function(result)
             -- Handle the result if needed
         end)
-    end
+    end]]
 
     exports['erotic-lobby']:UpdateLobbyStats(Killer, lobby, "Kills")
     exports['erotic-lobby']:UpdateLobbyStats(Victim, lobby, "Deaths")
